@@ -16,7 +16,8 @@ import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-//用于进行Https请求的HttpClient
+// 用于进行Https请求的HttpClient
+// 为了避免需要证书，所以用一个类继承DefaultHttpClient类，忽略校验过程。
 public class SSLClient extends DefaultHttpClient {
     public SSLClient() throws Exception {
         super();
