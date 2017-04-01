@@ -70,6 +70,7 @@ public class RSAUtils {
     /**
      * 从字符串中加载公钥
      * 注: 公钥字符串不包括 -----BEGIN PUBLIC KEY----- 和 -----END PUBLIC KEY-----
+     *
      * @param publicKeyStr 公钥数据字符串
      * @throws Exception 加载公钥时产生的异常
      */
@@ -120,10 +121,11 @@ public class RSAUtils {
     /**
      * 根据私钥（pkcd8格式）字符串生成私钥
      * 注: 私钥字符串不包括 -----BEGIN RSA PRIVATE KEY----- 和 -----END RSA PRIVATE KEY-----
+     *
      * @param privateKeyStr
      * @return
      */
-    public static RSAPrivateKey getPrivateKeyPkcs8(String privateKeyStr){
+    public static RSAPrivateKey getPrivateKeyPkcs8(String privateKeyStr) {
         try {
             BASE64Decoder base64Decoder = new BASE64Decoder();
             byte[] buffer = base64Decoder.decodeBuffer(privateKeyStr);
@@ -139,7 +141,7 @@ public class RSAUtils {
         } catch (NullPointerException e) {
             e.printStackTrace();
             return null;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -148,6 +150,7 @@ public class RSAUtils {
     /**
      * 根据openssl生成的原始私钥获取该私钥的指数和模
      * 注: 私钥字符串不包括 -----BEGIN RSA PRIVATE KEY----- 和 -----END RSA PRIVATE KEY-----
+     *
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      * @throws IOException

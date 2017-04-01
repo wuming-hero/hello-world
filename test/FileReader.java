@@ -1,5 +1,3 @@
-package com.wuming.test;
-
 import java.io.*;
 import java.nio.file.attribute.BasicFileAttributes;
 

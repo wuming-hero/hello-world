@@ -8,10 +8,11 @@ import org.junit.Test;
 public class DailyTest {
 
     @Test
-    public void test(){
+    public void test() {
         Object object = new Integer(100);
         String a = (String) object;
 
 
     }
+
 }

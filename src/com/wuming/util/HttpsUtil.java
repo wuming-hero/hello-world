@@ -22,6 +22,7 @@ public class HttpsUtil {
 
     /**
      * https get method
+     *
      * @param url
      * @param charset
      * @return
@@ -54,6 +55,7 @@ public class HttpsUtil {
 
     /**
      * https post method
+     *
      * @param url
      * @param map
      * @param charset

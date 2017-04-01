@@ -130,6 +130,7 @@ public class ImageUtil {
 
     /**
      * fileData base64编码的图片字符串,以"data:image/jpeg;base64,"开头
+     *
      * @param fileData
      * @param filePath
      * @throws IOException

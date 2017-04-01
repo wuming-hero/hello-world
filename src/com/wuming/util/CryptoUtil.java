@@ -12,18 +12,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+
 import org.apache.commons.codec.binary.Base64;
 
 public class CryptoUtil {
     /**
      * 数字签名函数入口
      *
-     * @param plainBytes
-     *            待签名明文字节数组
-     * @param privateKey
-     *            签名使用私钥
-     * @param signAlgorithm
-     *            签名算法
+     * @param plainBytes    待签名明文字节数组
+     * @param privateKey    签名使用私钥
+     * @param signAlgorithm 签名算法
      * @return 签名后的字节数组
      * @throws Exception
      */
@@ -47,14 +45,10 @@ public class CryptoUtil {
     /**
      * 验证数字签名函数入口
      *
-     * @param plainBytes
-     *            待验签明文字节数组
-     * @param signBytes
-     *            待验签签名后字节数组
-     * @param publicKey
-     *            验签使用公钥
-     * @param signAlgorithm
-     *            签名算法
+     * @param plainBytes    待验签明文字节数组
+     * @param signBytes     待验签签名后字节数组
+     * @param publicKey     验签使用公钥
+     * @param signAlgorithm 签名算法
      * @return 验签是否通过
      * @throws Exception
      */
@@ -78,10 +72,8 @@ public class CryptoUtil {
     /**
      * 获取RSA公钥对象
      *
-     * @param filePath
-     *            RSA公钥路径
-     * @param keyAlgorithm
-     *            密钥算法
+     * @param filePath     RSA公钥路径
+     * @param keyAlgorithm 密钥算法
      * @return RSA公钥对象
      * @throws Exception
      */
@@ -126,10 +118,8 @@ public class CryptoUtil {
     /**
      * 获取RSA私钥对象
      *
-     * @param filePath
-     *            RSA私钥路径
-     * @param keyAlgorithm
-     *            密钥算法
+     * @param filePath     RSA私钥路径
+     * @param keyAlgorithm 密钥算法
      * @return RSA私钥对象
      * @throws Exception
      */
@@ -175,16 +165,11 @@ public class CryptoUtil {
     /**
      * RSA加密
      *
-     * @param plainBytes
-     *            明文字节数组
-     * @param publicKey
-     *            公钥
-     * @param keyLength
-     *            密钥bit长度
-     * @param reserveSize
-     *            padding填充字节数，预留11字节
-     * @param cipherAlgorithm
-     *            加解密算法，一般为RSA/ECB/PKCS1Padding
+     * @param plainBytes      明文字节数组
+     * @param publicKey       公钥
+     * @param keyLength       密钥bit长度
+     * @param reserveSize     padding填充字节数，预留11字节
+     * @param cipherAlgorithm 加解密算法，一般为RSA/ECB/PKCS1Padding
      * @return 加密后字节数组，不经base64编码
      * @throws Exception
      */
@@ -236,16 +221,11 @@ public class CryptoUtil {
     /**
      * RSA解密
      *
-     * @param encryptedBytes
-     *            加密后字节数组
-     * @param privateKey
-     *            私钥
-     * @param keyLength
-     *            密钥bit长度
-     * @param reserveSize
-     *            padding填充字节数，预留11字节
-     * @param cipherAlgorithm
-     *            加解密算法，一般为RSA/ECB/PKCS1Padding
+     * @param encryptedBytes  加密后字节数组
+     * @param privateKey      私钥
+     * @param keyLength       密钥bit长度
+     * @param reserveSize     padding填充字节数，预留11字节
+     * @param cipherAlgorithm 加解密算法，一般为RSA/ECB/PKCS1Padding
      * @return 解密后字节数组，不经base64编码
      * @throws Exception
      */
@@ -291,8 +271,6 @@ public class CryptoUtil {
             throw new Exception("字节输出流异常");
         }
     }
-
-
 
 
     private static String RSA_CONFIGURATION = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
@@ -353,14 +331,13 @@ public class CryptoUtil {
     }
 
 
-
     public static void main(String[] args) {
 
         try {
             final PublicKey yhPubKey = CryptoUtil.getRSAPublicKeyByFileSuffix("/Users/wuming/Downloads/rsa_public_key_2048.pem", "RSA");
             final PrivateKey hzfPriKey = CryptoUtil.getRSAPrivateKeyByFileSuffix("/Users/wuming/Downloads/pkcs8_rsa_private_key_2048.pem", "RSA");
             StringBuffer s = new StringBuffer();
-            for(int i=0;i<600;i++){
+            for (int i = 0; i < 600; i++) {
                 s.append("1");
             }
 //            System.out.println(s.length() + "" + s);
