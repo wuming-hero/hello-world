@@ -1,5 +1,7 @@
 package com.wuming.util;
 
+import org.apache.commons.codec.binary.Base64;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -12,8 +14,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-
-import org.apache.commons.codec.binary.Base64;
 
 public class CryptoUtil {
     /**
@@ -95,7 +95,6 @@ public class CryptoUtil {
             X509EncodedKeySpec pubX509 = new X509EncodedKeySpec(Base64.decodeBase64(sb.toString()));
             KeyFactory keyFactory = KeyFactory.getInstance(keyAlgorithm);
             PublicKey pubKey = keyFactory.generatePublic(pubX509);
-
             return pubKey;
         } catch (FileNotFoundException e) {
             throw new Exception("公钥路径文件不存在");
@@ -142,7 +141,6 @@ public class CryptoUtil {
             PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decodeBase64(sb.toString()));
             KeyFactory keyFactory = KeyFactory.getInstance(keyAlgorithm);
             PrivateKey priKey = keyFactory.generatePrivate(priPKCS8);
-
             return priKey;
         } catch (FileNotFoundException e) {
             throw new Exception("私钥路径文件不存在");
@@ -180,7 +178,6 @@ public class CryptoUtil {
         if ((plainBytes.length % encryptBlockSize) != 0) { // 余数非0，block数再加1
             nBlock += 1;
         }
-
         try {
             Cipher cipher = Cipher.getInstance(cipherAlgorithm);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
@@ -193,13 +190,11 @@ public class CryptoUtil {
                 if (inputLen > encryptBlockSize) {
                     inputLen = encryptBlockSize;
                 }
-
                 // 得到分段加密结果
                 byte[] encryptedBlock = cipher.doFinal(plainBytes, offset, inputLen);
                 // 追加结果到输出buffer中
                 outbuf.write(encryptedBlock);
             }
-
             outbuf.flush();
             outbuf.close();
             return outbuf.toByteArray();
@@ -233,11 +228,9 @@ public class CryptoUtil {
         int keyByteSize = keyLength / 8; // 密钥字节数
         int decryptBlockSize = keyByteSize - reserveSize; // 解密块大小=密钥字节数-padding填充字节数
         int nBlock = encryptedBytes.length / keyByteSize;// 计算分段解密的block数，理论上能整除
-
         try {
             Cipher cipher = Cipher.getInstance(cipherAlgorithm);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-
             // 输出buffer，大小为nBlock个decryptBlockSize
             ByteArrayOutputStream outbuf = new ByteArrayOutputStream(nBlock * decryptBlockSize);
             // 分段解密
@@ -247,13 +240,11 @@ public class CryptoUtil {
                 if (inputLen > keyByteSize) {
                     inputLen = keyByteSize;
                 }
-
                 // 得到分段解密结果
                 byte[] decryptedBlock = cipher.doFinal(encryptedBytes, offset, inputLen);
                 // 追加结果到输出buffer中
                 outbuf.write(decryptedBlock);
             }
-
             outbuf.flush();
             outbuf.close();
             return outbuf.toByteArray();
@@ -272,25 +263,20 @@ public class CryptoUtil {
         }
     }
 
-
     private static String RSA_CONFIGURATION = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
     private static String RSA_PROVIDER = "BC";
 
     public static byte[] decrypt(byte[] encryptedBytes, PrivateKey privateKey, int keyLength, int reserveSize) throws Exception {
 //        Cipher c = Cipher.getInstance(RSA_CONFIGURATION, RSA_PROVIDER);
-//        c.init(Cipher.DECRYPT_MODE, key, new OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec.SHA1,
-//                PSource.PSpecified.DEFAULT));
+//        c.init(Cipher.DECRYPT_MODE, key, new OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec.SHA1, PSource.PSpecified.DEFAULT));
 //        byte[] decodedBytes = c.doFinal(Base64.decode(encryptedString.getBytes("UTF-8"), Base64.DEFAULT));
 //        clearText = new String(decodedBytes, "UTF-8");
         int keyByteSize = keyLength / 8; // 密钥字节数
         int decryptBlockSize = keyByteSize - reserveSize; // 解密块大小=密钥字节数-padding填充字节数
         int nBlock = encryptedBytes.length / keyByteSize;// 计算分段解密的block数，理论上能整除
-
         try {
             Cipher c = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
-            c.init(Cipher.DECRYPT_MODE, privateKey, new OAEPParameterSpec("SHA-256",
-                    "MGF1", MGF1ParameterSpec.SHA256, PSource.PSpecified.DEFAULT));
-
+            c.init(Cipher.DECRYPT_MODE, privateKey, new OAEPParameterSpec("SHA-256","MGF1", MGF1ParameterSpec.SHA256, PSource.PSpecified.DEFAULT));
             // 输出buffer，大小为nBlock个decryptBlockSize
             ByteArrayOutputStream outbuf = new ByteArrayOutputStream(nBlock * decryptBlockSize);
             // 分段解密
@@ -300,13 +286,11 @@ public class CryptoUtil {
                 if (inputLen > keyByteSize) {
                     inputLen = keyByteSize;
                 }
-
                 // 得到分段解密结果
                 byte[] decryptedBlock = c.doFinal(encryptedBytes, offset, inputLen);
                 // 追加结果到输出buffer中
                 outbuf.write(decryptedBlock);
             }
-
             outbuf.flush();
             outbuf.close();
             return outbuf.toByteArray();
@@ -325,14 +309,11 @@ public class CryptoUtil {
         }
 //            byte[] plainTextBytes = c.doFinal(encryptedBytes);
 //            String plainText = new String(plainTextBytes);
-//
 //            System.out.println(plainText);
 //            return plainText;
     }
 
-
     public static void main(String[] args) {
-
         try {
             final PublicKey yhPubKey = CryptoUtil.getRSAPublicKeyByFileSuffix("/Users/wuming/Downloads/rsa_public_key_2048.pem", "RSA");
             final PrivateKey hzfPriKey = CryptoUtil.getRSAPrivateKeyByFileSuffix("/Users/wuming/Downloads/pkcs8_rsa_private_key_2048.pem", "RSA");
@@ -341,10 +322,8 @@ public class CryptoUtil {
                 s.append("1");
             }
 //            System.out.println(s.length() + "" + s);
-
 //            String plainXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>...";
             String plainXML = s.toString();
-
             byte[] signData = CryptoUtil.digitalSign(plainXML.getBytes("UTF-8"), hzfPriKey, "SHA1WithRSA");// 签名
 //            byte[] encrtptData = CryptoUtil.RSAEncrypt(plainXML.getBytes("UTF-8"), yhPubKey, 2048, 11, "RSA/ECB/PKCS1Padding");// 加密
             //确定写出文件的位置
@@ -355,28 +334,22 @@ public class CryptoUtil {
 //            fos.close();
             File file = new File("/Users/wuming/Downloads/encryData(10).txt");
             long fileSize = file.length();
-
             FileInputStream fi = new FileInputStream(file);
             byte[] encrtptData = new byte[(int) fileSize];
             int offset = 0;
             int numRead = 0;
-            while (offset < encrtptData.length
-                    && (numRead = fi.read(encrtptData, offset, encrtptData.length - offset)) >= 0) {
+            while (offset < encrtptData.length && (numRead = fi.read(encrtptData, offset, encrtptData.length - offset)) >= 0) {
                 offset += numRead;
             }
             // 确保所有数据均被读取
             if (offset != encrtptData.length) {
-                throw new IOException("Could not completely read file "
-                        + file.getName());
+                throw new IOException("Could not completely read file " + file.getName());
             }
             fi.close();
 //            byte[] decryptData = CryptoUtil.decrypt(encrtptData, hzfPriKey, 2048, 11);
-
             byte[] decryptData = CryptoUtil.RSADecrypt(encrtptData, hzfPriKey, 2048, 11, "RSA/ECB/PKCS1Padding");// 解密
-
             System.out.println(decryptData.length + "----------" + new String(decryptData, "UTF-8"));
 //            boolean verifySign = CryptoUtil.verifyDigitalSign(decryptData, signData, yhPubKey, "SHA1WithRSA");// 验签
-
 //            System.out.println(verifySign);
         } catch (Exception e) {
             e.printStackTrace();

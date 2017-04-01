@@ -2,11 +2,10 @@ package com.wuming.util;
 
 import org.apache.commons.lang.*;
 
-import java.io.*;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -198,107 +197,6 @@ public class StringUtil {
             }
         }
         return orig.substring(0, orig.length() - 1);
-    }
-
-    public static String encodingHtml(InputStream inputStream, String charSet)
-            throws Exception {
-        BufferedReader br = null;
-        StringBuffer sb = new StringBuffer();
-        String result = null;
-        try {
-            br = new BufferedReader(new InputStreamReader(inputStream, charSet));
-            while ((result = br.readLine()) != null) {
-                sb.append(result);
-                if (sb.length() > 1000000) {
-                    break;
-                }
-            }
-            if (sb.charAt(0) - 'ï' == 0) {
-                sb.delete(0, 3);
-            }
-            result = null;
-
-            return new String(sb.toString().getBytes(charSet), sniffCharacterEncoding(sb.toString().getBytes(charSet)));
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException localIOException2) {
-                }
-            }
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException localIOException3) {
-                }
-            }
-        }
-    }
-
-    public static String[] getHtml(InputStream inputStream, String charSet)
-            throws Exception {
-        BufferedReader br = null;
-        StringBuffer sb = new StringBuffer();
-        String[] result = new String[2];
-        try {
-            br = new BufferedReader(new InputStreamReader(inputStream, charSet));
-            while ((result[0] = br.readLine()) != null) {
-                sb.append(result[0]);
-                if (sb.length() > 1000000) {
-                    break;
-                }
-            }
-            if (sb.charAt(0) - 'ï' == 0) {
-                sb.delete(0, 3);
-            }
-            result[1] = sniffCharacterEncoding(sb.toString().getBytes(charSet));
-            result[0] = new String(sb.toString().getBytes(charSet), result[1]);
-            return result;
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException localIOException2) {
-                }
-            }
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException localIOException3) {
-                }
-            }
-        }
-    }
-
-    private static String sniffCharacterEncoding(byte[] content) {
-        int length = content.length < 2000 ? content.length : 2000;
-        String str = "", encoding;
-        try {
-            encoding = MozillaEncoder.getEncoding(content);
-            if ((encoding == null) || (encoding.equals(""))) {
-                str = new String(content, 0, length, Charset.forName("ASCII").toString());
-                Matcher metaMatcher = metaPattern.matcher(str);
-                if (metaMatcher.find()) {
-                    Matcher charsetMatcher = charsetPattern.matcher(metaMatcher.group(1));
-                    if (charsetMatcher.find()) {
-                        encoding = new String(charsetMatcher.group(1));
-                    }
-                }
-            }
-            if ((encoding == null) || (encoding.equals(""))) {
-                encoding = MozillaEncoder.getCharset(content);
-            }
-            if ((encoding == null) || (encoding.equals(""))) {
-                encoding = "GB2312";
-            }
-        } catch (Exception e) {
-            return "GB2312";
-        }
-        return encoding;
     }
 
     public static boolean isEmpty(String str) {
