@@ -1,4 +1,4 @@
-package com.wuming.example;
+package com.wuming.util;
 
 /**
  * Created by wuming on 16/4/30.
