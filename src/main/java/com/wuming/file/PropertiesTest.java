@@ -1,3 +1,5 @@
+package com.wuming.file;
+
 import java.io.*;
 import java.util.Properties;
 

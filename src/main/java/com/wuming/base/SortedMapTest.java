@@ -1,3 +1,5 @@
+package com.wuming.base;
+
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
