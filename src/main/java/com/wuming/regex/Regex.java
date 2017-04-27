@@ -59,9 +59,36 @@ public class Regex {
     }
 
     /**
+     * \b test
+     * \b 元字符是用来说明匹配单词的边界，它可以是空格或任何一种不同的标点符号(包括逗号，句号等)。
+     */
+    @Test
+    public void test() {
+        String a = " 2 ";
+        String b = "2";
+        Pattern pattern = Pattern.compile("\\b\\s?2\\s?\\b");
+        Matcher matcher = pattern.matcher(a);
+        Matcher matcher2 = pattern.matcher(b);
+        if (matcher.matches()) {
+            // Pattern pattern = Pattern.compile("\\s?\\b2\\b\\s?"); // 这样才可以成功匹配 a
+            System.out.println("a匹配成功");
+        } else {
+            System.out.println("a匹配失败");
+        }
+        System.out.println(matcher2.find());
+        if (matcher2.matches()) {
+            System.out.println("b匹配成功");
+            System.out.println(matcher2.find()); // 33行匹配过了 此处返回 false
+            System.out.println(matcher2.find(0));
+            System.out.println(matcher2.find(1));
+        } else {
+            System.out.println("b匹配失败");
+        }
+    }
+
+    /**
      * 匹配单词及句子
      * \w 元字符用来匹配从字母a到u的任何字符
-     * \b 元字符是用来说明匹配单词的边界，它可以是空格或任何一种不同的标点符号(包括逗号，句号等)。
      */
     @Test
     public void repeatTest() {
@@ -104,53 +131,6 @@ public class Regex {
         System.out.println("result: " + s);
     }
 
-    @Test
-    public void testB() {
-        String a = " 2 ";
-        String b = "2";
-        Pattern pattern = Pattern.compile("\\b\\s?2\\s?\\b");
-        Matcher matcher = pattern.matcher(a);
-        Matcher matcher2 = pattern.matcher(b);
-        if (matcher.matches()) {
-            System.out.println("a匹配成功");
-        } else {
-            System.out.println("a匹配失败");
-        }
-        System.out.println(matcher2.find());
-        if (matcher2.matches()) {
-            System.out.println("b匹配成功");
-            System.out.println(matcher2.group());
-            System.out.println(matcher2.groupCount());
-            System.out.println(matcher2.group(0));
-            System.out.println(matcher2.find()); // 33行匹配过了 此处返回 false
-            System.out.println(matcher2.find(0));
-            System.out.println(matcher2.find(1));
-        } else {
-            System.out.println("b匹配失败");
-        }
-    }
-
-    /**
-     * groupCount() 是用在pattern中有'()'时使用
-     */
-    @Test
-    public void test2() {
-        String src = "sss#this#xx#that#df";
-        Pattern pattern = Pattern.compile("#\\w+#");
-        Pattern pattern2 = Pattern.compile("#(\\w+)#");
-        Matcher matcher = pattern.matcher(src);
-        Matcher matcher2 = pattern2.matcher(src);
-        System.out.println("matcher.groupCount():" + matcher.groupCount());
-        while (matcher.find()) {
-            System.out.println(matcher.group());
-        }
-
-        System.out.println("matcher.groupCount():" + matcher2.groupCount());
-        while (matcher2.find()) {
-            System.out.println(matcher2.group());
-        }
-    }
-
     /**
      * 只要字符串里有这个模式，find()就能把它给找出来，
      * 但是lookingAt( )和matches()，只有在字符串与正则表达式一开始就相匹配的情况下才能返回true。
@@ -187,9 +167,29 @@ public class Regex {
     }
 
     /**
+     * groupCount() 是用在pattern中有'()'时使用
      * 可以通过调用 matcher 对象的 groupCount 方法来查看表达式有多少个分组。groupCount 方法返回一个 int 值，表示matcher对象当前有多个捕获组。
      * 还有一个特殊的组（group(0)），它总是代表整个表达式。该组不包括在 groupCount 的返回值中。
-     * <p>
+     */
+    @Test
+    public void groupTest1() {
+        String src = "sss#this#xx#that#df";
+        Pattern pattern = Pattern.compile("#\\w+#");
+        Pattern pattern2 = Pattern.compile("#(\\w+)#");
+        Matcher matcher = pattern.matcher(src);
+        Matcher matcher2 = pattern2.matcher(src);
+        System.out.println("matcher.groupCount():" + matcher.groupCount());
+        while (matcher.find()) {
+            System.out.println(matcher.group());
+        }
+
+        System.out.println("matcher.groupCount():" + matcher2.groupCount());
+        while (matcher2.find()) {
+            System.out.println(matcher2.group());
+        }
+    }
+
+    /**
      * 从一个给定的字符串中找到数字串
      */
     @Test
