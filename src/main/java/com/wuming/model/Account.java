@@ -1,6 +1,8 @@
 package com.wuming.model;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 
 /**
  * Created by wuming on 2017/4/15.
@@ -46,13 +48,34 @@ public class Account implements Serializable{
         this.address = address;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Account{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", email='" + email + '\'' +
+//                ", address='" + address + '\'' +
+//                '}';
+//    }
+
     @Override
     public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder("{");
+        Field[] fields = getClass().getDeclaredFields();
+        System.out.println(Arrays.asList(fields));
+        for (Field field : fields) {
+            try {
+                field.setAccessible(true);
+                sb.append(field.getName()).append(":").append(field.get(this)).append(",");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        // 去掉多于的逗号
+        if(sb.length() > 1){
+            sb.deleteCharAt(sb.length()-1);
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }

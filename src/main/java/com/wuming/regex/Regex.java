@@ -1,11 +1,16 @@
 package com.wuming.regex;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 正则需要转义字符：'$', '(', ')', '*', '+', '.', '[', ']', '?', '\\', '^', '{', '}', '|'
+ * 异常现象： java.util.regex.PatternSyntaxException: Dangling meta. character '*' near index 0
+ * 解决方法： 对特殊字符加\\转义即可。
+ * <p>
  * * 0次或多次
  * + 1次或多次
  * ？0次或1次
@@ -23,6 +28,24 @@ import java.util.regex.Pattern;
  * java 正则中 使用双反斜杠(\\)表示转义字符反斜杠(\)
  */
 public class Regex {
+
+    /**
+     * 转义正则特殊字符 （$()*+.[]?\^{},|）
+     *
+     * @param keyword
+     * @return
+     */
+    public static String escapeExprSpecialWord(String keyword) {
+        if (StringUtils.isNotBlank(keyword)) {
+            String[] fbsArr = {"\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|"};
+            for (String key : fbsArr) {
+                if (keyword.contains(key)) {
+                    keyword = keyword.replace(key, "\\" + key);
+                }
+            }
+        }
+        return keyword;
+    }
 
     @Test
     public void regTest() {
