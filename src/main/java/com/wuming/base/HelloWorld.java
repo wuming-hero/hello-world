@@ -4,10 +4,9 @@ import org.junit.Test;
 
 /**
  * Created by PP on 2016/3/26.
- *  在Java中，对于对象==是比较两个对象的地址。
+ * 在Java中，对于对象==是比较两个对象的地址。
  */
 public class HelloWorld {
-
 
     @Test
     public void idTest() {
@@ -29,7 +28,6 @@ public class HelloWorld {
      * 1.当Integer的值落在-128~127之间时，如Integer i1 = 2; Integer i2 = 2;此时JVM首先检查是否已存在值为2的Integer对象
      * 2.对于显式的new Integer(2),JVM将直接分配新空间
      * Java的数学计算是在内存栈里操作的，Java会对i5、i6进行拆箱操作，其实比较的是基本类型（40=40+0），他们的值相同，因此结果为True
-     *
      */
     @Test
     public void boxTest() {
@@ -67,6 +65,20 @@ public class HelloWorld {
         String s3 = new String("cat");
         System.out.println("s1 = s2? " + (s1 == s2));  //true
         System.out.println("s1 = s3? " + (s1 == s3));  //false
+    }
+
+    @Test
+    public void test(){
+        StringBuilder sb = new StringBuilder();
+        System.out.println("length: " + sb.length() + "----capacity: " + sb.capacity());
+        StringBuilder sb1 = new StringBuilder("a");
+        System.out.println("length: " + sb1.length() + "----capacity: " + sb1.capacity());
+
+        System.out.println(sb.capacity());
+        sb = new StringBuilder(1);
+        System.out.println(sb.capacity());
+        sb.append(1).append(2);
+        System.out.println(sb.capacity());
     }
 
 }
