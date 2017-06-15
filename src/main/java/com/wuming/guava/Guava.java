@@ -1,16 +1,15 @@
 package com.wuming.guava;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
+import com.google.common.base.*;
 import com.google.common.collect.*;
 import com.google.common.primitives.Ints;
 import org.junit.Test;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created by wuming on 2017/6/10.
@@ -214,5 +213,120 @@ public class Guava {
 
 
     }
+
+    /**
+     * 针对集合中只有一个元素的情况:
+     * 这个主要是用来替换Set.iterator.next()或 List.get(0), 而且在测试中使用非常方便, 如果出现0个或者2+则直接抛出异常
+     */
+    @Test
+    public void iterableTest() {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+//        list.add("b"); // 会抛异常
+        String value = Iterables.getOnlyElement(list);
+        System.out.println("value " + value);
+
+        List<String> listA = Arrays.asList("a", "b", "c");
+        List<String> listB = Arrays.asList("A", "B", "C");
+
+        Iterable<String> iterable = Iterables.concat(listA, listB);
+        Iterator iterator = iterable.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
+        for (String item : iterable) {
+            System.out.println(item);
+        }
+
+    }
+
+    /**
+     * 字符串操作
+     */
+    @Test
+    public void StringsTest() {
+        assertEquals("test", Strings.emptyToNull("test"));
+        assertEquals(" ", Strings.emptyToNull(" "));
+        assertNull(Strings.emptyToNull(""));
+        assertNull(Strings.emptyToNull(null));
+
+        assertFalse(Strings.isNullOrEmpty("test"));
+        assertFalse(Strings.isNullOrEmpty(" "));
+        assertTrue(Strings.isNullOrEmpty(""));
+        assertTrue(Strings.isNullOrEmpty(null));
+
+        assertEquals("test", Strings.nullToEmpty("test"));
+        assertEquals(" ", Strings.nullToEmpty(" "));
+        assertEquals("", Strings.nullToEmpty(""));
+        assertEquals("", Strings.nullToEmpty(null));
+
+        assertEquals("Ralph_____", Strings.padEnd("Ralph", 10, '_'));
+        assertEquals("Bob_______", Strings.padEnd("Bob", 10, '_'));
+
+        assertEquals("_____Ralph", Strings.padStart("Ralph", 10, '_'));
+        assertEquals("_______Bob", Strings.padStart("Bob", 10, '_'));
+
+        assertEquals("xyxyxyxyxy", Strings.repeat("xy", 5));
+    }
+
+    /**
+     * Throwables 的用法(将检查异常转换成未检查异常):
+     */
+    @Test
+    public void exceptionTest() {
+        try {
+            URL url = new URL("http://ociweb.com");
+            final InputStream in = url.openStream();
+            // read from the input stream
+            in.close();
+        } catch (Throwable t) {
+            throw Throwables.propagate(t);
+        }
+    }
+
+    @Test
+    public void functionTest() {
+        Function<String, Integer> strlen = new Function<String, Integer>() {
+            public Integer apply(String from) {
+                Preconditions.checkNotNull(from);
+                return from.length();
+            }
+        };
+
+        List<String> from = Lists.newArrayList("abc", "defg", "hijkl");
+        List<Integer> to = Lists.transform(from, strlen);
+        for (int i = 0; i < from.size(); i++) {
+            System.out.printf("%s has length %d\n", from.get(i), to.get(i));
+        }
+    }
+
+    /**
+     * 这种转换是在访问元素的时候才进行, 下面的例子可以说明
+     */
+    @Test
+    public void functionTest2() {
+        Function<String, Boolean> isPalindrome = new Function<String, Boolean>() {
+            public Boolean apply(String from) {
+                Preconditions.checkNotNull(from);
+                return new StringBuilder(from).reverse().toString().equals(from);
+            }
+        };
+
+        List<String> from = Lists.newArrayList("rotor", "radar", "hannah", "level", "botox");
+        List<Boolean> to = Lists.transform(from, isPalindrome);
+        for (int i = 0; i < from.size(); i++) {
+            System.out.printf("%s is %s a palindrome\n", from.get(i), to.get(i) ? " " : " NOT ");
+        }
+
+        // changes in the "from" list are reflected in the "to" list
+        System.out.printf("\nnow replace hannah with megan...\n\n");
+        from.set(2, "megan");
+
+        for (int i = 0; i < from.size(); i++) {
+            System.out.printf("%s is %s a palindrome\n", from.get(i), to.get(i) ? " " : " NOT ");
+        }
+    }
+
 
 }

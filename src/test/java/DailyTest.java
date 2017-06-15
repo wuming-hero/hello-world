@@ -2,7 +2,9 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wuming on 16/10/30.
@@ -31,7 +33,8 @@ public class DailyTest {
 
     }
 
-    public static void main(String[] args) {
+    @Test
+    public void listTest() {
         ArrayList<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(2);
@@ -42,6 +45,14 @@ public class DailyTest {
         list.set(0, 4);
         System.out.println(list);
         System.out.println(list1);
+    }
+
+    @Test
+    public void mapTest(){
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("a", 1);
+        map.put("b", 2);
+        System.out.println(map.size());
     }
 
 }
