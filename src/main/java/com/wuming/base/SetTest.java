@@ -9,6 +9,9 @@ import java.util.*;
  */
 public class SetTest {
 
+    /**
+     * 很神奇的，这边的HashSet 总是
+     */
     @Test
     public void test(){
         HashSet<Integer> set = new HashSet<>();
@@ -18,7 +21,6 @@ public class SetTest {
         set.add(1);
         set.add(6);
         System.out.println("set: " + set);
-
 
         SortedSet<Integer> sortSet = new TreeSet<>();
         sortSet.add(2);

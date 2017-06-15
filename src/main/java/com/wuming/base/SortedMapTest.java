@@ -10,8 +10,7 @@ import java.util.TreeMap;
 public class SortedMapTest {
 
     public static void main(String args[]) {
-        SortedMap<String, String> map = null;
-        map = new TreeMap<String, String>();   //通过子类实例化接口对象
+        SortedMap<String, String> map = new TreeMap<>();   //通过子类实例化接口对象
         map.put("D", "DDDDD");
         map.put("A", "AAAAA");
         map.put("C", "CCCCC");
