@@ -81,6 +81,11 @@ public class HelloWorld {
         System.out.println(sb.capacity());
     }
 
+    @Test
+    public void test2(){
+        String a = "test";
+    }
+
 }
 
 
