@@ -1,7 +1,9 @@
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by wuming on 16/10/30.
@@ -12,12 +14,6 @@ public class DailyTest {
     public void test() {
         Object object = new Integer(100);
         String a = (String) object;
-    }
-
-    @Test
-    public void test2() {
-        BigDecimal b = new BigDecimal("1.333333");
-        System.out.println(b.setScale(7));
     }
 
     @Test
