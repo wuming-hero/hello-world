@@ -3,6 +3,8 @@ import org.junit.Test;
 
 /**
  * Created by wuming on 16/6/26.
+ *
+ * update dev
  */
 public class JUnitTest {
 
@@ -18,12 +20,20 @@ public class JUnitTest {
         Assert.assertEquals("减法有问题", 1, result, 0);
     }
 
+    /**
+     * 使用expected 抛出异常
+     * @throws Exception
+     */
     @Test(expected = ArithmeticException.class)
     public void divide() throws Exception {
         double result = 1;
         Assert.assertEquals("除法有问题", 1, result, 0);
     }
 
+    /**
+     * 使用timeout 测试方法运行时间
+     * @throws Exception
+     */
     @Test(timeout = 100)
     public void mul() throws Exception {
         double result = 14;
