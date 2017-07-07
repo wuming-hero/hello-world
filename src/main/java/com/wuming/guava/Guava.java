@@ -175,39 +175,32 @@ public class Guava {
     }
 
     /**
-     * set 交集、补集、并集
-     * 注：交集
+     * 借助工具类 Sets 类实现set运算
+     * set 交集、并集、差集、对称差集
+     * 注：返回的集合都是不可变的、不可修改的，调用修改方法就抛出 UnsupportedOperationException
      */
     @Test
     public void setTest() {
         ImmutableSet<Integer> setA = ImmutableSet.of(1, 2, 3);
         ImmutableSet<Integer> setB = ImmutableSet.of(3, 4, 5);
 
-        System.out.println(setA);
-
-        Sets.SetView<Integer> union = Sets.union(setA, setB);
-        System.out.println("union:" + union.size());
-        for (Integer item : union)
-            System.out.println(item);
-        union.add(6);
-        System.out.println(union);
-
-        Set<Integer> difference = Sets.difference(setA, setB);
-        System.out.println("difference:");
-        for (Integer item : difference)
-            System.out.println(item);
-
         // 官方推荐使用SetView.immutableCopy()将SetView转换为Set,这样效率更高
 //        Sets.SetView<Integer> intersection = Sets.intersection(setA, setB);
         // I can use intersection as a Set directly, but copying it can be more efficient if I use it a lot.
         Set<Integer> intersection = Sets.intersection(setA, setB).immutableCopy();
-        System.out.println("intersection:");
-        Set<Integer> set = new HashSet<>();
-        set.add(10);
-        set.add(11);
-        intersection.addAll(set);
-        for (Integer item : intersection)
-            System.out.println(item);
+        System.out.println("intersection: " + intersection);
+
+        // 并集
+        Sets.SetView<Integer> union = Sets.union(setA, setB);
+        System.out.println("union:" + union);
+
+        // 差集
+        Set<Integer> difference = Sets.difference(setA, setB);
+        System.out.println("difference: " + difference);
+
+        // 对称差集
+        Set<Integer> test = Sets.symmetricDifference(setA, setB);
+        System.out.println("symmetricDifference: " + test);
     }
 
     @Test
