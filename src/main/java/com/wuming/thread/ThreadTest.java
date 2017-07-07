@@ -11,11 +11,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ThreadTest {
 
-    @Test
-    public void test(){
-        Map<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
-    }
-
+    /**
+     * 由于 HashMap 非线程安全，多个线程同时像map中put时，
+     * 假如key相同，会造成map被hold住的情况(具体原因是map的put操作可能会resize map，相同key同时resize时就会出问题了)
+     * 我运行了多次并没有复现这种情况
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         final HashMap map = new HashMap();
         final Thread t1 = new Thread() {
@@ -39,6 +41,11 @@ public class ThreadTest {
         };
         t1.start();
         t2.start();
+    }
+
+    @Test
+    public void test() {
+        Map<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
     }
 
 
