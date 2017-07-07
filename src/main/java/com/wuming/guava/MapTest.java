@@ -120,7 +120,7 @@ public class MapTest {
         // 普通代码实现
         Map<Integer, String> NUMBER_TO_NAME = Maps.newHashMap();
         Map<String, Integer> NAME_TO_NUMBER = Maps.newHashMap();
-        ;
+
         NUMBER_TO_NAME.put(1, "Hydrogen");
         NUMBER_TO_NAME.put(2, "Helium");
         NUMBER_TO_NAME.put(3, "Lithium");
@@ -143,6 +143,5 @@ public class MapTest {
         System.out.println(NUMBER_TO_NAME_BIMAP.inverse().get("Hydrogen"));
 
     }
-
 
 }

@@ -176,6 +176,7 @@ public class Guava {
 
     /**
      * set 交集、补集、并集
+     * 注：交集
      */
     @Test
     public void setTest() {
