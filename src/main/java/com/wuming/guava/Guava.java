@@ -196,6 +196,10 @@ public class Guava {
 
         Set<Integer> intersection = Sets.intersection(setA, setB);
         System.out.println("intersection:");
+        Set<Integer> set = new HashSet<>();
+        set.add(10);
+        set.add(11);
+        intersection.addAll(set);
         for (Integer item : intersection)
             System.out.println(item);
     }

@@ -10,21 +10,21 @@ import java.util.Map;
 /**
  * Created by wuming on 2017/6/14.
  * Multimap 也支持一系列强大的视图功能：
- * 　1.asMap() 把自身Multimap<K, V>映射成Map<K, Collection<V>>视图。这个Map视图支持remove和修改操作，但是不支持put和putAll。
+ * 1.asMap() 把自身Multimap<K, V>映射成Map<K, Collection<V>>视图。这个Map视图支持remove和修改操作，但是不支持put和putAll。
  * 严格地来讲，当你希望传入参数是不存在的key，而且你希望返回的是null而不是一个空的可修改的集合的时候就可以调用asMap().get(key)。
  * （你可以强制转型asMap().get(key)的结果类型－对SetMultimap的结果转成Set，对ListMultimap的结果转成List型－但是直接把ListMultimap转成Map<K, List<V>>是不行的。）
- * 　2.entries() 视图是把Multimap里所有的键值对以Collection<Map.Entry<K, V>>的形式展现。
- * 　3.keySet() 视图是把Multimap的键集合作为视图
- * 　4.keys() 视图返回的是个Multiset，这个Multiset是以不重复的键对应的个数作为视图。这个Multiset可以通过支持移除操作而不是添加操作来修改Multimap。
- * 　5.values() 视图能把Multimap里的所有值“平展”成一个Collection<V>。这个操作和Iterables.concat(multimap.asMap().values())很相似，只是它返回的是一个完整的Collection。
+ * 2.entries() 视图是把Multimap里所有的键值对以Collection<Map.Entry<K, V>>的形式展现。
+ * 3.keySet() 视图是把Multimap的键集合作为视图
+ * 4.keys() 视图返回的是个Multiset，这个Multiset是以不重复的键对应的个数作为视图。这个Multiset可以通过支持移除操作而不是添加操作来修改Multimap。
+ * 5.values() 视图能把Multimap里的所有值“平展”成一个Collection<V>。这个操作和Iterables.concat(multimap.asMap().values())很相似，只是它返回的是一个完整的Collection。
  * <p>
- * 　尽管Multimap的实现用到了Map，但Multimap<K, V>不是Map<K, Collection<V>>。因为两者有明显区别：
- * 　1.Multimap.get(key) 一定返回一个非null的集合。但这不表示Multimap使用了内存来关联这些键，相反，返回的集合只是个允许添加元素的视图。
- * 　2.如果你喜欢像Map那样当不存在键的时候要返回null，而不是Multimap那样返回空集合的话，可以用asMap()返回的视图来得到Map<K, Collection<V>>。
+ * 尽管Multimap的实现用到了Map，但Multimap<K, V>不是Map<K, Collection<V>>。因为两者有明显区别：
+ * 1.Multimap.get(key) 一定返回一个非null的集合。但这不表示Multimap使用了内存来关联这些键，相反，返回的集合只是个允许添加元素的视图。
+ * 2.如果你喜欢像Map那样当不存在键的时候要返回null，而不是Multimap那样返回空集合的话，可以用asMap()返回的视图来得到Map<K, Collection<V>>。
  * （这种情况下，你得把返回的Collection<V>强转型为List或Set）。
- * 　3.Multimap.containsKey(key) 只有在这个键存在的时候才返回true。
- * 　4.Multimap.entries() 返回的是Multimap所有的键值对。但是如果需要key-collection的键值对，那就得用asMap().entries()。
- * 　5.Multimap.size() 返回的是entries的数量，而不是不重复键的数量。如果要得到不重复键的数目就得用Multimap.keySet().size()。
+ * 3.Multimap.containsKey(key) 只有在这个键存在的时候才返回true。
+ * 4.Multimap.entries() 返回的是Multimap所有的键值对。但是如果需要key-collection的键值对，那就得用asMap().entries()。
+ * 5.Multimap.size() 返回的是entries的数量，而不是不重复键的数量。如果要得到不重复键的数目就得用Multimap.keySet().size()。
  */
 public class MapTest {
 
@@ -97,7 +97,7 @@ public class MapTest {
      * 用来统计多值出现的频率
      */
     @Test
-    public void multiMapTest2(){
+    public void multiMapTest2() {
         Multimap<Integer, String> siblings = ArrayListMultimap.create();
         siblings.put(0, "Kenneth");
         siblings.put(1, "Joe");
@@ -119,7 +119,8 @@ public class MapTest {
     public void biMapTest() {
         // 普通代码实现
         Map<Integer, String> NUMBER_TO_NAME = Maps.newHashMap();
-        Map<String, Integer> NAME_TO_NUMBER = Maps.newHashMap();;
+        Map<String, Integer> NAME_TO_NUMBER = Maps.newHashMap();
+        ;
         NUMBER_TO_NAME.put(1, "Hydrogen");
         NUMBER_TO_NAME.put(2, "Helium");
         NUMBER_TO_NAME.put(3, "Lithium");
