@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by wuming on 2017/7/1.
+ * 线程安全map的性能测试
  */
 public class MapTest {
 

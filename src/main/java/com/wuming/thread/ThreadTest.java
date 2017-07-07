@@ -1,10 +1,6 @@
 package com.wuming.thread;
 
-import org.junit.Test;
-
 import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by wuming on 2017/6/29.
@@ -42,11 +38,5 @@ public class ThreadTest {
         t1.start();
         t2.start();
     }
-
-    @Test
-    public void test() {
-        Map<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
-    }
-
 
 }
