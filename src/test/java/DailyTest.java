@@ -21,16 +21,6 @@ public class DailyTest {
     }
 
     @Test
-    public void test3() throws CloneNotSupportedException {
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        List<Integer> list1 = new ArrayList<>();
-
-    }
-
-    @Test
     public void listTest() {
         ArrayList<Integer> list = new ArrayList<>();
         list.add(1);
