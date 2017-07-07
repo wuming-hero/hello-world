@@ -185,17 +185,22 @@ public class Guava {
 
         System.out.println(setA);
 
-        Set<Integer> union = Sets.union(setA, setB);
+        Sets.SetView<Integer> union = Sets.union(setA, setB);
         System.out.println("union:" + union.size());
         for (Integer item : union)
             System.out.println(item);
+        union.add(6);
+        System.out.println(union);
 
         Set<Integer> difference = Sets.difference(setA, setB);
         System.out.println("difference:");
         for (Integer item : difference)
             System.out.println(item);
 
-        Set<Integer> intersection = Sets.intersection(setA, setB);
+        // 官方推荐使用SetView.immutableCopy()将SetView转换为Set,这样效率更高
+//        Sets.SetView<Integer> intersection = Sets.intersection(setA, setB);
+        // I can use intersection as a Set directly, but copying it can be more efficient if I use it a lot.
+        Set<Integer> intersection = Sets.intersection(setA, setB).immutableCopy();
         System.out.println("intersection:");
         Set<Integer> set = new HashSet<>();
         set.add(10);
