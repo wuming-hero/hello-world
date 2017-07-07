@@ -3,7 +3,7 @@ import org.junit.Test;
 
 /**
  * Created by wuming on 16/6/26.
- *
+ * Junit中断言的使用
  * update dev
  */
 public class JUnitTest {
@@ -22,6 +22,7 @@ public class JUnitTest {
 
     /**
      * 使用expected 抛出异常
+     *
      * @throws Exception
      */
     @Test(expected = ArithmeticException.class)
@@ -32,6 +33,7 @@ public class JUnitTest {
 
     /**
      * 使用timeout 测试方法运行时间
+     *
      * @throws Exception
      */
     @Test(timeout = 100)
