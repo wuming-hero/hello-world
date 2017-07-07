@@ -2,7 +2,9 @@ package com.wuming.base;
 
 import org.junit.Test;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by wuming on 2017/5/2.
@@ -10,10 +12,11 @@ import java.util.*;
 public class SetTest {
 
     /**
-     * 很神奇的，这边的HashSet 总是
+     * 很神奇的，这边的HashSet 总是顺序的
+     * key太简单的，hash值刚好是有序的
      */
     @Test
-    public void test(){
+    public void test() {
         HashSet<Integer> set = new HashSet<>();
         set.add(3);
         set.add(2);
