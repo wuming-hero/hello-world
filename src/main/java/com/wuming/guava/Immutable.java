@@ -21,6 +21,9 @@ import java.util.List;
 public class Immutable {
 
 
+    /**
+     * copyOf() 方法构建
+     */
     @Test
     public void copyOfTest() {
         ImmutableSet<String> immutableSet = ImmutableSet.of("peida", "jerry", "harry", "lisa");
