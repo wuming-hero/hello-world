@@ -1,10 +1,11 @@
 package com.wuming.thread;
 
-import com.google.common.base.MoreObjects;
 import org.junit.Test;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by wuming on 2017/7/13.
@@ -26,43 +27,49 @@ public class ConcurrentHashMapTest {
 
     static Map<Long, String> conMap = new ConcurrentHashMap<>();
 
-//    public static void main(String[] args) throws InterruptedException {
-//        for (long i = 0; i < 5; i++) {
-//            conMap.put(i, i + "");
-//        }
-//
-//        Thread thread = new Thread(() -> {
-//            try {
-//                Thread.sleep(100);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            conMap.put(100l, "100");
-//            System.out.println("ADD:" + 100);
-//        });
-//
-//        Thread thread2 = new Thread(() -> {
-//            for (Iterator<Map.Entry<Long, String>> iterator = conMap.entrySet().iterator(); iterator.hasNext(); ) {
-//                Map.Entry<Long, String> entry = iterator.next();
-//                System.out.println(entry.getKey() + " - " + entry.getValue());
-//                try {
-//                    Thread.sleep(100);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//        thread.start();
-//        thread2.start();
-//
-//        Thread.sleep(3000);
-//        System.out.println("--------");
-//
-//        for (Map.Entry<Long, String> entry : conMap.entrySet()) {
-//            System.out.println(entry.getKey() + " " + entry.getValue());
-//        }
-//
-//    }
+    /**
+     * ConcurrentHashMap 支持边修改边遍历
+     *
+     * @param args
+     * @throws InterruptedException
+     */
+    public static void main(String[] args) throws InterruptedException {
+        for (long i = 0; i < 5; i++) {
+            conMap.put(i, i + "");
+        }
+
+        Thread thread = new Thread(() -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            conMap.put(100l, "100");
+            System.out.println("ADD:" + 100);
+        });
+
+        Thread thread2 = new Thread(() -> {
+            for (Iterator<Map.Entry<Long, String>> iterator = conMap.entrySet().iterator(); iterator.hasNext(); ) {
+                Map.Entry<Long, String> entry = iterator.next();
+                System.out.println(entry.getKey() + " - " + entry.getValue());
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        thread2.start();
+
+        Thread.sleep(3000);
+        System.out.println("--------");
+
+        for (Map.Entry<Long, String> entry : conMap.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
+
+    }
 
     /**
      * 边遍历边做删除操作，HashMap 或ArrayList 会报java.util.ConcurrentModificationException异常
@@ -98,124 +105,6 @@ public class ConcurrentHashMapTest {
         }
     }
 
-    @Test
-    public void hashMapTest2() {
-        Map<String, Integer> map = new ConcurrentHashMap<>();
-        CountDownLatch endLatch = new CountDownLatch(2);
-        Runnable task = () -> {
-            for (int i = 0; i < 1000; i++) {
-                if (map.containsKey("a")) {
-                    map.put("a", map.get("a") + 1);
-                } else {
-                    map.put("a", 1);
-                }
-//                Integer value = map.get("a");
-//                if (null == value) {
-//                    map.put("a", 1);
-//                } else {
-//                    map.put("a", value + 1);
-//                }
-            }
-            endLatch.countDown();
-        };
-
-        new Thread(task).start();
-        new Thread(task).start();
-
-        try {
-            endLatch.await();
-            System.out.println(map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void test() throws InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(20);
-        Map<String, Integer> map = new ConcurrentHashMap<>();
-        for (int i = 0; i < 12; i++) {
-            executorService.execute(() -> {
-                if (map.containsKey("a")) {
-                    map.put("a", map.get("a") + 1);
-                } else {
-                    map.put("a", 1);
-                }
-                try {
-                    Thread.sleep(5 * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        executorService.shutdown();
-
-        Long time = System.currentTimeMillis();
-        System.out.println("before: " + time);
-
-        executorService.awaitTermination(10, TimeUnit.SECONDS);
-
-//        while (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
-//            System.out.println("sleep----");
-//            Thread.sleep(1000);
-//        }
-        System.out.println(System.currentTimeMillis() - time);
-        System.out.println(map);
-    }
-
-//    @Test
-//    public void test2() throws InterruptedException {
-//        ExecutorService executorService = Executors.newFixedThreadPool(20);
-//        Map<String, Integer> concurrentMap = new ConcurrentHashMap<>();
-//        List<Map<String, Integer>> mapList = new ArrayList<>();
-//
-//        Map<String, Integer> dataMap;
-//        for (int i = 0; i < 1000; i++) {
-//            dataMap = new HashMap<>();
-//            dataMap.put("a", 1);
-//            mapList.add(dataMap);
-//        }
-//
-//        for (Map<String, Integer> map: mapList) {
-//            executorService.execute(() -> {
-////                if (concurrentMap.containsKey("a")) {
-////                    concurrentMap.put("a", concurrentMap.get("a") + map.get("a"));
-////                } else {
-////                    concurrentMap.put("a", 1);
-////                }
-//                concurrentMap.put("a", MoreObjects.firstNonNull(concurrentMap.get("a"), 1) + map.get("a"));
-//            });
-//        }
-//        executorService.shutdown();
-//        executorService.awaitTermination(10, TimeUnit.SECONDS);
-//
-//        System.out.println(concurrentMap);
-//    }
-
-    public static void main(String[] args) throws InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(20);
-        Map<String, Integer> concurrentMap = new ConcurrentHashMap<>();
-        List<Map<String, Integer>> mapList = new ArrayList<>();
-
-        // 模拟数据
-        Map<String, Integer> dataMap;
-        for (int i = 0; i < 1000; i++) {
-            dataMap = new HashMap<>();
-            dataMap.put("a", 1);
-            mapList.add(dataMap);
-        }
-
-        for (Map<String, Integer> map: mapList) {
-            executorService.execute(() -> {
-                concurrentMap.put("a", MoreObjects.firstNonNull(concurrentMap.get("a"), 1) + map.get("a"));
-            });
-        }
-        executorService.shutdown();
-        executorService.awaitTermination(10, TimeUnit.SECONDS);
-
-        System.out.println(concurrentMap);
-    }
-
     /**
      * 对ConcurrentHashMap边遍历边删除或者增加操作不会产生异常(可以不用迭代方式删除元素)，
      * 因为其内部已经做了维护，遍历的时候都能获得最新的值。即便是多个线程一起删除、添加元素也没问题
@@ -238,6 +127,5 @@ public class ConcurrentHashMapTest {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }
     }
-
 
 }

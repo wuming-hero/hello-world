@@ -193,5 +193,63 @@ public class MapTest {
         }
     }
 
+    /**
+     * ConcurrentHashMap 虽然说是线程安全的，
+     * 但只能维护自身线程的数据安全，多个线程共同访问和修改同一个key时，就会出现不安全的问题
+     * 如下示例就会出问题，运行结果map中的数据并不是想要的
+     *
+     * @throws InterruptedException
+     */
+    @Test
+    public void concurrentHashMapUnsafe() throws InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
+        Map<String, Integer> concurrentMap = new ConcurrentHashMap<>();
+        for (int i = 0; i < 10000; i++) {
+            executorService.execute(() -> {
+                if (concurrentMap.containsKey("a")) {
+                    concurrentMap.put("a", concurrentMap.get("a") + 1);
+                } else {
+                    concurrentMap.put("a", 1);
+                }
+            });
+        }
+        executorService.shutdown();
+        executorService.awaitTermination(10, TimeUnit.SECONDS);
+        System.out.println(concurrentMap);
+    }
+
+    /**
+     * 使用ConcurrentHashMap 和 AtomicInter 实现map多线程安全问题
+     *
+     * @throws InterruptedException
+     */
+    @Test
+    public void safeUseConcurrentHashMap() throws InterruptedException {
+        int i = 0;
+        while (i++ < 10) {
+            ExecutorService executorService = Executors.newFixedThreadPool(100);
+            Map<String, AtomicInteger> concurrentMap = new ConcurrentHashMap<>();
+            for (int j = 0; j < 10000; j++) {
+                executorService.execute(() -> {
+                    AtomicInteger oldValue = concurrentMap.get("a");
+                    if (oldValue == null) {
+                        AtomicInteger newValue = new AtomicInteger(0);
+                        oldValue = concurrentMap.putIfAbsent("a", newValue);
+                        if (oldValue == null) {
+                            oldValue = newValue;
+                        }
+                    }
+                    oldValue.addAndGet(1);
+                });
+            }
+            executorService.shutdown();
+            executorService.awaitTermination(10, TimeUnit.SECONDS);
+
+            System.out.println(concurrentMap);
+        }
+
+    }
+
+
     /****************** demo end********************/
 }
