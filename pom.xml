@@ -14,17 +14,27 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+
         <!--使用 guava 优化代码-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>22.0</version>
         </dependency>
+
+        <!--json-->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20170516</version>
+        </dependency>
+
         <!--jackson start-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -54,6 +64,7 @@
             <!--<version>4.0.0</version>-->
         <!--</dependency>-->
         <!--jackson end-->
+
         <!--json-lib start-->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
@@ -78,6 +89,7 @@
             <version>1.0.6</version>
         </dependency>
         <!--json-lib end-->
+
         <!--httpClient start-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -100,10 +112,25 @@
             <version>1.2</version>
         </dependency>
         <!--httClient end-->
+
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk16</artifactId>
             <version>1.46</version>
+        </dependency>
+
+        <!--jsoup 解析html字符串-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.10.3</version>
+        </dependency>
+
+        <!--slf4j 日志-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
         </dependency>
     </dependencies>
 

@@ -132,10 +132,4 @@ public class ScriptEngineTest {
         scriptEngine.eval(ruleScript);
         System.out.println(scriptEngine.get("result"));
     }
-
-    @Test
-    public void test2(){
-        Integer[] array1 = {2,3};
-
-    }
 }
