@@ -13,6 +13,16 @@ import java.util.Map;
 
 /**
  * Created by wuming on 2017/7/18.
+ * jsoup 是一款 Java 的HTML 解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，
+ * 可通过DOM，CSS以及类似于jQuery的操作方法来取出和操作数据。据说它是基于MIT协议发布的。
+ * <p>
+ * 官方首页：http://jsoup.org
+ * 在线文档：http://www.cnblogs.com/jycboy/p/jsoupdoc.html
+ * <p>
+ * jsoup的主要功能如下：
+ * 从一个URL，文件或字符串中解析HTML；
+ * 使用DOM或CSS选择器来查找、取出数据；
+ * 可操作HTML元素、属性、文本；
  */
 public class JsoupTest {
 
@@ -84,6 +94,30 @@ public class JsoupTest {
             String textTag = "<input type='text' value='' />";
             firstElement.child(1).html(textTag);
             System.out.println("new body html: " + body.html());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test2() {
+        try {
+            // Fetch the Wikipedia homepage, parse it to a DOM,
+            // and select the headlines from the In the news section into a list of Elements (online sample):
+            Document document = Jsoup.connect("http://en.wikipedia.org/").get();
+            Elements newsHeadlines = document.select("#mp-itn b a");
+            System.out.println("news headlines: " + newsHeadlines);
+
+            File file = new File(JsoupTest.class.getClassLoader().getResource("file/empty.html").getFile());
+            // TODO 搞不明白这个接口的第1个参数与第三个参数的关系。。。
+            Document doc = Jsoup.parse(file, "UTF-8", "http://www.dangdang.com");
+            System.out.println("doc: " + doc);
+            Element content = doc.getElementById("content");
+            Elements links = content.getElementsByTag("a");
+            for (Element link : links) {
+                String linkHref = link.attr("href");
+                String linkText = link.text();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
