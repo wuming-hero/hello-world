@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--log4j 缺省默认配置
+https://logging.apache.org/log4j/2.x/manual/configuration.html
+-->
+<Configuration status="WARN">
+    <!--
+    Appender用来定义不同的输出位置，可以是console、文件、远程socket服务器、Apache Flume、JMS以及远程 UNIX 系统日志守护进程。
+    一个Logger可以绑定多个不同的Appender。
+    -->
+    <Appenders>
+        <!-- 输出到控制台 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--Layout/PatternLayout: 定义log的格式（一种类似C语言printf函数的打印格式）-->
+            <!-- 需要记录的级别 -->
+            <!-- <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" /> -->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- 输出到文件，按天或者超过80MB分割 -->
+        <RollingFile name="RollingFile" fileName="../logs/xjj.log"    filePattern="../logs/$${date:yyyy-MM}/xjj-%d{yyyy-MM-dd}-%i.log.gz">
+            <!-- 需要记录的级别 -->
+            <!-- <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" /> -->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="80 MB" />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <!--
+    1.Loggers 标签被用来配置LoggerConfig，包含一个root logger和若干个普通logger
+    2.普通必须有一个name元素，root logger不用name元素
+    3.每个logger可以指定一个level（TRACE, DEBUG, INFO, WARN, ERROR, ALL or OFF），不指定时level默认为ERROR
+    4.additivity: 指定是否同时输出log到父类的appender，缺省为true。（层级关系与Java包类似，
+    例如：com.foo是com.foo.Bar的父级；java是java.util的父级，是java.util.vector的祖先。root是最顶层。）
+    5.每个logger可以包含若干个属性：AppenderRef, Filter, Layout, 等
+     -->
+    <Loggers>
+        <!-- 全局配置 -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+
+        <!-- 为某些包/类配置Log级别，这些logger继承了root logger -->
+        <Logger name="com.wuming.test" level="TRACE"/>
+        <Logger name="com.wuming.test2" level="DEBUG" additivity="false">
+             <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- 为sql语句配置特殊的Log级别，方便调试 -->
+        <Logger name="com.xjj.dao" level="${log.sql.level}" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
+    </Loggers>
+</Configuration>

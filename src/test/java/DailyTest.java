@@ -46,4 +46,12 @@ public class DailyTest {
         System.out.println(map);
     }
 
+    @Test
+    public void test(){
+        Boolean flag = null;
+        if(flag){
+            System.out.println("---------");
+        }
+    }
+
 }
