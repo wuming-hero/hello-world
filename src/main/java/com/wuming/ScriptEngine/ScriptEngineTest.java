@@ -4,9 +4,10 @@ import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
+import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import java.util.List;
 
 /**
  * Created by wuming on 2017/4/11.
@@ -17,23 +18,7 @@ import javax.script.ScriptException;
  */
 public class ScriptEngineTest {
 
-    /**
-     * 基本运行
-     */
-    @Test
-    public void baseTest() {
-        ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-        ScriptEngine engine = scriptEngineManager.getEngineByName("nashorn");
-        String name = "Mahesh";
-        Integer result = null;
-        try {
-            engine.eval("print('" + name + "')");
-            result = (Integer) engine.eval("10 + 2");
-        } catch (ScriptException e) {
-            System.out.println("Error executing script: " + e.getMessage());
-        }
-        System.out.println(result.toString());
-    }
+    final ScriptEngineManager manager = new ScriptEngineManager();
 
     /**
      * 变量示例
@@ -41,8 +26,7 @@ public class ScriptEngineTest {
      * @throws Exception
      */
     @Test
-    public void baseTest2() throws Exception {
-        ScriptEngineManager manager = new ScriptEngineManager();
+    public void baseTest() throws Exception {
         ScriptEngine engine = manager.getEngineByName("nashorn");
         engine.put("msg", "just a test");
         String str = "msg += '!!!';var user = {name:'tom',age:23,hobbies:['football','basketball']}; var name = user.name; var hb = user.hobbies[1];";
@@ -52,7 +36,35 @@ public class ScriptEngineTest {
         String hb = (String) engine.get("hb");
         System.out.println(msg);
         System.out.println(name + ": " + hb);
+
+        // 2 通过 invokeFunction 调用js代码中的方法
+        engine.eval("function add (a, b) {c = a + b; return c; }");
+        Invocable jsInvoke = (Invocable) engine;
+        Object result1 = jsInvoke.invokeFunction("add", new Object[]{10, 5});
+        System.out.println("use js function: " + result1);
+
+        // 3 getInterface来使用js实现接口中定义的方法,接口必须是public类型的
+        Adder adder = jsInvoke.getInterface(Adder.class);
+        int result2 = adder.add(10, 35);
+        System.out.println("use java interface:" + result2);
+
+        // 4 使用java多线程
+        engine.eval("function run() {print('www.java2s.com');}");
+        Invocable invokeEngine = (Invocable) engine;
+        Runnable runner = invokeEngine.getInterface(Runnable.class);
+        Thread t = new Thread(runner);
+        t.start();
+        t.join();
+
+        // 5 jdk1.8中直接使用类的全限定名调用类中的方法
+        String jsCode = "var list2 = java.util.Arrays.asList(['A', 'B', 'C']); ";
+        engine.eval(jsCode);
+        List<String> list2 = (List<String>) engine.get("list2");
+        for (String val : list2) {
+            System.out.println(val);
+        }
     }
+
 
     /**
      * 规则引擎计算实例
@@ -62,7 +74,6 @@ public class ScriptEngineTest {
      */
     @Test
     public void ruleTest() throws Exception {
-        ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine scriptEngine = manager.getEngineByName("nashorn");
         JSONArray varArray = JSONArray.fromObject("[\"model_水泥砂浆厚度\", \"item_宽度Φ\"]");
 
@@ -101,7 +112,6 @@ public class ScriptEngineTest {
      */
     @Test
     public void ruleTest2() throws Exception {
-        ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine scriptEngine = manager.getEngineByName("nashorn");
         JSONArray varArray = JSONArray.fromObject("[\"model_水泥砂浆厚度\", \"item_宽度Φ\"]");
         // 根据变量列表替换 规则 中的变量

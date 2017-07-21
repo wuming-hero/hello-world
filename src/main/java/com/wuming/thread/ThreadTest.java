@@ -19,6 +19,15 @@ import java.util.concurrent.TimeUnit;
 public class ThreadTest {
 
 
+    /**
+     * 当调用ExecutorService.shutdown方法的时候，线程池不再接收任何新任务，
+     * 但此时线程池并不会立刻退出，直到添加到线程池中的任务都已经处理完成，才会退出。
+     * 在调用shutdown方法后我们可以在一个死循环里面用isTerminated方法判断是否线程池中的所有线程已经执行完毕，
+     * 如果子线程都结束了，我们就可以做关闭流等后续操作了。
+     *
+     * @throws IOException
+     * @throws InterruptedException
+     */
     @Test
     public void test() throws IOException, InterruptedException {
         final File stream = new File("c:\\temp\\stonefeng\\stream.txt");
@@ -30,18 +39,15 @@ public class ThreadTest {
         final long start = System.currentTimeMillis();
         for (int i = 0; i < 10000000; i++) {
             final int num = i;
-            Runnable task = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        semaphore.acquire();
-                        writer.write(String.valueOf(num) + "\n");
-                        semaphore.release();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+            Runnable task = () -> {
+                try {
+                    semaphore.acquire();
+                    writer.write(String.valueOf(num) + "\n");
+                    semaphore.release();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             };
             exec.submit(task);
@@ -60,7 +66,7 @@ public class ThreadTest {
             Thread.sleep(1000);
         }
 
-        // 以上死循环改进，可以直接使用以下这行代码代替
+        // 以上死循环改进，可以直接使用以下这行代码代替,
         exec.awaitTermination(1, TimeUnit.HOURS);
 
         final long end = System.currentTimeMillis();
