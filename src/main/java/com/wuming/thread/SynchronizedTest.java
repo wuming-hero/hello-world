@@ -3,6 +3,9 @@ package com.wuming.thread;
 /**
  * Author: wuming
  * Created on 2017/7/25 10:22
+ * @author wuming
+ * @author wuming
+ *
  */
 public class SynchronizedTest {
 
@@ -12,8 +15,6 @@ public class SynchronizedTest {
         new Thread(foo1, "foo1").start();
         new Thread(foo2, "foo2").start();
     }
-
-
 }
 
 /**
@@ -57,6 +58,5 @@ class Foo implements Runnable {
             System.out.printf("----synchronized lock----");
         }
     }
-
 
 }
