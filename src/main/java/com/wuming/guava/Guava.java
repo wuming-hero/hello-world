@@ -138,13 +138,14 @@ public class Guava {
     public void intsTest() {
         int a = 1;
         int b = 2;
+        // 比较两个基本类型的int变量大小
         int ret = Ints.compare(a, b);
         System.out.println(ret);
 
         assertEquals("89983", CharMatcher.DIGIT.retainFrom("some text 89983 and more"));
         assertEquals("some text  and more", CharMatcher.DIGIT.removeFrom("some text 89983 and more"));
-
-        int[] array = {1, 2, 3, 4, 5};
+        List<Integer> integerList = ImmutableList.of(1, 2, 3, 4, 5);
+        int[] array = Ints.toArray(integerList); // list转换为基本类型的数组
         int[] array2 = {7, 8};
         int c = 4;
         boolean contains = Ints.contains(array, c);
@@ -152,7 +153,6 @@ public class Guava {
         int max = Ints.max(array);
         int min = Ints.min(array);
         int[] concat = Ints.concat(array, array2);
-
     }
 
     /**

@@ -1,10 +1,8 @@
 package com.wuming.thread;
 
 /**
- * Author: wuming
+ * @author wuming
  * Created on 2017/7/25 10:22
- * @author wuming
- * @author wuming
  *
  */
 public class SynchronizedTest {
@@ -51,7 +49,8 @@ class Foo implements Runnable {
     /**
      * 如果要保持即使不同对象也只能有一个线程来访问可以创建一个特殊的instance变量（它得是一个对象）来充当锁
      * （用byte数组对象比Object Object lock = new Object() 高效  注意这个得是static的，让不同对象竞争同一个 byte数组对象的锁）
-     * 像method3 这样，谁拿到这个锁谁就可以运行它所控制的那段代码
+     * 像test3() 这样，谁拿到这个锁谁就可以运行它所控制的那段代码
+     * test4()  和 test5() 同test3()
      */
     public void test3() {
         synchronized (lock) {
@@ -59,4 +58,21 @@ class Foo implements Runnable {
         }
     }
 
+    /**
+     * 修饰一个静态方法
+     */
+    public static synchronized void test4() {
+        synchronized (lock) {
+            System.out.printf("----synchronized static method----");
+        }
+    }
+
+    /**
+     * 修饰一个类
+     */
+    public void test5() {
+        synchronized (Foo.class) {
+            System.out.printf("----synchronized class----");
+        }
+    }
 }

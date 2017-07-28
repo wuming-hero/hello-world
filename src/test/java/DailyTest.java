@@ -1,9 +1,8 @@
+import com.google.common.collect.ImmutableList;
+import com.google.common.primitives.Ints;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by wuming on 16/10/30.
@@ -32,7 +31,7 @@ public class DailyTest {
      * HashMap 和LinkedHashMap 总是一样的顺序
      */
     @Test
-    public void mapTest(){
+    public void mapTest() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("a", 1);
         map.put("d", 2);
@@ -47,10 +46,12 @@ public class DailyTest {
     }
 
     @Test
-    public void test(){
-        Boolean flag = null;
-        if(flag){
-            System.out.println("---------");
+    public void test() {
+        List<Integer> integerList = ImmutableList.of(1, 2, 3, 4);
+        int[] arrays = Ints.toArray(integerList);
+        for (int i = 0; i < arrays.length; i++) {
+            int array = arrays[i];
+            System.out.println(array);
         }
     }
 
