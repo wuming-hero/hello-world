@@ -2,7 +2,6 @@ package com.wuming.model;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 
 /**
  * Created by wuming on 2017/4/15.
@@ -62,7 +61,6 @@ public class Account implements Serializable{
     public String toString() {
         StringBuilder sb = new StringBuilder("{");
         Field[] fields = getClass().getDeclaredFields();
-        System.out.println(Arrays.asList(fields));
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
