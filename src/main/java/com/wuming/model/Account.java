@@ -1,5 +1,7 @@
 package com.wuming.model;
 
+import com.wuming.invoke.Glob;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
@@ -10,6 +12,10 @@ public class Account implements Serializable{
 
     private static final long serialVersionUID = 719558489329330505L;
 
+    /**
+     * 特殊注解，使用反映获取key的值
+     */
+    @Glob(key = "stand.id")
     private Integer id;
     private String name;
     private String email;
