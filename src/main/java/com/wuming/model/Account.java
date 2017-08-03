@@ -21,6 +21,14 @@ public class Account implements Serializable{
     private String email;
     private String address;
 
+    public Account() {
+    }
+
+    public Account(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }
