@@ -4,9 +4,7 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Created by wuming on 16/10/30.
@@ -58,6 +56,22 @@ public class DailyTest {
             }
         }
         System.out.println("fieldArray = " + Arrays.asList(fieldArray));
+    }
+
+    @Test
+    public void test1(){
+        List<Map<String, Object>> list = new ArrayList<>();
+        list.add(new HashMap<String, Object>(){{put("name", "无名");}});
+        list.add(new HashMap<String, Object>(){{put("name", "无名1");}});
+        list.add(new HashMap<String, Object>(){{put("name", "无名2");}});
+        System.out.println("before: " + list);
+        list.forEach(map -> {
+            if(Objects.equals(map.get("name"), "无名")){
+                System.out.println("-------------");
+                map.put("name", "wuming");
+            }
+        });
+        System.out.println("after: " + list);
     }
 
 
