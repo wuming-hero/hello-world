@@ -24,6 +24,7 @@ public class DailyTest {
         ArrayList<Integer> list1 = (ArrayList<Integer>) list.clone();
         System.out.println(list1);
         list.set(0, 4);
+        list.add(0, 4);
         System.out.println(list);
         System.out.println(list1);
     }
@@ -47,7 +48,7 @@ public class DailyTest {
         for (int i = 0; i < fieldArray.length; i++) {
             Field field = fieldArray[i];
             field.setAccessible(Boolean.TRUE);
-            if(Objects.equals(field.getName(), key)){
+            if (Objects.equals(field.getName(), key)) {
                 try {
                     System.out.println(field.getName() + "=" + field.get(account));
                 } catch (IllegalAccessException e) {
@@ -59,21 +60,25 @@ public class DailyTest {
     }
 
     @Test
-    public void test1(){
+    public void test1() {
         List<Map<String, Object>> list = new ArrayList<>();
-        list.add(new HashMap<String, Object>(){{put("name", "无名");}});
-        list.add(new HashMap<String, Object>(){{put("name", "无名1");}});
-        list.add(new HashMap<String, Object>(){{put("name", "无名2");}});
+        list.add(new HashMap<String, Object>() {{
+            put("name", "无名");
+        }});
+        list.add(new HashMap<String, Object>() {{
+            put("name", "无名1");
+        }});
+        list.add(new HashMap<String, Object>() {{
+            put("name", "无名2");
+        }});
         System.out.println("before: " + list);
         list.forEach(map -> {
-            if(Objects.equals(map.get("name"), "无名")){
+            if (Objects.equals(map.get("name"), "无名")) {
                 System.out.println("-------------");
                 map.put("name", "wuming");
             }
         });
         System.out.println("after: " + list);
     }
-
-
 
 }

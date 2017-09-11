@@ -3,6 +3,7 @@ package com.wuming.util;
 import java.util.*;
 
 public class RandomUtil {
+
     public static String random(int size) {
         List<String> ranList = new ArrayList();
         int r = 10000000;
@@ -86,7 +87,7 @@ public class RandomUtil {
             oldRandomList.add(String.valueOf(r + i));
         }
         /*for (int i = 390000; i <= 400000; i++) {
-	    	oldRandomList.add(String.valueOf(r + i));
+            oldRandomList.add(String.valueOf(r + i));
 	    }*/
         String strList = newRandom(5, 400000, oldRandomList);
         System.err.println(strList);

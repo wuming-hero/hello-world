@@ -1,7 +1,8 @@
 package com.wuming.util;
 
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class BaiduMapApi {
         Map<String, Double> map = new HashMap<String, Double>();
         String url = "http://api.map.baidu.com/geocoder/v2/?ak=FEc72f64f2ea54c81422a833b1c4d02d&output=json&address=";
         String json = loadJSON(url + address);
-        JSONObject obj = JSONObject.fromObject(json);
+        JSONObject obj = JSON.parseObject(json);
         if (obj.get("status").toString().equals("0")) {
             double lng = obj.getJSONObject("result").getJSONObject("location").getDouble("lng");
             double lat = obj.getJSONObject("result").getJSONObject("location").getDouble("lat");
@@ -39,7 +40,7 @@ public class BaiduMapApi {
     public static String getLngLatPoint(String address) {
         String url = "http://api.map.baidu.com/geocoder/v2/?ak=FEc72f64f2ea54c81422a833b1c4d02d&output=json&address=";
         String json = loadJSON(url + address);
-        JSONObject obj = JSONObject.fromObject(json);
+        JSONObject obj = JSON.parseObject(json);
         double lng = 0.0;
         double lat = 0.0;
         if (obj.get("status").toString().equals("0")) {

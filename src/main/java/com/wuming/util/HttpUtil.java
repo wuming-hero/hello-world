@@ -10,6 +10,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
@@ -23,9 +24,10 @@ import java.util.Map;
  * @author wuming
  * Created on 2017/8/18 18:44
  */
-public class HttpsUtil {
+public class HttpUtil {
+
     /**
-     * https post method
+     * http post method
      *
      * @param url
      * @param map
@@ -38,10 +40,10 @@ public class HttpsUtil {
         }
         String result = null;
         try {
-            HttpClient httpClient = new SSLClient();
+            HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(url);
             //设置参数
-            List<NameValuePair> list = new ArrayList<NameValuePair>();
+            List<NameValuePair> list = new ArrayList<>();
             Iterator iterator = map.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, String> elem = (Map.Entry<String, String>) iterator.next();
@@ -65,7 +67,7 @@ public class HttpsUtil {
     }
 
     /**
-     * https post method 超时时间 10秒
+     * http post method 超时时间 10秒
      * 返回json格式的响应code和响应结果字符串
      *
      * @param url
@@ -78,7 +80,7 @@ public class HttpsUtil {
             charset = "UTF-8";
         }
         try {
-            HttpClient httpClient = new SSLClient();
+            HttpClient httpClient = HttpClients.createDefault();
             httpClient.getParams().setIntParameter(CoreConnectionPNames.SO_TIMEOUT, 3000);
             httpClient.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 3000);
             HttpPost httpPost = new HttpPost(url);
@@ -115,7 +117,7 @@ public class HttpsUtil {
 
 
     /**
-     * https post method
+     * http post method
      *
      * @param url
      * @param param
@@ -128,7 +130,7 @@ public class HttpsUtil {
         }
         String result = null;
         try {
-            HttpClient httpClient = new SSLClient();
+            HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(url);
             httpPost.setEntity(new StringEntity(param, charset));
             HttpResponse response = httpClient.execute(httpPost);
@@ -145,7 +147,7 @@ public class HttpsUtil {
     }
 
     /**
-     * https post 超时时间 10秒
+     * http post 超时时间 10秒
      * 返回json格式的响应code和响应结果字符串
      *
      * @param url
@@ -158,7 +160,7 @@ public class HttpsUtil {
             charset = "UTF-8";
         }
         try {
-            HttpClient httpClient = new SSLClient();
+            HttpClient httpClient = HttpClients.createDefault();
             // 设置超时时间3秒
             httpClient.getParams().setIntParameter(CoreConnectionPNames.SO_TIMEOUT, 3000);
             httpClient.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 3000);
@@ -185,7 +187,7 @@ public class HttpsUtil {
     }
 
     /**
-     * https get method
+     * http get method
      *
      * @param url
      * @param charset

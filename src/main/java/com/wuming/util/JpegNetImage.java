@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class JpegNetImage extends AbstractNetImage {
+
     public JpegNetImage(String _url) {
         super(_url);
     }

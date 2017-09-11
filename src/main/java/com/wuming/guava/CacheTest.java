@@ -20,10 +20,10 @@ public class CacheTest {
                 // 设置并发级别为8，并发级别是指可以同时写缓存的线程数
                 .concurrencyLevel(8)
                 // 设置写缓存后8秒钟过期
-                .expireAfterWrite(18, TimeUnit.SECONDS)
-                // 设置缓存容器的初始容量为10
+                .expireAfterWrite(8, TimeUnit.SECONDS)
+                // 设置缓存容器的初始容量为2
                 .initialCapacity(2)
-                // 设置缓存最大容量为100，超过100之后就会按照LRU最近虽少使用算法来移除缓存项
+                // 设置缓存最大容量为2，超过2之后就会按照LRU最近虽少使用算法来移除缓存项
                 .maximumSize(2)
                 // 设置要统计缓存的命中率
                 .recordStats()
@@ -45,9 +45,8 @@ public class CacheTest {
                     }
                 });
 
-        System.out.println("cache stats:");
         // 最后打印缓存的命中率等 情况
-        System.out.println(accountCache.stats().toString());
+        System.out.println("cache stats:" + accountCache.stats());
 
         // 获得 id=1的student，只有第1次会load student, 2、3次直接从缓存获取
         Account account = accountCache.get(1);

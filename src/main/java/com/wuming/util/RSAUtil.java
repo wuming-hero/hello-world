@@ -5,11 +5,15 @@ import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.security.*;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
-public class RSAUtils {
+public class RSAUtil {
 
     /**
      * RSA 签名算法
@@ -40,14 +44,14 @@ public class RSAUtils {
      * @return 签名值
      */
     public static String sign(String content, String privateKey, String charset) throws Exception {
-        PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decode(privateKey));
+        PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKey));
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         PrivateKey priKey = keyFactory.generatePrivate(priPKCS8);
         Signature signature = Signature.getInstance(SIGN_ALGORITHMS);
         signature.initSign(priKey);
         signature.update(content.getBytes(charset));
         byte[] signed = signature.sign();
-        return Base64.encode(signed);
+        return Base64.getEncoder().encodeToString(signed);
     }
 
     /**
@@ -61,12 +65,12 @@ public class RSAUtils {
      */
     public static boolean verify(String content, String sign, String publicKey, String charset) throws Exception {
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
-        byte[] encodedKey = Base64.decode(publicKey);
+        byte[] encodedKey = Base64.getDecoder().decode(publicKey);
         PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
         Signature signature = Signature.getInstance(SIGN_ALGORITHMS);
         signature.initVerify(pubKey);
         signature.update(content.getBytes(charset));
-        return signature.verify(Base64.decode(sign));
+        return signature.verify(Base64.getDecoder().decode(sign));
 
     }
 
@@ -82,7 +86,7 @@ public class RSAUtils {
      * @throws Exception
      */
     public static String encrypt(String rawText, String publicKey, String charset) throws Exception {
-        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(Base64.decode(publicKey));
+        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKey));
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         PublicKey pubKey = keyFactory.generatePublic(x509KeySpec);
         // 对数据加密
@@ -107,7 +111,7 @@ public class RSAUtils {
         }
         byte[] encryptedData = out.toByteArray();
         out.close();
-        return Base64.encode(encryptedData);
+        return Base64.getEncoder().encodeToString(encryptedData);
     }
 
     /**
@@ -119,12 +123,12 @@ public class RSAUtils {
      * @return 解密后的字符串
      */
     public static String decrypt(String cipherText, String privateKey, String charset) throws Exception {
-        PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decode(privateKey));
+        PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKey));
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         PrivateKey prikey = keyFactory.generatePrivate(priPKCS8);
         Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
         cipher.init(Cipher.DECRYPT_MODE, prikey);
-        InputStream ins = new ByteArrayInputStream(Base64.decode(cipherText));
+        InputStream ins = new ByteArrayInputStream(Base64.getDecoder().decode(cipherText));
         ByteArrayOutputStream writer = new ByteArrayOutputStream();
         //rsa解密的字节大小最多是128，将需要解密的内容，按128位拆开解密
         byte[] buf = new byte[MAX_DECRYPT_BLOCK];
@@ -155,7 +159,7 @@ public class RSAUtils {
      * @throws Exception
      */
     public static String encryptByPrivateKey(String rawText, String privateKey, String charset) throws Exception {
-        PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decode(privateKey));
+        PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKey));
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         PrivateKey priKey = keyFactory.generatePrivate(priPKCS8);
         Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
@@ -179,7 +183,7 @@ public class RSAUtils {
         }
         byte[] encryptedData = out.toByteArray();
         out.close();
-        return Base64.encode(encryptedData);
+        return Base64.getEncoder().encodeToString(encryptedData);
     }
 
     /**
@@ -193,12 +197,12 @@ public class RSAUtils {
      * @throws Exception
      */
     public static String decryptByPublicKey(String cipherText, String publicKey, String charset) throws Exception {
-        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(Base64.decode(publicKey));
+        X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKey));
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         PublicKey pubKey = keyFactory.generatePublic(x509KeySpec);
         Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
         cipher.init(Cipher.DECRYPT_MODE, pubKey);
-        byte[] encryptedData = Base64.decode(cipherText);
+        byte[] encryptedData = Base64.getDecoder().decode(cipherText);
         int inputLen = encryptedData.length;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         int offSet = 0;

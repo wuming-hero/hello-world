@@ -1,6 +1,7 @@
 package com.wuming.ScriptEngine;
 
-import net.sf.json.JSONArray;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
@@ -75,7 +76,7 @@ public class ScriptEngineTest {
     @Test
     public void ruleTest() throws Exception {
         ScriptEngine scriptEngine = manager.getEngineByName("nashorn");
-        JSONArray varArray = JSONArray.fromObject("[\"model_水泥砂浆厚度\", \"item_宽度Φ\"]");
+        JSONArray varArray = JSON.parseArray("[\"model_水泥砂浆厚度\", \"item_宽度Φ\"]");
 
         // 根据变量列表替换 规则 中的变量
         for (int j = 0; j < varArray.size(); j++) {
@@ -113,7 +114,7 @@ public class ScriptEngineTest {
     @Test
     public void ruleTest2() throws Exception {
         ScriptEngine scriptEngine = manager.getEngineByName("nashorn");
-        JSONArray varArray = JSONArray.fromObject("[\"model_水泥砂浆厚度\", \"item_宽度Φ\"]");
+        JSONArray varArray = JSON.parseArray("[\"model_水泥砂浆厚度\", \"item_宽度Φ\"]");
         // 根据变量列表替换 规则 中的变量
         for (int j = 0; j < varArray.size(); j++) {
             String key = (String) varArray.get(j);

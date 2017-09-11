@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * 远程图片操作接口
+ */
 public abstract class AbstractNetImage {
     private String url = null;
 
