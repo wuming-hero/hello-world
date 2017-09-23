@@ -1,4 +1,4 @@
-package com.wuming.jsoup;
+package com.wuming.xml.jsoup;
 
 import com.google.common.collect.ImmutableMap;
 import org.jsoup.Jsoup;
@@ -76,12 +76,12 @@ public class JsoupTest {
 
 
     /**
-     * jsoup 操作文件示例
+     * 在本机硬盘上有一个HTML文件，需要对它进行解析从中抽取数据或进行修改。
      */
     @Test
     public void replaceHtml() {
         try {
-            File file = new File(JsoupTest.class.getClassLoader().getResource("file/html.txt").getFile());
+            File file = new File(JsoupTest.class.getClassLoader().getResource("file/txt.html").getFile());
             System.out.println("fileName: " + file.getName() + ", filePath: " + file.getPath());
             // document 已有html和body标签，则不会自动添加此标签
             Document doc = Jsoup.parse(file, "UTF-8");
@@ -109,7 +109,7 @@ public class JsoupTest {
             System.out.println("news headlines: " + newsHeadlines);
 
             File file = new File(JsoupTest.class.getClassLoader().getResource("file/empty.html").getFile());
-            // TODO 搞不明白这个接口的第1个参数与第三个参数的关系。。。
+            // baseUri 参数用于解决文件中URLs是相对路径的问题。如果不需要可以传入一个空的字符串
             Document doc = Jsoup.parse(file, "UTF-8", "http://www.dangdang.com");
             System.out.println("doc: " + doc);
             Element content = doc.getElementById("content");

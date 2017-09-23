@@ -1,6 +1,6 @@
 package com.wuming.log;
 
-import com.wuming.jsoup.JsoupTest;
+import com.wuming.xml.jsoup.JsoupTest;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

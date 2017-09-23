@@ -150,6 +150,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!--类操作工具类-->
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
@@ -157,11 +158,26 @@
             <optional>true</optional>
         </dependency>
 
+        <!--操作时间工具-->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.9.4</version>
             <optional>true</optional>
+        </dependency>
+
+        <!--操作dom-->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+        <!--操作dom-->
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>2.0.2</version>
         </dependency>
 
         <!--httpServletRequest-->

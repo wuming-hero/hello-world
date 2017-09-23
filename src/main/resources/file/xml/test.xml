@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ROOT>
+    <HEAD>
+        <ORIGIN_DOMAIN>kefuxitongbianma</ORIGIN_DOMAIN>
+        <HOME_DOMAIN>CUGCRM</HOME_DOMAIN>
+        <ACTION_CODE>1</ACTION_CODE>
+        <BUSI_CODE>QUERYCUST</BUSI_CODE>
+        <TRANS_ID>20160220160635123456</TRANS_ID>
+        <RET_CODE>0000</RET_CODE>
+        <RET_MSG>success</RET_MSG>
+    </HEAD>
+    <BODY>
+        <TOTAL_RECORDS>20</TOTAL_RECORDS>
+        <TOTAL_PAGE>10</TOTAL_PAGE>
+        <CURRENT_PAGE>1</CURRENT_PAGE>
+        CUSTINFOLIST[{}, {}]
+        <CUSTINFOLIST>
+            <CUSTINFO>
+                <CUST_TYPE>001</CUST_TYPE>
+                <VIP_FLAG>true</VIP_FLAG>
+            </CUSTINFO>
+            <CUSTINFO>
+                <CUST_TYPE>002</CUST_TYPE>
+                <VIP_FLAG>false</VIP_FLAG>
+            </CUSTINFO>
+            <CUSTINFO>
+                <CUST_TYPE>003</CUST_TYPE>
+                <VIP_FLAG>false</VIP_FLAG>
+            </CUSTINFO>
+        </CUSTINFOLIST>
+    </BODY>
+</ROOT>

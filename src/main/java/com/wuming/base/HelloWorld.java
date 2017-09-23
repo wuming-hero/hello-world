@@ -67,25 +67,6 @@ public class HelloWorld {
         System.out.println("s1 = s3? " + (s1 == s3));  //false
     }
 
-    @Test
-    public void test(){
-        StringBuilder sb = new StringBuilder();
-        System.out.println("length: " + sb.length() + "----capacity: " + sb.capacity());
-        StringBuilder sb1 = new StringBuilder("a");
-        System.out.println("length: " + sb1.length() + "----capacity: " + sb1.capacity());
-
-        System.out.println(sb.capacity());
-        sb = new StringBuilder(1);
-        System.out.println(sb.capacity());
-        sb.append(1).append(2);
-        System.out.println(sb.capacity());
-    }
-
-    @Test
-    public void test2(){
-        String a = "test";
-    }
-
 }
 
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <student id="001">
+        <id>20130101</id>
+        <name>无名</name>
+        <address>杭州</address>
+    </student>
+    <teacher id="002">
+        <id>20130102</id>
+        <name>wuming</name>
+        <address>浙江</address>
+    </teacher>
+</root>
