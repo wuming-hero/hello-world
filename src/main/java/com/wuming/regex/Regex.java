@@ -18,12 +18,12 @@ import java.util.regex.Pattern;
  * {n,m} 从 n 到 m 次
  * <p>
  * \b 元字符是用来说明匹配单词的边界，它可以是空格或任何一种不同的标点符号(包括逗号，句号等)。
- * \d [0-9]
- * \D [^0-9]
- * \w [A-Z0-9]
- * \W [^A-Z0-9]
- * \s [\t\n\r\f]
- * \S [^\t\n\r\f]
+ * \d [0-9]     匹配一个数字
+ * \D [^0-9]    非数字
+ * \w [a-zA-Z0-9]   可以匹配一个字母或数字
+ * \W [^a-zA-Z0-9]  不是字母或数字
+ * \s [\t\n\r\f]    匹配一个空格（也包括Tab等空白符）
+ * \S [^\t\n\r\f]   非空格
  * <p>
  * java 正则中 使用双反斜杠(\\)表示转义字符反斜杠(\)
  */
@@ -113,26 +113,26 @@ public class Regex {
      * 匹配单词及句子
      * \w 元字符用来匹配从字母a到u的任何字符
      */
-    @Test
-    public void repeatTest() {
-        String sentence = "Paris in the the \n" +
-                "spring";
-        // 匹配单词
-        Pattern pattern = Pattern.compile("\\b\\w+\\b");
-        Matcher matcher = pattern.matcher(sentence);
-        System.out.println("sentence is: " + sentence);
-        while (matcher.find()) {
-            System.out.println("sentence's word: " + matcher.group());
-        }
-
-        // 匹配重复单词，忽略大小写
-        pattern = Pattern.compile("\\b(\\w+)\\s+\\1\\b", Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(sentence);
-        if (matcher.find()) {
-            System.out.println("repeat word2: " + matcher.group());
-        }
-
-    }
+//    @Test
+//    public void repeatTest() {
+//        String sentence = "Paris in the the \n" +
+//                "spring";
+//        // 匹配单词
+//        Pattern pattern = Pattern.compile("\\b\\w+\\b");
+//        Matcher matcher = pattern.matcher(sentence);
+//        System.out.println("sentence is: " + sentence);
+//        while (matcher.find()) {
+//            System.out.println("sentence's word: " + matcher.group());
+//        }
+//
+//        // 匹配重复单词，忽略大小写
+//        pattern = Pattern.compile("\\b(\\w+)\\s+\\1\\b", Pattern.CASE_INSENSITIVE);
+//        matcher = pattern.matcher(sentence);
+//        if (matcher.find()) {
+//            System.out.println("repeat word2: " + matcher.group());
+//        }
+//
+//    }
 
     /**
      * 字符串去重
@@ -186,6 +186,7 @@ public class Regex {
                 System.out.println("m1.matches() start = " + m1.start() + " end = " + m1.end());
             if (m2.matches())
                 System.out.println("m2.matches() start = " + m2.start() + " end = " + m2.end());
+            System.out.println();
         }
     }
 
@@ -212,27 +213,26 @@ public class Regex {
         }
     }
 
-    /**
-     * 从一个给定的字符串中找到数字串
-     */
-    @Test
-    public void groupTest2() {
-        // 按指定模式在字符串查找
-        String line = "This order was placed for QT3000! OK?";
-        String pattern = "(\\D*)(\\d+)(.*)";
-        // 创建 Pattern 对象
-        Pattern r = Pattern.compile(pattern);
-        // 现在创建 matcher 对象
-        Matcher m = r.matcher(line);
-        if (m.find()) {
-            System.out.println("Found value: " + m.group(0));
-            System.out.println("Found value: " + m.group(1));
-            System.out.println("Found value: " + m.group(2));
-            System.out.println("Found value: " + m.group(3));
-        } else {
-            System.out.println("NO MATCH");
-        }
-    }
+//    /**
+//     * 从一个给定的字符串中找到数字串
+//     */
+//    @Test
+//    public void groupTest2() {
+//        // 按指定模式在字符串查找
+//        String line = "This order was placed for QT3000! OK?";
+//        // 创建 Pattern 对象
+//        Pattern pattern = Pattern.compile("(\\D*)(\\d+)(.*)");
+//        // 现在创建 matcher 对象
+//        Matcher m = pattern.matcher(line);
+//        if (m.find()) {
+//            System.out.println("Found value: " + m.group(0));
+//            System.out.println("Found value: " + m.group(1));
+//            System.out.println("Found value: " + m.group(2));
+//            System.out.println("Found value: " + m.group(3));
+//        } else {
+//            System.out.println("NO MATCH");
+//        }
+//    }
 
     /**
      * 每行以字母 j 开头，不区分大小写
@@ -321,7 +321,7 @@ public class Regex {
      */
     @Test
     public void resetTest() {
-        Matcher m = Pattern.compile("[frb][aiu][gx]").matcher("fix the rug with bags");
+        Matcher m = Pattern.compile("[f|rb][aiu][gx]").matcher("fix |ag the rug with bags");
         while (m.find())
             System.out.println(m.group());
         // 用reset()方法给现有的Matcher对象配上个新的CharSequence。
@@ -329,6 +329,24 @@ public class Regex {
         System.out.println("-----------");
         while (m.find())
             System.out.println(m.group());
+    }
+
+    /**
+     * 正确
+     */
+    @Test
+    public void test2() {
+        String a = "Windows 2003";
+        Pattern pattern = Pattern.compile("[0-9][0-9]");
+        Matcher matcher = pattern.matcher(a);
+
+        if (matcher.find()) {
+            System.out.println(matcher.group(0));
+        }
+        matcher.reset();
+        while (matcher.find()) {
+            System.out.println(matcher.group());
+        }
     }
 
 }
