@@ -47,7 +47,7 @@ public class RegexTest {
      */
     @Test
     public void simpleRegTest2() {
-        String mobile = "13123936686";
+        String mobile = "1312393668";
         Pattern pattern = Pattern.compile("1\\d{10}");
         Matcher matcher = pattern.matcher(mobile);
         System.out.println(matcher.matches());
@@ -59,7 +59,7 @@ public class RegexTest {
      */
     @Test
     public void simpleRegTest3() {
-        String mobile = "him";
+        String mobile = "hi";
         Pattern pattern = Pattern.compile("hi");
         Matcher matcher = pattern.matcher(mobile);
         System.out.println(matcher.matches());
@@ -78,13 +78,9 @@ public class RegexTest {
      */
     @Test
     public void StringRegTest() {
-        String mobile = "无名";
         Pattern pattern = Pattern.compile("[\\u4e00-\\u9fa5]");
-        Matcher matcher = pattern.matcher(mobile);
+        Matcher matcher = pattern.matcher("a");
         System.out.println(matcher.matches());
-        if (matcher.matches()) {
-            System.out.println(matcher.group());
-        }
     }
 
 
@@ -96,13 +92,10 @@ public class RegexTest {
      */
     @Test
     public void mobileRegTest() {
-        String mobile = "13123936686";
         Pattern pattern = Pattern.compile("1[345678]\\d{9}");
-        Matcher matcher = pattern.matcher(mobile);
+//        Pattern pattern = Pattern.compile("1\\d{10}");
+        Matcher matcher = pattern.matcher("13123936686");
         System.out.println(matcher.matches());
-        if (matcher.matches()) {
-            System.out.println(matcher.group());
-        }
     }
 
     /**
@@ -111,19 +104,29 @@ public class RegexTest {
      * 05711234567
      * 0571-1234567
      * 0571 1234567
+     *
+     * 400-221-5383
      */
     @Test
     public void phoneRegTest() {
         String phone = "05711234567";
-//        phone = "0571-1234567";
-//        phone = "0571 1234567";
-        Pattern pattern = Pattern.compile("\\d{3,4}(-|\\s)*\\d{7,8}");
+        phone = "0571-1234567";
+        phone = "0571 1234567";
+        Pattern pattern = Pattern.compile("\\d{3,4}( |-)?\\d{7,8}");
         Matcher matcher = pattern.matcher(phone);
         System.out.println(matcher.matches());
-        if (matcher.matches()) {
-            System.out.println(matcher.group());
-        }
 
+    }
+
+    /**
+     * 400-221-5383
+     */
+    @Test
+    public void phoneRegTest2() {
+        String phone = "500-221-5383";
+        Pattern pattern = Pattern.compile("^4\\d{2}-\\d{3}-\\d{4}");
+        Matcher matcher = pattern.matcher(phone);
+        System.out.println(matcher.matches());
     }
 
     /**
@@ -136,7 +139,7 @@ public class RegexTest {
      */
     @Test
     public void ipRegTest() {
-        String ip = "222.168.123.222";
+        String ip = "127.0.0.1";
         String reg = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
                 + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
                 + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
@@ -144,9 +147,6 @@ public class RegexTest {
         Pattern pattern = Pattern.compile(reg);
         Matcher matcher = pattern.matcher(ip);
         System.out.println(matcher.matches());
-        if (matcher.matches()) {
-            System.out.println(matcher.group());
-        }
     }
 
     /**************************字符串分组及获取*************************/
@@ -236,7 +236,7 @@ public class RegexTest {
 
         // 贪婪模式的知识点扩展
         // 默认为贪婪模式
-        pattern = Pattern.compile(".*JSESSIONID=(.*);");
+        pattern = Pattern.compile(".*JSESSIONID=(.*?);");
         matcher = pattern.matcher(line);
         if (matcher.find()) {
             System.out.println("groupCount: " + matcher.groupCount());
@@ -258,10 +258,11 @@ public class RegexTest {
                 "    extracted block. !*/";
         // Match the specially-commented block of text above:
         Matcher matcher = Pattern.compile("/\\*!(.*)!\\*/", Pattern.DOTALL).matcher(s);
-        if (matcher.find())
+        if (matcher.find()) {
+            System.out.println("====================");
             s = matcher.group(1); // Captured by parentheses
+        }
         System.out.println("====s: " + s);
-
         // Replace two or more spaces with a single space:
         s = s.replaceAll(" {2,}", " ");
         System.out.println("----s1: " + s);
@@ -271,31 +272,6 @@ public class RegexTest {
         s = s.replaceAll("(?m)^ +", "");
         System.out.println("----s2: " + s);
 
-    }
-
-
-    /**
-     * 匹配句子中重复的单词
-     * \w 元字符用来匹配从字母a到u的任何字符
-     */
-    @Test
-    public void repeatTest() {
-        String sentence = "Paris in the the \n" +
-                "spring";
-        // 匹配单词
-        Pattern pattern = Pattern.compile("\\b\\w+\\b");
-        Matcher matcher = pattern.matcher(sentence);
-        System.out.println("sentence is: " + sentence);
-        while (matcher.find()) {
-            System.out.println("sentence's word: " + matcher.group());
-        }
-
-        // 匹配重复单词，忽略大小写
-        pattern = Pattern.compile("\\b(\\w+)\\s+\\1\\b", Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(sentence);
-        if (matcher.find()) {
-            System.out.println("repeat word2: " + matcher.group());
-        }
     }
 
 }
