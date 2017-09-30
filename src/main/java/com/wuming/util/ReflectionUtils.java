@@ -19,11 +19,9 @@ public class ReflectionUtils {
      * @return 父类中的方法对象
      */
     public static Method getDeclaredMethod(Object object, String methodName, Class<?>... parameterTypes) {
-        Method method = null;
         for (Class<?> clazz = object.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
             try {
-                method = clazz.getDeclaredMethod(methodName, parameterTypes);
-                return method;
+                return clazz.getDeclaredMethod(methodName, parameterTypes);
             } catch (Exception e) {
                 //这里甚么都不要做！并且这里的异常必须这样写，不能抛出去。
                 //如果这里的异常打印或者往外抛，则就不会执行clazz = clazz.getSuperclass(),最后就不会进入到父类中了
@@ -69,12 +67,10 @@ public class ReflectionUtils {
      * @return 父类中的属性对象
      */
     public static Field getDeclaredField(Object object, String fieldName) {
-        Field field = null;
         Class<?> clazz = object.getClass();
         for (; clazz != Object.class; clazz = clazz.getSuperclass()) {
             try {
-                field = clazz.getDeclaredField(fieldName);
-                return field;
+                return clazz.getDeclaredField(fieldName);
             } catch (Exception e) {
                 //这里甚么都不要做！并且这里的异常必须这样写，不能抛出去。
                 //如果这里的异常打印或者往外抛，则就不会执行clazz = clazz.getSuperclass(),最后就不会进入到父类中了
