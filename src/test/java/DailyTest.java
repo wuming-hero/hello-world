@@ -1,4 +1,5 @@
 import com.wuming.model.Account;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -81,4 +82,20 @@ public class DailyTest {
         System.out.println("after: " + list);
     }
 
+    /**
+     * start，end表示ASCII码列表中选取字符开始和结束位置
+     * 布尔型数据letters表示alphabet是否出现
+     * numbers表示数字是否出现
+     */
+    @Test
+    public void test2() {
+        System.out.println("UUID：" + UUID.randomUUID().toString());
+        System.out.println("" + RandomStringUtils.random(10, true, true));
+        /**
+         * start，end表示ASCII码列表中选取字符开始和结束位置
+         * 布尔型数据letters表示alphabet是否出现
+         * numbers表示数字是否出现
+         */
+        System.out.println("" + RandomStringUtils.random(10, 20, 110, true, true));
+    }
 }

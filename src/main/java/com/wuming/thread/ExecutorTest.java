@@ -18,7 +18,7 @@ import java.util.concurrent.*;
  * Java通过Executors提供四种线程池，分别为：
  * newCachedThreadPool创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
  * newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。
- * newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。
+ * newScheduledThreadPool 创建一个定时线程池，支持定时及周期性任务执行。
  * newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
  */
 public class ExecutorTest {
@@ -31,7 +31,7 @@ public class ExecutorTest {
      */
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newCachedThreadPool();
-        List<Future<String>> resultList = new ArrayList<Future<String>>();
+        List<Future<String>> resultList = new ArrayList<>();
 
         // 创建10个任务并执行
         for (int i = 0; i < 10; i++) {
@@ -67,18 +67,12 @@ class TaskWithResult implements Callable<String> {
     }
 
     public String call() throws Exception {
-        System.out.println("call()方法被自动调用,干活！！！             " + Thread.currentThread().getName());
+        System.out.println("call()方法被自动调用,干活！！！    " + Thread.currentThread().getName());
         if (new Random().nextBoolean())
-            throw new TaskException("Meet error in task." + Thread.currentThread().getName());
+            throw new Exception("Meet error in task." + Thread.currentThread().getName());
         // 一个模拟耗时的操作
         Thread.sleep(3 * 1000);
         // 任务运行结果
         return "call()方法被自动调用，任务的结果是：" + id + "    " + Thread.currentThread().getName();
-    }
-}
-
-class TaskException extends Exception {
-    public TaskException(String message) {
-        super(message);
     }
 }

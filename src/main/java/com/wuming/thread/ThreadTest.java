@@ -22,6 +22,7 @@ public class ThreadTest {
     /**
      * 当调用ExecutorService.shutdown方法的时候，线程池不再接收任何新任务，
      * 但此时线程池并不会立刻退出，直到添加到线程池中的任务都已经处理完成，才会退出。
+     * <p>
      * 在调用shutdown方法后我们可以在一个死循环里面用isTerminated方法判断是否线程池中的所有线程已经执行完毕，
      * 如果子线程都结束了，我们就可以做关闭流等后续操作了。
      *
@@ -30,14 +31,16 @@ public class ThreadTest {
      */
     @Test
     public void test() throws IOException, InterruptedException {
-        final File stream = new File("c:\\temp\\stonefeng\\stream.txt");
-        final OutputStream os = new FileOutputStream(stream);
+        String filePath = this.getClass().getClassLoader().getResource("file/test.txt").getPath();
+        System.out.println(filePath);
+        final File file = new File(filePath);
+        final OutputStream os = new FileOutputStream(file);
         final OutputStreamWriter writer = new OutputStreamWriter(os);
         final Semaphore semaphore = new Semaphore(10);
         ExecutorService exec = Executors.newCachedThreadPool();
 
         final long start = System.currentTimeMillis();
-        for (int i = 0; i < 10000000; i++) {
+        for (int i = 0; i < 10000; i++) {
             final int num = i;
             Runnable task = () -> {
                 try {
@@ -52,7 +55,6 @@ public class ThreadTest {
             };
             exec.submit(task);
         }
-
         exec.shutdown();
 
         // 可以使用以下死循环每隔1s判断是否执行完，返回true时，则跳出死循环

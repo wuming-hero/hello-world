@@ -91,7 +91,6 @@ public class JodaTimeTest {
         System.out.println(d2);
     }
 
-
     /**
      * 时间操作处理
      * Joda 中常用的属性（property），他们是计算威力的关键
@@ -213,7 +212,6 @@ public class JodaTimeTest {
         System.out.println(d1.isEqual(d2));
     }
 
-
     /**
      * 某个特定对象的出生日期 可能为 1999 年 4 月 16 日，但是从技术角度来看，
      * 在保存所有业务值的同时不会了解有关此日期的任何其他信息（比如这是一周中的星期几，或者这个人出生地所在的时区）。
@@ -223,6 +221,19 @@ public class JodaTimeTest {
     public void localDateTest() {
         LocalDate localDate = new LocalDate(2009, 9, 6);// September 6, 2009
         LocalTime localTime = new LocalTime(13, 30, 26, 0);// 1:30:26PM
+    }
+
+    /**
+     * 到新年还有多少天
+     *
+     * @return
+     */
+    @Test
+    public void daysToNewYear() {
+        LocalDate fromDate = new LocalDate("2017-12-29");
+        LocalDate newYear = fromDate.plusYears(2).withDayOfYear(1);
+        Days days = Days.daysBetween(fromDate, newYear);
+        System.out.println("----days: " + days + "----" + days.getDays() + "----" + days.getValue(0));
     }
 
 }
