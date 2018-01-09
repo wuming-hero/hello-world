@@ -98,4 +98,12 @@ public class DailyTest {
          */
         System.out.println("" + RandomStringUtils.random(10, 20, 110, true, true));
     }
+
+    /**
+     * git 常用命令测试
+     */
+    @Test
+    public void gitTest() {
+        
+    }
 }
