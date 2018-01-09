@@ -3,7 +3,6 @@ package com.wuming.thread;
 /**
  * @author wuming
  * Created on 2017/7/25 10:22
- *
  */
 public class SynchronizedTest {
 
@@ -24,6 +23,15 @@ public class SynchronizedTest {
 class Foo implements Runnable {
 
     private static byte[] lock = new byte[0];
+
+    /**
+     * 修饰一个静态方法
+     */
+    public static synchronized void test4() {
+        synchronized (lock) {
+            System.out.printf("----synchronized static method----");
+        }
+    }
 
     @Override
     public void run() {
@@ -55,15 +63,6 @@ class Foo implements Runnable {
     public void test3() {
         synchronized (lock) {
             System.out.printf("----synchronized lock----");
-        }
-    }
-
-    /**
-     * 修饰一个静态方法
-     */
-    public static synchronized void test4() {
-        synchronized (lock) {
-            System.out.printf("----synchronized static method----");
         }
     }
 

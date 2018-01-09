@@ -12,6 +12,7 @@ function calculate(amount, percentage) {
         new BigDecimal("100"), 2, BigDecimal.ROUND_HALF_EVEN);
     return result.toPlainString();
 }
+
 var result = calculate(568000000000000000023, 13.9);
 
 print(result);

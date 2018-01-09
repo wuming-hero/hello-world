@@ -30,6 +30,7 @@ public class CutBytes {
 
     /**
      * utf-8 的汉字占3个字节  gbk的是2个字节
+     *
      * @param str
      * @param n
      * @return

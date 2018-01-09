@@ -15,7 +15,7 @@ public class FilePath {
 
     /**
      * 通过 clazz.getResource()或 clazz.getClassLoader().getResource()方法获取URL
-     *
+     * <p>
      * /Users/wuming/workspace/java/hello-world/target/classes/file/test.json
      */
     @Test

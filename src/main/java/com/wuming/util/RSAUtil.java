@@ -1,4 +1,3 @@
-
 package com.wuming.util;
 
 import javax.crypto.Cipher;

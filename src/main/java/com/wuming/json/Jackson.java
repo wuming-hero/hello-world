@@ -201,7 +201,6 @@ public class Jackson {
 
     /**
      * 借助扩展插件jackson-dataformat-xml将 bean map 写到 转换成 xml
-     *
      */
     @Test
     public void writeObject2Xml() {

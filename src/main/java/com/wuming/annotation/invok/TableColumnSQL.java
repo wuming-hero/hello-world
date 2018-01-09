@@ -14,5 +14,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface TableColumnSQL {
     String value() default "";
+
     Constraint constraint() default @Constraint();
 }

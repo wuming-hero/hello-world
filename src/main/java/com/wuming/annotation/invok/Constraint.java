@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Constraint {
     boolean allowNull() default true;
+
     boolean isPrimary() default false;
 
 }

@@ -16,10 +16,6 @@ public class PrettyDateFormat
     private FormatType formatType = FormatType.DEAFULT;
     private SimpleDateFormat simpleDateFormat;
 
-    private static enum FormatType {
-        DEAFULT, TIME, DAY;
-    }
-
     public PrettyDateFormat(String format, String fullFormat) {
         super(fullFormat);
         Matcher m = this.pattern.matcher(format);
@@ -39,6 +35,54 @@ public class PrettyDateFormat
             }
         }
         this.simpleDateFormat = new SimpleDateFormat(format.replace("'", "''"));
+    }
+
+    public static void format(long curTime, String format, String fullFormat) {
+        System.out.println("    format: " + format);
+        System.out.println("fullFormat: " + fullFormat);
+        System.out.println();
+
+        Date date2 = new Date(curTime - 30000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.print(sdf.format(date2) + " 格式化为 : ");
+        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
+
+        date2 = new Date(curTime - 21600000L);
+        System.out.print(sdf.format(date2) + " 格式化为 : ");
+        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
+
+        date2 = new Date(curTime - 72000000L);
+        System.out.print(sdf.format(date2) + " 格式化为 : ");
+        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
+
+        date2 = new Date(curTime - 194400000L);
+        System.out.print(sdf.format(date2) + " 格式化为 : ");
+        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
+
+        date2 = new Date(curTime - 280800000L);
+        System.out.print(sdf.format(date2) + " 格式化为 : ");
+        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
+        System.out.println("========================================================");
+    }
+
+    public static void main(String[] args) {
+        long curTime = System.currentTimeMillis();
+
+        format(curTime, "#a H点", "yy-MM-dd a H点");
+
+        format(curTime, "##a H点", "yy-MM-dd a H点");
+
+        format(curTime, "# HH:mm:dd", "yy-MM-dd HH:mm:dd");
+
+        format(curTime, "# a HH:mm:dd", "yy-MM-dd HH:mm:dd");
+
+        format(curTime, "## HH:mm", "yy-MM-dd a HH:mm");
+
+        format(curTime, "## a HH:mm", "yy-MM-dd a HH:mm");
+
+        format(curTime, "##", "yyyy-MM-dd");
+
+        format(curTime, "@", "yyyy-MM-dd HH:mm:ss");
     }
 
     public Object parseObject(String source, ParsePosition pos) {
@@ -100,51 +144,7 @@ public class PrettyDateFormat
         return toAppendTo.append(sb.toString());
     }
 
-    public static void format(long curTime, String format, String fullFormat) {
-        System.out.println("    format: " + format);
-        System.out.println("fullFormat: " + fullFormat);
-        System.out.println();
-
-        Date date2 = new Date(curTime - 30000L);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.print(sdf.format(date2) + " 格式化为 : ");
-        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
-
-        date2 = new Date(curTime - 21600000L);
-        System.out.print(sdf.format(date2) + " 格式化为 : ");
-        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
-
-        date2 = new Date(curTime - 72000000L);
-        System.out.print(sdf.format(date2) + " 格式化为 : ");
-        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
-
-        date2 = new Date(curTime - 194400000L);
-        System.out.print(sdf.format(date2) + " 格式化为 : ");
-        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
-
-        date2 = new Date(curTime - 280800000L);
-        System.out.print(sdf.format(date2) + " 格式化为 : ");
-        System.out.println(new PrettyDateFormat(format, fullFormat).format(date2));
-        System.out.println("========================================================");
-    }
-
-    public static void main(String[] args) {
-        long curTime = System.currentTimeMillis();
-
-        format(curTime, "#a H点", "yy-MM-dd a H点");
-
-        format(curTime, "##a H点", "yy-MM-dd a H点");
-
-        format(curTime, "# HH:mm:dd", "yy-MM-dd HH:mm:dd");
-
-        format(curTime, "# a HH:mm:dd", "yy-MM-dd HH:mm:dd");
-
-        format(curTime, "## HH:mm", "yy-MM-dd a HH:mm");
-
-        format(curTime, "## a HH:mm", "yy-MM-dd a HH:mm");
-
-        format(curTime, "##", "yyyy-MM-dd");
-
-        format(curTime, "@", "yyyy-MM-dd HH:mm:ss");
+    private static enum FormatType {
+        DEAFULT, TIME, DAY;
     }
 }

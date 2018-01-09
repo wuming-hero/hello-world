@@ -32,49 +32,6 @@ public class CutImages {
         this.subpath = outFile;
     }
 
-    public void cut()
-            throws IOException {
-        FileInputStream is = null;
-        ImageInputStream iis = null;
-        try {
-            is = new FileInputStream(this.srcpath);
-
-
-            String fileName = this.srcpath.substring(this.srcpath.lastIndexOf(".") + 1, this.srcpath.length());
-
-            Iterator<ImageReader> it = ImageIO.getImageReadersByFormatName(fileName);
-
-            ImageReader reader = (ImageReader) it.next();
-
-
-            iis = ImageIO.createImageInputStream(is);
-
-
-            reader.setInput(iis, true);
-
-
-            ImageReadParam param = reader.getDefaultReadParam();
-
-
-            Rectangle rect = new Rectangle(this.x, this.y, this.width, this.height);
-
-
-            param.setSourceRegion(rect);
-
-
-            BufferedImage bi = reader.read(0, param);
-
-            ImageIO.write(bi, fileName, new File(this.subpath));
-        } finally {
-            if (is != null) {
-                is.close();
-            }
-            if (iis != null) {
-                iis.close();
-            }
-        }
-    }
-
     public static File scale(File file, int widths, int heights) {
         String filePath = file.getAbsolutePath();
         String fileName = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
@@ -222,6 +179,56 @@ public class CutImages {
         }
     }
 
+    public static void main(String[] args)
+            throws Exception {
+        System.err.println(Runtime.getRuntime().maxMemory());
+        System.err.println(Runtime.getRuntime().freeMemory());
+        System.err.println(Runtime.getRuntime().totalMemory());
+    }
+
+    public void cut()
+            throws IOException {
+        FileInputStream is = null;
+        ImageInputStream iis = null;
+        try {
+            is = new FileInputStream(this.srcpath);
+
+
+            String fileName = this.srcpath.substring(this.srcpath.lastIndexOf(".") + 1, this.srcpath.length());
+
+            Iterator<ImageReader> it = ImageIO.getImageReadersByFormatName(fileName);
+
+            ImageReader reader = (ImageReader) it.next();
+
+
+            iis = ImageIO.createImageInputStream(is);
+
+
+            reader.setInput(iis, true);
+
+
+            ImageReadParam param = reader.getDefaultReadParam();
+
+
+            Rectangle rect = new Rectangle(this.x, this.y, this.width, this.height);
+
+
+            param.setSourceRegion(rect);
+
+
+            BufferedImage bi = reader.read(0, param);
+
+            ImageIO.write(bi, fileName, new File(this.subpath));
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+            if (iis != null) {
+                iis.close();
+            }
+        }
+    }
+
     public int getHeight() {
         return this.height;
     }
@@ -268,12 +275,5 @@ public class CutImages {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public static void main(String[] args)
-            throws Exception {
-        System.err.println(Runtime.getRuntime().maxMemory());
-        System.err.println(Runtime.getRuntime().freeMemory());
-        System.err.println(Runtime.getRuntime().totalMemory());
     }
 }

@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 /**
  * Created by wuming on 2017/4/15.
  */
-public class Account implements Serializable{
+public class Account implements Serializable {
 
     private static final long serialVersionUID = 719558489329330505L;
 
@@ -84,8 +84,8 @@ public class Account implements Serializable{
             }
         }
         // 去掉多于的逗号
-        if(sb.length() > 1){
-            sb.deleteCharAt(sb.length()-1);
+        if (sb.length() > 1) {
+            sb.deleteCharAt(sb.length() - 1);
         }
         sb.append("}");
         return sb.toString();

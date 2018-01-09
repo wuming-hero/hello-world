@@ -5,6 +5,11 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Comparator;
 
+@FunctionalInterface
+interface Machine {
+    public String doSomething(int id, String task);
+}
+
 /**
  * Created by wuming on 2017/6/8.
  * <p>
@@ -13,12 +18,40 @@ import java.util.Comparator;
  * （在函数式接口中可以提供多个抽像方法，但这些抽像方法限制了范围，只能是Object类型里的已有的public方法）
  * 2.方法引用
  * TODO
- *
+ * <p>
  * http://www.cnblogs.com/WJ5888/p/4618465.html
  * http://www.cnblogs.com/WJ5888/p/4667086.html
  * http://www.blogjava.net/wangxinsh55/archive/2014/12/25/421826.html
  */
 public class Lambda {
+
+    /**
+     * 函数式引用
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        //使用 Lambda 表达式，输出： 16: send email
+        start((id, task) -> id + ": " + task);
+        //或者
+        Machine m1 = (id, task) -> id + ": " + task;
+        m1.doSomething(16, "send email");
+
+        //使用方法引用，输出： Hello 16: send email
+        start(Lambda::hello);
+        //或者
+        Machine m2 = Lambda::hello;
+        m2.doSomething(16, "send email");
+    }
+
+    private static void start(Machine machine) {
+        String result = machine.doSomething(16, "send email");
+        System.out.println(result);
+    }
+
+    public static String hello(int id, String task) {
+        return "Hello " + id + ": " + task;
+    }
 
     /**
      * 表达式简化多线程 Runnable() 接口
@@ -63,36 +96,4 @@ public class Lambda {
         System.out.println("after sort2: " + Arrays.asList(array));
     }
 
-    /**
-     * 函数式引用
-     * @param args
-     */
-    public static void main(String[] args) {
-        //使用 Lambda 表达式，输出： 16: send email
-        start((id, task) -> id + ": " + task);
-        //或者
-        Machine m1 = (id, task) -> id + ": " + task;
-        m1.doSomething(16, "send email");
-
-        //使用方法引用，输出： Hello 16: send email
-        start(Lambda::hello);
-        //或者
-        Machine m2 = Lambda::hello;
-        m2.doSomething(16, "send email");
-    }
-
-    private static void start(Machine machine){
-        String result = machine.doSomething(16, "send email");
-        System.out.println(result);
-    }
-
-    public static String hello(int id, String task){
-        return "Hello " + id +": " + task;
-    }
-
-}
-
-@FunctionalInterface
-interface Machine {
-    public String doSomething(int id, String task);
 }

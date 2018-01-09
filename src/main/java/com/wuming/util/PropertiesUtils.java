@@ -30,6 +30,24 @@ public class PropertiesUtils {
         }
     }
 
+    public static void main(String[] args) {
+        PropertiesUtils pu = new PropertiesUtils("./config/system.properties");
+
+        String admin = pu.getValue("system.admin");
+        String password = pu.getValue("system.password");
+
+        System.out.println("admin = " + admin);
+        System.out.println("password = " + password);
+
+        PropertiesUtils pu_ = new PropertiesUtils();
+
+        String admin_ = pu_.getValue("./config/system.properties", "system.admin");
+        String password_ = pu_.getValue("./config/system.properties", "system.password");
+
+        System.out.println("admin_ = " + admin_);
+        System.out.println("password_ = " + password_);
+    }
+
     public String getValue(String key) {
         if (this.propertie.containsKey(key)) {
             String value = this.propertie.getProperty(key);
@@ -78,23 +96,5 @@ public class PropertiesUtils {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        PropertiesUtils pu = new PropertiesUtils("./config/system.properties");
-
-        String admin = pu.getValue("system.admin");
-        String password = pu.getValue("system.password");
-
-        System.out.println("admin = " + admin);
-        System.out.println("password = " + password);
-
-        PropertiesUtils pu_ = new PropertiesUtils();
-
-        String admin_ = pu_.getValue("./config/system.properties", "system.admin");
-        String password_ = pu_.getValue("./config/system.properties", "system.password");
-
-        System.out.println("admin_ = " + admin_);
-        System.out.println("password_ = " + password_);
     }
 }
