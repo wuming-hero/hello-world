@@ -6,6 +6,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by wuming on 16/10/30.
@@ -99,11 +101,16 @@ public class DailyTest {
         System.out.println("" + RandomStringUtils.random(10, 20, 110, true, true));
     }
 
-    /**
-     * git 常用命令测试
-     */
     @Test
-    public void gitTest() {
-        
+    public void test4() {
+        String str = "山西省晋中市祁　县";
+        Pattern p = Pattern.compile("\\s+");
+        Matcher m = p.matcher(str);
+        while (m.find()) {
+            System.out.println("----" + m.group());
+        }
+        String dest = m.replaceAll("");
+        System.out.println(dest);
+
     }
 }
