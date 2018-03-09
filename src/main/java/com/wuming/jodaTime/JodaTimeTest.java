@@ -76,22 +76,6 @@ public class JodaTimeTest {
     }
 
     /**
-     * DateTime对象转换为JDK时间
-     */
-    @Test
-    public void DateTimeToDate() {
-        DateTime dateTime = new DateTime(2000, 1, 1, 0, 0, 0, 0);
-
-        // 转换为时间戳 使用Date()的构建函数
-        Date d1 = new Date(dateTime.getMillis());
-        System.out.println(d1);
-
-        // 直接调用toDate()方法
-        Date d2 = dateTime.toDate();
-        System.out.println(d2);
-    }
-
-    /**
      * 时间操作处理
      * Joda 中常用的属性（property），他们是计算威力的关键
      * yearOfCentury
@@ -113,7 +97,6 @@ public class JodaTimeTest {
                 .setCopy(2)        // set it to February
                 .dayOfMonth()      // get dayOfMonth property
                 .withMaximumValue();// the last day of the month
-
         // LocalDate 操作 和DateTime基本一致
         LocalDate now = dateTime.toLocalDate();
         // 计算上一个月的最后一天
@@ -135,6 +118,50 @@ public class JodaTimeTest {
                 .plusDays(1);       // Gives us Tuesday
 
 
+    }
+
+    /**
+     * 计算间隔和区间
+     */
+    @Test
+    public void durationTest() {
+        DateTime begin = new DateTime("2015-02-01");
+        DateTime end = new DateTime("2016-05-01");
+
+        //计算时间段毫秒数
+        Duration d = new Duration(begin, end);
+        long millis = d.getMillis();
+        System.out.println("时间间隔：" + millis);
+        System.out.println("时间间隔天数：" + d.getStandardDays());
+
+        //计算区间天数
+        Period p = new Period(begin, end, PeriodType.days());
+        int days = p.getDays();
+        System.out.println("间隔天数：" + days);
+
+        //计算特定日期是否在该区间内
+        Interval interval = new Interval(begin, end);
+        boolean contained = interval.contains(new DateTime("2015-03-01"));
+        System.out.println("是否是区间内：" + contained);
+    }
+
+    /**
+     * 日期比较
+     */
+    @Test
+    public void compareTest() {
+        DateTime d1 = new DateTime("2015-10-01");
+        DateTime d2 = new DateTime("2016-02-01");
+
+        //和系统时间比
+        System.out.println(d1.isAfterNow());
+        System.out.println(d1.isBeforeNow());
+        System.out.println(d1.isEqualNow());
+
+        //和其他日期比
+        System.out.println(d1.isAfter(d2));
+        System.out.println(d1.isBefore(d2));
+        System.out.println(d1.isEqual(d2));
     }
 
     /**
@@ -170,49 +197,6 @@ public class JodaTimeTest {
     }
 
     /**
-     * 计算间隔和区间
-     */
-    @Test
-    public void durationTest() {
-        DateTime begin = new DateTime("2015-02-01");
-        DateTime end = new DateTime("2016-05-01");
-
-        //计算区间毫秒数
-        Duration d = new Duration(begin, end);
-        long millis = d.getMillis();
-        System.out.println("时间间隔：" + millis);
-
-        //计算区间天数
-        Period p = new Period(begin, end, PeriodType.days());
-        int days = p.getDays();
-        System.out.println("间隔天数：" + days);
-
-        //计算特定日期是否在该区间内
-        Interval interval = new Interval(begin, end);
-        boolean contained = interval.contains(new DateTime("2015-03-01"));
-        System.out.println("是否是区间内：" + contained);
-    }
-
-    /**
-     * 日期比较
-     */
-    @Test
-    public void compareTest() {
-        DateTime d1 = new DateTime("2015-10-01");
-        DateTime d2 = new DateTime("2016-02-01");
-
-        //和系统时间比
-        System.out.println(d1.isAfterNow());
-        System.out.println(d1.isBeforeNow());
-        System.out.println(d1.isEqualNow());
-
-        //和其他日期比
-        System.out.println(d1.isAfter(d2));
-        System.out.println(d1.isBefore(d2));
-        System.out.println(d1.isEqual(d2));
-    }
-
-    /**
      * 某个特定对象的出生日期 可能为 1999 年 4 月 16 日，但是从技术角度来看，
      * 在保存所有业务值的同时不会了解有关此日期的任何其他信息（比如这是一周中的星期几，或者这个人出生地所在的时区）。
      * 在这种情况下，应当使用 LocalDate
@@ -221,6 +205,22 @@ public class JodaTimeTest {
     public void localDateTest() {
         LocalDate localDate = new LocalDate(2009, 9, 6);// September 6, 2009
         LocalTime localTime = new LocalTime(13, 30, 26, 0);// 1:30:26PM
+    }
+
+    /**
+     * DateTime对象转换为JDK时间
+     */
+    @Test
+    public void DateTimeToDate() {
+        DateTime dateTime = new DateTime(2000, 1, 1, 0, 0, 0, 0);
+
+        // 转换为时间戳 使用Date()的构建函数
+        Date d1 = new Date(dateTime.getMillis());
+        System.out.println(d1);
+
+        // 直接调用toDate()方法
+        Date d2 = dateTime.toDate();
+        System.out.println(d2);
     }
 
     /**

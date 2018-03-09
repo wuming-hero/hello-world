@@ -52,13 +52,13 @@ public class Demo {
         System.out.println("今天是你人生的第" + days.getDays() + "天");
 
         Hours hours = Hours.hoursBetween(startDateTime, endDateTime);
-        System.out.println("今天是你人生的第" + hours.getHours() + "小时");
+        System.out.println("现在是你人生的第" + hours.getHours() + "小时");
 
         Minutes minutes = Minutes.minutesBetween(startDateTime, endDateTime);
-        System.out.println("今天是你人生的第" + minutes.getMinutes() + "分钟");
+        System.out.println("现在是你人生的第" + minutes.getMinutes() + "分钟");
 
         Seconds seconds = Seconds.secondsBetween(startDateTime, endDateTime);
-        System.out.println("今天是你人生的第" + seconds.getSeconds() + "秒");
+        System.out.println("当前是你人生的第" + seconds.getSeconds() + "秒");
     }
 
 }
