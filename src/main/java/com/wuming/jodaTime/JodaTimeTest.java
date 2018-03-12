@@ -97,10 +97,13 @@ public class JodaTimeTest {
                 .setCopy(2)        // set it to February
                 .dayOfMonth()      // get dayOfMonth property
                 .withMaximumValue();// the last day of the month
+        System.out.println("then: " + then);
+
         // LocalDate 操作 和DateTime基本一致
         LocalDate now = dateTime.toLocalDate();
         // 计算上一个月的最后一天
         LocalDate lastDayOfPreviousMonth = now.minusMonths(1).dayOfMonth().withMaximumValue();
+        System.out.println("lastDayOfPreviousMonth: " + lastDayOfPreviousMonth);
 
         // 计算 11 月中第一个星期一之后的第一个星期二
         /**
@@ -114,9 +117,18 @@ public class JodaTimeTest {
                 .withMinimumValue() // Get its minimum value
                 .plusDays(6)        // Add 6 days
                 .dayOfWeek()        // Access Day Of Week Property
-                .setCopy("Monday")  // Set to Monday (it will round down)
+                .setCopy("1")  // Set to Monday (it will round down)
                 .plusDays(1);       // Gives us Tuesday
+        System.out.println("electionDate: " + electionDate);
 
+        LocalDate electionDate2 = now.monthOfYear()
+                .setCopy(11)        // November
+                .dayOfMonth()       // Access Day Of Month Property
+                .withMinimumValue() // Get its minimum value
+                .plusDays(6)        // Add 6 days
+                .withDayOfWeek(DateTimeConstants.MONDAY)  // Set to Monday (it will round down)
+                .plusDays(1);       // Gives us Tuesday
+        System.out.println("electionDate2: " + electionDate2);
 
     }
 

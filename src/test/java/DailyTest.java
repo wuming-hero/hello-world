@@ -112,6 +112,7 @@ public class DailyTest {
         }
         String dest = m.replaceAll("");
         System.out.println(dest);
+        new Date();
         DateTime dateTime = new DateTime();
     }
 }
