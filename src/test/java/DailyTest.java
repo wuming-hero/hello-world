@@ -16,6 +16,13 @@ import java.util.regex.Pattern;
  */
 public class DailyTest {
 
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("");
+        }
+    };
+
     /**
      * list.clone() 方法
      */
