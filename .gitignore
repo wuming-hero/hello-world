@@ -4,3 +4,5 @@ classes
 out
 target
 test.txt
+*.iml
+*.ipr
