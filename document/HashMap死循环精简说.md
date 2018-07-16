@@ -1,6 +1,6 @@
 ## HashMap死循环精简说
 在JDK1.8之前的版本中，HashMap的底层实现是数组+链表。当调用HashMap的put方法添加元素时，如果新元素的hash值或key在原Map中不存在，会检查容量size有没有超过设定的threshold，如果超过则需要进行扩容，扩容的容量是原数组的两倍，具体代码如下：
-```
+```java
 void addEntry(int hash, K key, V value, int bucketIndex) {
     //检查容量是否超过threshold
     if ((size >= threshold) && (null != table[bucketIndex])) {
@@ -14,7 +14,7 @@ void addEntry(int hash, K key, V value, int bucketIndex) {
 ```
 
 扩容就是新建Entry数组，并将原Map中元素重新计算hash值，然后存到新数组中，具体代码如下：
-```
+```java
 void resize(int newCapacity) {
     Entry[] oldTable = table;
     int oldCapacity = oldTable.length;
