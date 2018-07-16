@@ -1,3 +1,11 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [HashMap死循环精简说](#hashmap%E6%AD%BB%E5%BE%AA%E7%8E%AF%E7%B2%BE%E7%AE%80%E8%AF%B4)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## HashMap死循环精简说
 在JDK1.8之前的版本中，HashMap的底层实现是数组+链表。当调用HashMap的put方法添加元素时，如果新元素的hash值或key在原Map中不存在，会检查容量size有没有超过设定的threshold，如果超过则需要进行扩容，扩容的容量是原数组的两倍，具体代码如下：
 ```java
@@ -51,21 +59,21 @@ void transfer(Entry[] newTable, boolean rehash) {
 假设一个HashMap的初始容量是4，使用默认负载因子0.75，有三个元素通过Hash算法计算出的数组下标都是2，
 但是key值都不同，分别是a1、a2、a3，HashMap内部存储如下图：
 
-![Map Bucket1](src/main/resources/static/image/bucket-1.png)
+![Map Bucket1](../src/main/resources/static/image/bucket-1.png)
 
 假设插入的第四个元素a4，通过Hash算法计算出的数组下标也是2，当插入时则需要扩容，此时有两个线程T1、T2同时插入a4，
 则T1、T2同时进行扩容操作，它们各自新建了一个Entry数组newTable。
 
-![Map Bucket2](src/main/resources/static/image/bucket-2.png)
+![Map Bucket2](../src/main/resources/static/image/bucket-2.png)
 
 T2线程执行到transfer方法的Entry<K,V> next = e.next;时被挂起，T1线程执行transfer方法后Entry数组如下图：
 
-![Map Bucket3](src/main/resources/static/image/bucket-3.png)
+![Map Bucket3](../src/main/resources/static/image/bucket-3.png)
 
 在T1线程没返回新建Entry数组之前，T2线程恢复，因为在T2挂起时，变量e指向的是a1，变量next指向的是a2，
 所以在T2恢复执行完transfer之后，Entry数组如下图：
 
-![Map Bucket](src/main/resources/static/image/bucket-4.png)
+![Map Bucket](../src/main/resources/static/image/bucket-4.png)
 
 可以看到在T2执行完transfer方法后，a1元素和a2元素形成了循环引用，此时无论将T1的Entry数组还是T2的Entry数组返回作为扩容后的新数组，
 都会存在这个环形链表，当调用get方法获取该位置的元素时就会发生死循环，更严重会导致CPU占用100%故障。
