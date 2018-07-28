@@ -6,6 +6,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import java.io.File;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -354,6 +355,9 @@ public abstract class PoiExcelHelper {
 
     /**
      * 获取单元格内容
+     * <p>
+     * 1.POI中日期时间也当作数值进行存储，所以我们读取时先判断为数值NUMERIC类型，再用DateUtil.isCellDateFormatted(cell)，来判断是不是日期时间类型
+     * 2.读取Excel数字列长度大于10位以上，poi读到的内容带有E等字符(科学计算法)
      *
      * @param cell
      * @return
@@ -363,7 +367,7 @@ public abstract class PoiExcelHelper {
             return "";
         }
         String value;
-        // type 有4种类型
+        // type 有5种类型
         switch (cell.getCellTypeEnum()) {
             case STRING:
                 value = cell.getStringCellValue();
@@ -372,8 +376,14 @@ public abstract class PoiExcelHelper {
                 value = String.valueOf(cell.getBooleanCellValue());
                 break;
             case NUMERIC:
-                DecimalFormat df = new DecimalFormat("0");
-                value = df.format(cell.getNumericCellValue());
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    // 对日期类型进行处理
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//非线程安全
+                    value = sdf.format(cell.getDateCellValue());
+                } else {
+                    // 对数字类型进行处理，目前只考虑2位小数，如需考虑更多 可以使用 #.####即可
+                    value = new DecimalFormat("#.##").format(cell.getNumericCellValue());
+                }
                 break;
             case FORMULA:
                 value = cell.getCellFormula();
@@ -382,20 +392,10 @@ public abstract class PoiExcelHelper {
                 value = "";
                 break;
             default:
-                // Cell.CELL_TYPE_ERROR
+                // ERROR
                 value = "";
         }
         return value;
-//        try {
-//            // This step is used to prevent Integer string being output with
-//            // '.0'.
-//            Float.parseFloat(value);
-//            value = value.replaceAll("\\.0$", "");
-//            value = value.replaceAll("\\.0+$", "");
-//            return value;
-//        } catch (NumberFormatException ex) {
-//            return value;
-//        }
     }
 
     /**

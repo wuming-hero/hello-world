@@ -165,13 +165,14 @@ public class FormatTest {
         System.out.print(String.format("%g %n", num)); // 123.457
     }
 
-
     /****************************DecimalFormat 应用**********************/
 
     /**
      * DecimalFormat 类主要靠 # 和 0 两种占位符号来指定数字长度。
+     * <p>
      * 0 表示如果位数不足则以 0 填充，
-     * # 表示一个数字，不包括 0 ，但是也得视情况而定，只要有可能就把数字拉上这个位置
+     * # 表示一个数字，不包括 0 ；可以理解为在正常的数字显示中，如果前缀与后缀出现不必要的多余的0，则将其忽略。
+     * <p>
      * . 小数的分隔符的占位符
      * , 分组分隔符的占位符
      * ; 分隔格式,分隔正数和负数子模式。
@@ -184,6 +185,21 @@ public class FormatTest {
      * 下面的例子包含了差不多所有的基本用法
      */
     @Test
+    public void decimalFormatTest0() {
+        double nu = 3.0;
+        // 3
+        System.out.println(new DecimalFormat("#.###").format(nu));
+        // 3.0
+        System.out.println(new DecimalFormat("#.0##").format(nu));
+        // 3.0
+        System.out.println(new DecimalFormat("#0.0##").format(nu));
+        // java.lang.IllegalArgumentException: Unexpected '0' in pattern "0#.0##"
+//        System.out.println(new DecimalFormat("0#.0##").format(nu));
+        // 3.000 不中使用0填充
+        System.out.println(new DecimalFormat("00.000").format(nu));
+    }
+
+    @Test
     public void decimalFormatTest() {
         double pi = 3.1415927;//圆周率
         //取整数部分
@@ -194,6 +210,7 @@ public class FormatTest {
         System.out.println(new DecimalFormat("00.000").format(pi));//03.142
         //取所有整数部分
         System.out.println(new DecimalFormat("#").format(pi));//3
+        System.out.println(new DecimalFormat("#.##").format(pi));//3.14
         //以百分比方式计数，并取两位小数
         System.out.println(new DecimalFormat("#.##%").format(pi));//314.16%
 
