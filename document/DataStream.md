@@ -116,3 +116,7 @@ public class TestDataStream {
 值得注意的是，String构造函数也可以指定对byte数组作其他编码方式的解码。  
 例如：`new String(b,0,6,"GBK")`。同时使用`writeUTF`和`readUTF`可以免去程序猿对于长度的考虑，因为这两个函数为我们解决了长度问题，写入了文件，因此我们无需关心。
 但这样就使用了额外的空间去记录长度信息。
+
+
+[参考文献](https://blog.csdn.net/fishwjy/article/details/38092985)
+
