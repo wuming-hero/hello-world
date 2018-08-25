@@ -126,5 +126,8 @@ public class DailyTest {
     @Test
     public void cherryPickTest() {
         // pick one on test
+
+        // pick two on test
+        
     }
 }
