@@ -135,4 +135,6 @@ public class DailyTest {
     String a = "";
 
     String b = "";
+
+    String c = "24242424";
 }
