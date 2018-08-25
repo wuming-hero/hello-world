@@ -131,4 +131,6 @@ public class DailyTest {
 
         // pick three on test
     }
+
+    String a = "";
 }
