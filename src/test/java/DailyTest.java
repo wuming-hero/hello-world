@@ -133,4 +133,6 @@ public class DailyTest {
     }
 
     String a = "";
+
+    String b = "";
 }
