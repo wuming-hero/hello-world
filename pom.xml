@@ -13,6 +13,12 @@
         <log4j.version>2.8.2</log4j.version>
         <slf4j.version>1.7.25</slf4j.version>
         <poi.version>3.16</poi.version>
+        <jdom.version>2.0.6</jdom.version>
+        <dom4j.version>1.6.1</dom4j.version>
+        <guava.version>21.0</guava.version>
+        <commons-lang.version>3.7</commons-lang.version>
+        <lombok.version>1.16.20</lombok.version>
+        <servlet.version>3.1.0</servlet.version>
     </properties>
 
     <dependencies>
@@ -25,21 +31,21 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>${commons-lang.version}</version>
         </dependency>
 
         <!--使用 guava 优化代码-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>22.0</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <!--使用lombok精减代码-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <!--fastjson-->
@@ -171,21 +177,21 @@
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
+            <version>${dom4j.version}</version>
         </dependency>
 
         <!--操作dom-->
         <dependency>
             <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>2.0.2</version>
+            <artifactId>jdom2</artifactId>
+            <version>${jdom.version}</version>
         </dependency>
 
         <!--httpServletRequest-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -195,7 +201,6 @@
             <artifactId>poi-ooxml</artifactId>
             <version>${poi.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

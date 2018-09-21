@@ -1,4 +1,5 @@
 import com.wuming.model.Account;
+import com.wuming.util.Sequence;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -7,6 +8,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,13 +19,6 @@ import java.util.regex.Pattern;
  * update master
  */
 public class DailyTest {
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            System.out.println("");
-        }
-    };
 
     /**
      * list.clone() 方法
@@ -124,15 +121,21 @@ public class DailyTest {
     }
 
     @Test
-    public void cherryPickTest() {
-        // pick one on test
+    public void cherryPickTest() throws InterruptedException {
+        Sequence sequence = new Sequence();
+        Set<Long> set = new HashSet<>();
+        ExecutorService service = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < 5000; i++) {
+            service.submit(() -> {
+                Long id = sequence.nextId();
+                System.out.println(id);
+                set.add(id);
+            });
+        }
+        service.shutdown();
+        service.awaitTermination(1000, TimeUnit.SECONDS);
+        System.out.println(set.size());
 
-        // pick two on test
-
-        // pick three on test
     }
 
-    String a = "";
-
-    String b = "";
 }
