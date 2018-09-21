@@ -1,5 +1,7 @@
 package com.wuming.util;
 
+import com.wuming.component.AbstractNetImage;
+import com.wuming.component.JpegNetImage;
 import org.apache.commons.lang3.StringUtils;
 import sun.misc.BASE64Encoder;
 

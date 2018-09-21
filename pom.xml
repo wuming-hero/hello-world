@@ -8,17 +8,26 @@
     <artifactId>hello-world</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <jackson.version>2.8.8</jackson.version>
-        <junit.version>4.12</junit.version>
-        <log4j.version>2.8.2</log4j.version>
-        <slf4j.version>1.7.25</slf4j.version>
         <poi.version>3.16</poi.version>
         <jdom.version>2.0.6</jdom.version>
-        <dom4j.version>1.6.1</dom4j.version>
         <guava.version>21.0</guava.version>
-        <commons-lang.version>3.7</commons-lang.version>
+        <junit.version>4.12</junit.version>
+        <dozer.version>5.5.1</dozer.version>
+        <log4j.version>2.8.2</log4j.version>
+        <dom4j.version>1.6.1</dom4j.version>
+        <jsoup.version>1.10.3</jsoup.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.16.20</lombok.version>
         <servlet.version>3.1.0</servlet.version>
+        <jackson.version>2.8.8</jackson.version>
+        <httpmime.version>4.5.5</httpmime.version>
+        <httpcore.version>4.4.9</httpcore.version>
+        <fastjson.version>1.2.49</fastjson.version>
+        <joda-time.version>2.9.4</joda-time.version>
+        <httpclient.version>4.5.5</httpclient.version>
+        <commons-lang.version>3.7</commons-lang.version>
+        <commons-codec.version>1.10</commons-codec.version>
+        <commons-logging.version>1.2</commons-logging.version>
     </properties>
 
     <dependencies>
@@ -52,14 +61,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.35</version>
-        </dependency>
-
-        <!--json-->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20170516</version>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <!--jackson start-->
@@ -96,22 +98,22 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.3</version>
+            <version>${httpclient.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>4.4.6</version>
+            <version>${httpcore.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
+            <version>${commons-codec.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
+            <version>${commons-logging.version}</version>
         </dependency>
         <!--httClient end-->
 
@@ -126,7 +128,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.10.3</version>
+            <version>${jsoup.version}</version>
         </dependency>
 
         <!--slf4j 日志-->
@@ -161,7 +163,7 @@
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
-            <version>5.5.1</version>
+            <version>${dozer.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -169,7 +171,7 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.9.4</version>
+            <version>${joda-time.version}</version>
             <optional>true</optional>
         </dependency>
 

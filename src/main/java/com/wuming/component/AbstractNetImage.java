@@ -1,4 +1,4 @@
-package com.wuming.util;
+package com.wuming.component;
 
 import com.sun.image.codec.jpeg.ImageFormatException;
 
