@@ -5,9 +5,15 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import javax.xml.bind.DatatypeConverter;
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -140,7 +146,7 @@ public class DailyTest {
     }
 
     /**
-     * 生成1万个耗时 100ms
+     * 生成1万个耗时 500ms
      */
     @Test
     public void sequenceTest() {
@@ -148,16 +154,16 @@ public class DailyTest {
         for (int i = 0; i < 1000; i++) {
             new Thread(() -> {
                 for (int j = 0; j < 10; j++) {
-                    System.out.println(Sequence2.getTimeStampSequence());
+                    System.out.println("线程ID：" + Thread.currentThread().getId() + "--sequence：" + Sequence2.getTimeStampSequence());
                 }
             }).start();
         }
         long t2 = new Date().getTime();
-        System.out.println("使用我线程生成1000个订单号" + (t2 - t1));
+        System.out.println("使用多线程生成1000个订单号" + (t2 - t1));
     }
 
     /**
-     * 生成1万个耗时 100ms
+     * 生成1万个耗时 200ms
      */
     @Test
     public void sequenceTest2() {
@@ -181,6 +187,30 @@ public class DailyTest {
         }
         long t2 = new Date().getTime();
         System.out.println("使用我线程生成1000个订单号" + (t2 - t1));
+    }
+
+    /**
+     * java获取进程ID
+     */
+    @Test
+    public void pidTest() throws UnknownHostException, SocketException {
+        // get name representing the running Java virtual machine.
+        String name = ManagementFactory.getRuntimeMXBean().getName();
+        System.out.println("进程名称：" + name);
+        // get pid
+        String pid = name.split("@")[0];
+        System.out.println("进程ID：" + pid);
+
+        // 获取线程ID
+        long threadId = Thread.currentThread().getId();
+        System.out.println("获取线程ID：" + threadId);
+
+        // 获取 MAC 地址
+        InetAddress ia = InetAddress.getLocalHost();
+        byte[] mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
+        String macAddress = DatatypeConverter.printHexBinary(mac);
+        System.out.println("macAddress：" + macAddress);
+
     }
 
 }

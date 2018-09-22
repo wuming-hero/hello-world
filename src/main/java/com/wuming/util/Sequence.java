@@ -16,9 +16,9 @@ import java.net.NetworkInterface;
 public class Sequence {
 
     /**
-     * 开始时间截
+     * 开始时间截(2017-01-01)，单位毫秒
      */
-    private final long twepoch = 1288834974657L;
+    private final long startTimestamp = 1483228800000L;
     /**
      * 机器id所占的位数
      */
@@ -28,11 +28,11 @@ public class Sequence {
      */
     private final long dataCenterIdBits = 5L;
     /**
-     * 支持的最大机器id，结果是31 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数)
+     * 支持的最大机器id，结果是31: 0B11111 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数)
      */
     private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
     /**
-     * 支持的最大数据标识id，结果是31
+     * 支持的最大数据标识id，结果是31: 0B11111
      */
     private final long maxDataCenterId = -1L ^ (-1L << dataCenterIdBits);
     /**
@@ -74,33 +74,39 @@ public class Sequence {
     private long lastTimestamp = -1L;
 
     public Sequence() {
-        datacenterId = getDatacenterId(maxDataCenterId);
+        datacenterId = getDataCenterId(maxDataCenterId);
         workerId = getMaxWorkerId(datacenterId, maxWorkerId);
     }
 
-    public Sequence(long workerId, long datacenterId) {
+    /**
+     * 创建 ID 生成器的方式二: 使用工作机器 ID 和数据中心 ID，优点是方便分数据中心管理
+     *
+     * @param workerId     数据中心 ID (0~31)
+     * @param dataCenterId 工作机器 ID (0~31)
+     */
+    public Sequence(long workerId, long dataCenterId) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }
 
-        if (datacenterId > maxDataCenterId || datacenterId < 0) {
+        if (dataCenterId > maxDataCenterId || dataCenterId < 0) {
             throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxDataCenterId));
         }
 
         this.workerId = workerId;
-        this.datacenterId = datacenterId;
+        this.datacenterId = dataCenterId;
     }
 
     /**
      * 获取 maxWorkerId
      *
-     * @param datacenterId 数据中心id
+     * @param dataCenterId 数据中心id
      * @param maxWorkerId  机器id
      * @return maxWorkerId
      */
-    protected static long getMaxWorkerId(long datacenterId, long maxWorkerId) {
+    protected static long getMaxWorkerId(long dataCenterId, long maxWorkerId) {
         StringBuilder mpid = new StringBuilder();
-        mpid.append(datacenterId);
+        mpid.append(dataCenterId);
         String name = ManagementFactory.getRuntimeMXBean().getName();
         if (name != null && "".equals(name)) {
             // GET jvmPid
@@ -115,10 +121,10 @@ public class Sequence {
      * 数据标识id部分
      * </p>
      *
-     * @param maxDatacenterId
+     * @param maxDataCenterId
      * @return
      */
-    protected static long getDatacenterId(long maxDatacenterId) {
+    protected static long getDataCenterId(long maxDataCenterId) {
         long id = 0L;
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -129,11 +135,11 @@ public class Sequence {
                 byte[] mac = network.getHardwareAddress();
                 if (null != mac) {
                     id = ((0x000000FF & (long) mac[mac.length - 1]) | (0x0000FF00 & (((long) mac[mac.length - 2]) << 8))) >> 6;
-                    id = id % (maxDatacenterId + 1);
+                    id = id % (maxDataCenterId + 1);
                 }
             }
         } catch (Exception e) {
-            System.err.println(" getDatacenterId: " + e.getMessage());
+            System.err.println("getDataCenterId: " + e.getMessage());
         }
         return id;
     }
@@ -145,7 +151,6 @@ public class Sequence {
      */
     public synchronized long nextId() {
         long timestamp = SystemClock.now();
-
         // 如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
         if (timestamp < lastTimestamp) {// 闰秒
             long offset = lastTimestamp - timestamp;
@@ -163,7 +168,6 @@ public class Sequence {
                 throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", offset));
             }
         }
-
         //$NON-NLS-解决跨毫秒生成ID序列号始终为偶数的缺陷$
         // 如果是同一时间生成的，则进行毫秒内序列
         if (lastTimestamp == timestamp) {
@@ -176,26 +180,10 @@ public class Sequence {
         } else {// 时间戳改变，毫秒内序列重置
             sequence = 0L;
         }
-
-        /**
-         // 如果是同一时间生成的，则进行毫秒内序列
-         if (lastTimestamp == timestamp) {
-         long old = sequence;
-         sequence = (sequence + 1) & sequenceMask;
-         // 毫秒内序列溢出
-         if (sequence == old) {
-         // 阻塞到下一个毫秒,获得新的时间戳
-         timestamp = tilNextMillis(lastTimestamp);
-         }
-         } else {// 时间戳改变，毫秒内序列重置
-         sequence = ThreadLocalRandom.current().nextLong(0, 2);
-         }
-         **/
-
         // 上次生成ID的时间截
         lastTimestamp = timestamp;
         // 移位并通过或运算拼到一起组成64位的ID
-        return ((timestamp - twepoch) << timestampLeftShift) | (datacenterId << dataCenterIdShift) | (workerId << workerIdShift) | sequence;
+        return ((timestamp - startTimestamp) << timestampLeftShift) | (datacenterId << dataCenterIdShift) | (workerId << workerIdShift) | sequence;
     }
 
     /**

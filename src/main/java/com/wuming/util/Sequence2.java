@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 时间戳序列器<br>
+ * 自增时间戳序列器
  * <p>
  * 支持同一毫秒最多生成999笔序列号<br>
  *
