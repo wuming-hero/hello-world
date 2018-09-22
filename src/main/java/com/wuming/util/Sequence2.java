@@ -11,7 +11,9 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * 自增时间戳序列器
  * <p>
- * 支持同一毫秒最多生成999笔序列号<br>
+ * 返回 20 位长度纯数字订单号
+ * 支持同一毫秒最多生成999笔序列号
+ * 如果服务器时间回调，有可能生成新生成的序列号与之前的重复
  *
  * @author wuming
  * Created on 2018/9/21 09:39

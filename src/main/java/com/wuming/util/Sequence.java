@@ -9,6 +9,10 @@ import java.net.NetworkInterface;
  * 优化开源项目：http://git.oschina.net/yu120/sequence
  * </p>
  * 自定义生成全局唯一ID
+ * <p>
+ * 生成 18、19 位纯数字唯一序列
+ * 如果服务器时间回调，有可能生成新生成的序列号与之前的重复
+ * 每台机器每秒可产生约 400 万个 ID (2^12*1000，每毫秒理论最多生成 2^12 个 ID)
  *
  * @author wuming
  * Created on 2018/9/21 15:47
