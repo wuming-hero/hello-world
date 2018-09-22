@@ -1,5 +1,6 @@
 import com.wuming.model.Account;
 import com.wuming.util.Sequence;
+import com.wuming.util.Sequence2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -136,6 +137,50 @@ public class DailyTest {
         service.awaitTermination(1000, TimeUnit.SECONDS);
         System.out.println(set.size());
 
+    }
+
+    /**
+     * 生成1万个耗时 100ms
+     */
+    @Test
+    public void sequenceTest() {
+        long t1 = new Date().getTime();
+        for (int i = 0; i < 1000; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 10; j++) {
+                    System.out.println(Sequence2.getTimeStampSequence());
+                }
+            }).start();
+        }
+        long t2 = new Date().getTime();
+        System.out.println("使用我线程生成1000个订单号" + (t2 - t1));
+    }
+
+    /**
+     * 生成1万个耗时 100ms
+     */
+    @Test
+    public void sequenceTest2() {
+        long t1 = new Date().getTime();
+        for (int i = 0; i < 10000; i++) {
+            System.out.println(Sequence2.getTimeStampSequence());
+        }
+        long t2 = new Date().getTime();
+        System.out.println("使用我线程生成1000个订单号" + (t2 - t1));
+    }
+
+    /**
+     * 生成1万个耗时 100ms
+     */
+    @Test
+    public void sequenceTest3() {
+        long t1 = new Date().getTime();
+        Sequence sequence = new Sequence();
+        for (int i = 0; i < 10000; i++) {
+            System.out.println(sequence.nextId());
+        }
+        long t2 = new Date().getTime();
+        System.out.println("使用我线程生成1000个订单号" + (t2 - t1));
     }
 
 }

@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author wuming
  * Created on 2018/9/21 09:39
  */
-public class TimestampSequence {
+public class Sequence2 {
 
     private static final ReentrantLock lock = new ReentrantLock();
     // 因为有锁，所以是变成了线程安全的，省去每次 new 的消耗，耗时降低约一半
@@ -45,17 +45,4 @@ public class TimestampSequence {
         return timestamp + StringUtils.leftPad(inc, 3, '0');
     }
 
-    public static void main(String[] args) {
-        String inc = "9999";
-        System.out.println(String.format("0%3s", inc));
-
-        System.out.println(StringUtils.leftPad(inc, 4, '0'));
-//        for (int i = 0; i < 1000; i++) {
-//            new Thread(() -> {
-//                for (int j = 0; j < 10; j++) {
-//                    System.out.println(TimestampSequence.getTimeStampSequence());
-//                }
-//            }).start();
-//        }
-    }
 }
