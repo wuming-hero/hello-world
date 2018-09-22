@@ -1,9 +1,8 @@
 package com.wuming.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
@@ -18,20 +17,18 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author wuming
  * Created on 2018/9/21 09:39
  */
-public class Sequence2 {
+public class OrderNoUtil {
 
     private static final ReentrantLock lock = new ReentrantLock();
-    // 因为有锁，所以是变成了线程安全的，省去每次 new 的消耗，耗时降低约一半
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     // 默认1个大小
     private static HashMap<String, AtomicInteger> cacheMap = new HashMap<>(1);
 
-    public static String getTimeStampSequence() {
-        String timestamp = null;
-        String inc = null;
+    public static String createOrderNo() {
+        String timestamp;
+        String inc;
         lock.lock();
         try {
-            timestamp = sdf.format(new Date());
+            timestamp = DateTime.now().toString("yyyyMMddHHmmssSSS");
             AtomicInteger value = cacheMap.get(timestamp);
             if (value == null) {
                 cacheMap.clear();

@@ -1,6 +1,7 @@
 import com.wuming.model.Account;
+import com.wuming.util.OrderIdUtil;
+import com.wuming.util.OrderNoUtil;
 import com.wuming.util.Sequence;
-import com.wuming.util.Sequence2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +28,8 @@ import java.util.regex.Pattern;
  * update master
  */
 public class DailyTest {
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(20);
 
     /**
      * list.clone() 方法
@@ -145,20 +149,21 @@ public class DailyTest {
 
     }
 
-    /**
-     * 生成1万个耗时 500ms
-     */
     @Test
-    public void sequenceTest() {
+    public void orderNoTest() throws InterruptedException {
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
         long t1 = new Date().getTime();
-        for (int i = 0; i < 1000; i++) {
-            new Thread(() -> {
-                for (int j = 0; j < 10; j++) {
-                    System.out.println("线程ID：" + Thread.currentThread().getId() + "--sequence：" + Sequence2.getTimeStampSequence());
-                }
-            }).start();
+        for (int i = 0; i < 5000; i++) {
+            executorService.execute(() -> {
+                String num = OrderNoUtil.createOrderNo();
+                map.put(num, 0);
+                System.out.println("线程ID：" + Thread.currentThread().getId() + "--sequence：" + num);
+            });
         }
+        executorService.shutdown();
+        executorService.awaitTermination(1000, TimeUnit.SECONDS);
         long t2 = new Date().getTime();
+        System.out.println(map.size());
         System.out.println("使用多线程生成1000个订单号" + (t2 - t1));
     }
 
@@ -166,13 +171,29 @@ public class DailyTest {
      * 生成1万个耗时 200ms
      */
     @Test
-    public void sequenceTest2() {
+    public void orderNoTest2() {
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
         long t1 = new Date().getTime();
         for (int i = 0; i < 10000; i++) {
-            System.out.println(Sequence2.getTimeStampSequence());
+            String orderNo = OrderNoUtil.createOrderNo();
+            map.put(orderNo, 0);
+            System.out.println(orderNo);
         }
         long t2 = new Date().getTime();
-        System.out.println("使用我线程生成1000个订单号" + (t2 - t1));
+        System.out.println("使用我线程生成" + map.size() + "个订单号" + (t2 - t1));
+    }
+
+    @Test
+    public void orderIdTest() {
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+        long t1 = new Date().getTime();
+        for (int i = 0; i < 10000; i++) {
+            String orderNo = OrderIdUtil.createOrderId();
+            map.put(orderNo, 0);
+            System.out.println(orderNo);
+        }
+        long t2 = new Date().getTime();
+        System.out.println("使用我线程生成" + map.size() + "个订单号" + (t2 - t1));
     }
 
     /**
