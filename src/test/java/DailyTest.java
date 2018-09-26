@@ -163,8 +163,7 @@ public class DailyTest {
         executorService.shutdown();
         executorService.awaitTermination(1000, TimeUnit.SECONDS);
         long t2 = new Date().getTime();
-        System.out.println(map.size());
-        System.out.println("使用多线程生成1000个订单号" + (t2 - t1));
+        System.out.println("使用多线程生成" + map.size() + "个订单号" + (t2 - t1));
     }
 
     /**
