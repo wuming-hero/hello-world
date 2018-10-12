@@ -25,8 +25,7 @@ public class XmlUtil {
      */
     public static String xml2Json(String xmlStr) {
         Map<String, Object> xmlMap = xml2map(xmlStr);
-        String jsonStr = JsonMapper.nonDefaultMapper().toJson(xmlMap);
-        return jsonStr;
+        return JsonMapper.nonDefaultMapper().toJson(xmlMap);
     }
 
     /**
@@ -41,7 +40,7 @@ public class XmlUtil {
         try {
             Document doc = DocumentHelper.parseText(xmlStr);
             Element rootElement = doc.getRootElement();
-            element2Map(xmlMap, rootElement);
+            element2Map(rootElement.elements(), xmlMap);
         } catch (DocumentException e) {
             e.printStackTrace();
         }
@@ -52,47 +51,31 @@ public class XmlUtil {
      * 使用递归调用将多层级xml转为map
      *
      * @param map
-     * @param rootElement
      */
-    private static void element2Map(Map<String, Object> map, Element rootElement) {
-        //获得当前节点的子节点
-        List<Element> elements = rootElement.elements();
-        if (elements.size() == 0) {
-            // 没有子节点说明当前节点是叶子节点，直接取值
-            map.put(rootElement.getName(), rootElement.getText());
-        } else if (elements.size() == 1) {
-            // 只有一个子节点说明不用考虑list的情况，继续递归
-            Map<String, Object> tempMap = new HashMap<>();
-            element2Map(tempMap, elements.get(0));
-            map.put(rootElement.getName(), tempMap);
-        } else {
-            // 循环处理当前节点的同级节点
-            for (Element element : elements) {
-                String key = element.getName();
-                Namespace namespace = elements.get(0).getNamespace();
-                // 查询与当前Dom名相同的Dom节点
-                List<Element> sameElementList = rootElement.elements(new QName(key, namespace));
-                // 如果同名的数目大于1则表示要构建list
-                if (sameElementList.size() > 1) {
-                    List<Map> list = new ArrayList<>();
-                    for (Element sameElement : sameElementList) {
-                        Map<String, Object> sameTempMap = new HashMap<>();
-                        element2Map(sameTempMap, sameElement);
-                        list.add(sameTempMap);
-                    }
-                    map.put(key, list);
+    private static void element2Map(List<Element> elements, Map<String, Object> map) {
+        // 循环处理当前节点的同级节点
+        for (Element element : elements) {
+            String key = element.getName();
+            // 查询与当前Dom名相同的Dom节点
+            List<Element> sameElementList = element.getParent().elements(new QName(key, element.getNamespace()));
+            // 如果同名的数目大于1则表示要构建list
+            if (sameElementList.size() > 1) {
+                List<Map> list = new ArrayList<>();
+                for (Element sameElement : sameElementList) {
+                    Map<String, Object> sameTempMap = new HashMap<>();
+                    element2Map(sameElement.elements(), sameTempMap);
+                    list.add(sameTempMap);
+                }
+                map.put(key, list);
+            } else {
+                // 如果当前DOM节点没有子DOM节点，直接取值
+                if (element.elements().size() == 0) {
+                    map.put(key, element.getText());
                 } else {
-                    // 非list的数据处理
-                    Element currentElement = sameElementList.get(0); // 当前DOM节点
-                    // 如果当前DOM节点没有子DOM节点，直接取值
-                    if (currentElement.elements().size() == 0) {
-                        map.put(key, currentElement.getText());
-                    } else {
-                        // 递归调用
-                        Map<String, Object> sameTempMap = new HashMap<>();
-                        element2Map(sameTempMap, currentElement);
-                        map.put(key, sameTempMap);
-                    }
+                    // 递归调用
+                    Map<String, Object> sameTempMap = new HashMap<>();
+                    element2Map(element.elements(), sameTempMap);
+                    map.put(key, sameTempMap);
                 }
             }
         }

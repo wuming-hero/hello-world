@@ -1,7 +1,8 @@
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wuming.model.Account;
-import com.wuming.util.OrderIdUtil;
-import com.wuming.util.OrderNoUtil;
-import com.wuming.util.Sequence;
+import com.wuming.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -30,6 +31,8 @@ import java.util.regex.Pattern;
 public class DailyTest {
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(20);
+
+    private final ObjectMapper objectMapper = JsonMapper.nonDefaultMapper().getMapper();
 
     /**
      * list.clone() 方法
@@ -233,4 +236,44 @@ public class DailyTest {
 
     }
 
+    @Test
+    public void xmlUtilTest() throws JsonProcessingException {
+        String xmlStr = "<GYJANS><transtime>20181012174006</transtime><total>1</total><nextpage></nextpage><rds><rd><mername>宁波中惠网络科技有限公司</mername><companyname>杭州长风科技有限公司</companyname><cardno>9558853901001275150</cardno><paytime>2018-10-12 17:27:52</paytime><tranamount>0.01</tranamount><payeeacctname>支付宝（中国）网络技术有限公司客户备付金</payeeacctname><payeeacctno>33001616783059000667</payeeacctno><abstractinfo>吴豪支付宝转账</abstractinfo><operatecode>1</operatecode><balance>0.01</balance><trantype>1</trantype></rd></rds></GYJANS>";
+        String xmlStr2 = "<GYJANS>jksfskfjskfjsfs</GYJANS>";
+        String xmlStr3 = "<GYJANS><transtime>20181012174006</transtime></GYJANS>";
+        System.out.println(XmlUtil2.parseXml(xmlStr2));
+        System.out.println(XmlUtil2.parseXml(xmlStr3));
+        System.out.println("============================");
+        Map<String, Object> xmlMap2 = XmlUtil2.parseXml(xmlStr);
+        System.out.println(JSON.toJSONString(xmlMap2));
+    }
+
+    @Test
+    public void xmlUtil3Test() throws JsonProcessingException {
+        String xmlStr = "<GYJANS><transtime>20181012174006</transtime><total>1</total><nextpage></nextpage><rds><rd><mername>宁波中惠网络科技有限公司</mername><companyname>杭州长风科技有限公司</companyname><cardno>9558853901001275150</cardno><paytime>2018-10-12 17:27:52</paytime><tranamount>0.01</tranamount><payeeacctname>支付宝（中国）网络技术有限公司客户备付金</payeeacctname><payeeacctno>33001616783059000667</payeeacctno><abstractinfo>吴豪支付宝转账</abstractinfo><operatecode>1</operatecode><balance>0.01</balance><trantype>1</trantype></rd></rds></GYJANS>";
+        String xmlStr2 = "<GYJANS>jksfskfjskfjsfs</GYJANS>";
+        String xmlStr3 = "<GYJANS><transtime>20181012174006</transtime></GYJANS>";
+        String xmlStr4 = "<GYJANS><transtime>20181012174006</transtime><total>1</total><nextpage></nextpage><rds><rd><mername>宁波中惠网络科技有限公司</mername><companyname>杭州长风科技有限公司</companyname><cardno>9558853901001275150</cardno><paytime>2018-10-12 17:27:52</paytime><tranamount>0.01</tranamount><payeeacctname>支付宝（中国）网络技术有限公司客户备付金</payeeacctname><payeeacctno>33001616783059000667</payeeacctno><abstractinfo>吴豪支付宝转账</abstractinfo><operatecode>1</operatecode><balance>0.01</balance><trantype>1</trantype></rd><rd><mername>宁波中惠网络科技有限公司</mername><companyname>杭州长风科技有限公司</companyname><cardno>9558853901001275150</cardno><paytime>2018-10-12 17:27:52</paytime><tranamount>0.01</tranamount><payeeacctname>支付宝（中国）网络技术有限公司客户备付金</payeeacctname><payeeacctno>33001616783059000667</payeeacctno><abstractinfo>吴豪支付宝转账</abstractinfo><operatecode>1</operatecode><balance>0.01</balance><trantype>1</trantype></rd></rds></GYJANS>";
+        System.out.println(XmlUtil2.parseXml(xmlStr2));
+        System.out.println(XmlUtil2.parseXml(xmlStr3));
+        System.out.println("============================");
+        Map<String, Object> xmlMap3 = XmlUtil2.parseXml(xmlStr);
+        System.out.println(JSON.toJSONString(xmlMap3));
+
+        System.out.println(JSON.toJSONString(XmlUtil2.parseXml(xmlStr4)));
+    }
+
+    @Test
+    public void xmlUtil4Test() throws JsonProcessingException {
+        String xmlStr = "<GYJANS><transtime>20181012174006</transtime><total>1</total><nextpage></nextpage><rds><rd><mername>宁波中惠网络科技有限公司</mername><companyname>杭州长风科技有限公司</companyname><cardno>9558853901001275150</cardno><paytime>2018-10-12 17:27:52</paytime><tranamount>0.01</tranamount><payeeacctname>支付宝（中国）网络技术有限公司客户备付金</payeeacctname><payeeacctno>33001616783059000667</payeeacctno><abstractinfo>吴豪支付宝转账</abstractinfo><operatecode>1</operatecode><balance>0.01</balance><trantype>1</trantype></rd></rds></GYJANS>";
+        String xmlStr2 = "<GYJANS>jksfskfjskfjsfs</GYJANS>";
+        String xmlStr3 = "<GYJANS><transtime>20181012174006</transtime></GYJANS>";
+        String xmlStr4 = "<GYJANS><transtime>20181012174006</transtime><total>1</total><nextpage></nextpage><rds><rd><mername>宁波中惠网络科技有限公司</mername><companyname>杭州长风科技有限公司</companyname><cardno>9558853901001275150</cardno><paytime>2018-10-12 17:27:52</paytime><tranamount>0.01</tranamount><payeeacctname>支付宝（中国）网络技术有限公司客户备付金</payeeacctname><payeeacctno>33001616783059000667</payeeacctno><abstractinfo>吴豪支付宝转账</abstractinfo><operatecode>1</operatecode><balance>0.01</balance><trantype>1</trantype></rd><rd><mername>宁波中惠网络科技有限公司</mername><companyname>杭州长风科技有限公司</companyname><cardno>9558853901001275150</cardno><paytime>2018-10-12 17:27:52</paytime><tranamount>0.01</tranamount><payeeacctname>支付宝（中国）网络技术有限公司客户备付金</payeeacctname><payeeacctno>33001616783059000667</payeeacctno><abstractinfo>吴豪支付宝转账</abstractinfo><operatecode>1</operatecode><balance>0.01</balance><trantype>1</trantype></rd></rds></GYJANS>";
+        System.out.println(XmlUtil.xml2Json(xmlStr2));
+        System.out.println(XmlUtil.xml2Json(xmlStr3));
+        System.out.println("============================");
+        System.out.println( XmlUtil.xml2Json(xmlStr));
+
+        System.out.println(XmlUtil.xml2Json(xmlStr4));
+    }
 }
