@@ -1,4 +1,6 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wuming.model.Account;
@@ -258,9 +260,22 @@ public class DailyTest {
         System.out.println(XmlUtil2.parseXml(xmlStr3));
         System.out.println("============================");
         Map<String, Object> xmlMap3 = XmlUtil2.parseXml(xmlStr);
-        System.out.println(JSON.toJSONString(xmlMap3));
+        String jsonStr = JSON.toJSONString(xmlMap3);
 
-        System.out.println(JSON.toJSONString(XmlUtil2.parseXml(xmlStr4)));
+        jsonStr = JSON.toJSONString(XmlUtil2.parseXml(xmlStr4));
+        System.out.println(jsonStr);
+
+        JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+        JSONObject rdsObject = jsonObject.getJSONObject("rds");
+        Object rdObject = rdsObject.get("rd");
+        if (rdObject instanceof JSONObject) {
+            System.out.println("----" + ((JSONObject) rdObject).getString("balance"));
+        }
+        if (rdObject instanceof JSONArray) {
+            System.out.println("++++" + ((JSONObject) ((JSONArray) rdObject).get(0)).getString("balance"));
+        }
+
+//        System.out.println(JSON.toJSONString(XmlUtil2.parseXml(xmlStr4)));
     }
 
     @Test
@@ -272,8 +287,23 @@ public class DailyTest {
         System.out.println(XmlUtil.xml2Json(xmlStr2));
         System.out.println(XmlUtil.xml2Json(xmlStr3));
         System.out.println("============================");
-        System.out.println( XmlUtil.xml2Json(xmlStr));
+        System.out.println(XmlUtil.xml2Json(xmlStr));
 
         System.out.println(XmlUtil.xml2Json(xmlStr4));
+    }
+
+    @Test
+    public void test5() {
+        String jsonStr = "{\"rds\":{\"rd\":{\"payeeacctno\":\"33001616783059000667\",\"abstractinfo\":\"吴豪支付宝转账\",\"payeeacctname\":\"支付宝（中国）网络技术有限公司客户备付金\",\"balance\":\"0.01\",\"companyname\":\"杭州长风科技有限公司\",\"tranamount\":\"0.01\",\"paytime\":\"2018-10-12 17:27:52\",\"operatecode\":\"1\",\"trantype\":\"1\",\"cardno\":\"9558853901001275150\",\"mername\":\"宁波中惠网络科技有限公司\"}},\"transtime\":\"20181015103814\",\"nextpage\":\"\",\"total\":\"1\"}";
+//        log.debug("---->>>>account query result: {}", jsonObject.getJSONObject("result"));
+        JSONObject result = JSON.parseObject(jsonStr);
+        Object rdObject = result.getJSONObject("rds").get("rd");
+        if (rdObject instanceof JSONObject) {
+            // 如果只有一条记录，返回的数据为rd对象，则对数据进行封装，返回 JSONArray 格式的 rd
+            JSONArray jsonArray = new JSONArray(1);
+            jsonArray.add(rdObject);
+            result.getJSONObject("rds").put("rd", jsonArray);
+        }
+        System.out.println("----result: {}" + result);
     }
 }
