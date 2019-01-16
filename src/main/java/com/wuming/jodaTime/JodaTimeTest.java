@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-
 /**
  * Y2K （计算机系统漏洞）
  * 千禧危机，千年虫，千年问题 （千年问题可以追溯到二十世纪六十年代. 当时计算器内存非常宝贵，
@@ -237,6 +236,7 @@ public class JodaTimeTest {
 
     /**
      * 到新年还有多少天
+     * 两个时间参数不区分先后
      *
      * @return
      */
@@ -246,6 +246,8 @@ public class JodaTimeTest {
         LocalDate newYear = fromDate.plusYears(2).withDayOfYear(1);
         Days days = Days.daysBetween(fromDate, newYear);
         System.out.println("----days: " + days + "----" + days.getDays() + "----" + days.getValue(0));
+        Days days2 = Days.daysBetween(newYear, fromDate);
+        System.out.println("----days: " + days2 + "----" + days2.getDays() + "----" + days2.getValue(0));
     }
 
 }
