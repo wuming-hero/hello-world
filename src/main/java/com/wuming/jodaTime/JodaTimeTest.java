@@ -74,6 +74,24 @@ public class JodaTimeTest {
         DateTime dateTime1 = new DateTime(dateTime);
     }
 
+    @Test
+    public void dateTimeTest() {
+        // 一天的开始，获取每天的0点时刻
+        System.out.println(new DateTime().withMillisOfDay(0).toString("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(DateTime.now().withTimeAtStartOfDay().toString("yyyy-MM-dd HH:mm:ss"));
+        // 每天时间 6:30
+        System.out.println(new DateTime().withHourOfDay(6).withMinuteOfHour(30).withSecondOfMinute(0).toString("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(new DateTime().withTimeAtStartOfDay().withHourOfDay(6).withMinuteOfHour(30).toString("yyyy-MM-dd HH:mm:ss"));
+        // 每月7号6:30
+        System.out.println(new DateTime().withDayOfMonth(7).withHourOfDay(6).withMinuteOfHour(30).withSecondOfMinute(0).toString("yyyy-MM-dd HH:mm:ss"));
+
+        // 获取每个月的第一天和最后一天
+        DateTime dateTime = new DateTime();
+        System.out.println("本月第一天：" + dateTime.dayOfMonth().withMinimumValue().dayOfMonth().get());
+        System.out.println("本月最后一天是：" + dateTime.dayOfMonth().withMaximumValue().dayOfMonth().get());
+
+    }
+
     /**
      * 时间操作处理
      * Joda 中常用的属性（property），他们是计算威力的关键
@@ -146,9 +164,8 @@ public class JodaTimeTest {
         System.out.println("时间间隔天数：" + d.getStandardDays());
 
         //计算区间天数
-        Period p = new Period(begin, end, PeriodType.days());
-        int days = p.getDays();
-        System.out.println("间隔天数：" + days);
+        Period period = new Period(begin, end, PeriodType.days());
+        System.out.println("间隔天数：" + period.getDays());
 
         //计算特定日期是否在该区间内
         Interval interval = new Interval(begin, end);
@@ -248,6 +265,10 @@ public class JodaTimeTest {
         System.out.println("----days: " + days + "----" + days.getDays() + "----" + days.getValue(0));
         Days days2 = Days.daysBetween(newYear, fromDate);
         System.out.println("----days: " + days2 + "----" + days2.getDays() + "----" + days2.getValue(0));
+        // 时、分、秒
+        System.out.println("----小时：" + Hours.hoursBetween(fromDate, newYear).getHours());
+        System.out.println("----分：" + Minutes.minutesBetween(fromDate, newYear).getMinutes());
+        System.out.println("----秒：" + Seconds.secondsBetween(fromDate, newYear).getSeconds());
     }
 
 }
