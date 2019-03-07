@@ -306,6 +306,7 @@ public class DailyTest {
         }
         System.out.println("----result: {}" + result);
     }
+
     @Test
     public void test6() {
         String a = "1";
