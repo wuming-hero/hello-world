@@ -1,4 +1,4 @@
-package com.wuming.jodaTime;
+package com.wuming.date;
 
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;

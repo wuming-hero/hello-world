@@ -309,7 +309,7 @@ public class DailyTest {
 
     @Test
     public void test6() {
-        String a = "1";
+
     }
 
 }
