@@ -19,7 +19,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.16.20</lombok.version>
         <servlet.version>3.1.0</servlet.version>
-        <jackson.version>2.8.8</jackson.version>
+        <jackson.version>2.10.0</jackson.version>
         <httpmime.version>4.5.5</httpmime.version>
         <httpcore.version>4.4.9</httpcore.version>
         <fastjson.version>1.2.49</fastjson.version>
