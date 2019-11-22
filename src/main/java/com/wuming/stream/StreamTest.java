@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -55,7 +53,6 @@ public class StreamTest {
 
         // 3, 直接给值来创建流
         Stream<String> stream = Stream.of("walker", "sun", "is", "the", "best");
-
 
         // 4, 由文件生成流
         try {
@@ -207,7 +204,6 @@ public class StreamTest {
         // 5, 2, 1, 4, 3
     }
 
-
     /**
      * max方法根据指定的Comparator，返回一个Optional，该Optional中的value值就是Stream中最大的元素
      * <p>
@@ -319,7 +315,6 @@ public class StreamTest {
         System.out.println("list: " + list);
     }
 
-
     /**
      * 归约
      * 将一个流中的元素反复结合运算得到一个值
@@ -349,5 +344,20 @@ public class StreamTest {
         System.out.println("min: " + min.get());
     }
 
+    @Test
+    public void switchTest() {
+        Stream<String> stream = Stream.of("a", "b", "c");
+        // 1. Array
+        String[] strArray1 = stream.toArray(String[]::new);
+        String[] strArray2 = stream.toArray(strArr -> new String[strArray1.length]);
+
+        // 2. Collection
+        List<String> list1 = stream.collect(Collectors.toList());
+        List<String> list2 = stream.collect(Collectors.toCollection(ArrayList::new));
+        Set set1 = stream.collect(Collectors.toSet());
+        Stack stack1 = stream.collect(Collectors.toCollection(Stack::new));
+        // 3. String
+        String str = stream.collect(Collectors.joining()).toString();
+    }
 
 }

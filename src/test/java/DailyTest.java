@@ -309,7 +309,7 @@ public class DailyTest {
 
     @Test
     public void test6() {
-
+        System.out.println(MD5Util.encode("123456wuming").toLowerCase());
     }
 
 }

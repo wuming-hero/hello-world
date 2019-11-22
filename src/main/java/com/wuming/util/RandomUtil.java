@@ -1,95 +1,94 @@
 package com.wuming.util;
 
-import java.util.*;
+import java.util.Random;
 
+/**
+ * 随机数工具类
+ */
 public class RandomUtil {
 
+    /**
+     * 生成指定长度的随机数
+     *
+     * @param size
+     * @return
+     */
     public static String random(int size) {
-        List<String> ranList = new ArrayList();
-        int r = 10000000;
+        StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for (int j = 0; j < size; j++) {
-            int a = random.nextInt(1);
-            int b = random.nextInt(1);
-            int c = random.nextInt(9);
-            int d = random.nextInt(9);
-            int e = random.nextInt(9);
-            int f = random.nextInt(9);
-            int g = random.nextInt(9);
-            ranList.add(String.valueOf(r + (a + b + c + d + e + f + g)));
+            sb.append(random.nextInt(9));
         }
-        return ranList.toString().replaceAll("\\s+", "").replace("[", "").replace("]", "");
+        return sb.toString();
     }
 
-    public static String newRandomV1(int size, int price, List<String> oldRandomList) {
-        List<String> randomList = new ArrayList();
-        int r = 10000000;
-        for (int i = 1; i <= price; i++) {
-            if (!oldRandomList.contains(String.valueOf(r + i))) {
-                randomList.add(String.valueOf(r + i));
-            }
+    /**
+     * 获取一定长度的随机字符串
+     *
+     * @param length 指定字符串长度
+     * @return 一定长度的字符串
+     */
+    public static String randomString(int length) {
+        String base = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
         }
-        List<String> ranList = new ArrayList();
-        for (int j = 0; j < size; j++) {
-            if (randomList.size() > 0) {
-                int ran = new Random().nextInt(randomList.size());
-                ranList.add((String) randomList.get(ran));
-                randomList.remove(ran);
-            }
-        }
-        return ranList.toString().replaceAll("\\s+", "").replace("[", "").replace("]", "");
+        return sb.toString();
     }
 
-    public static String newRandom(int size, int price, List<String> oldRandomList) {
-        //long start = System.currentTimeMillis();
-        Map<String, Integer> randomMap = new HashMap<String, Integer>();
-        int r = 10000000;
-        for (int i = 1; i <= price; i++) {
-            randomMap.put(String.valueOf(r + i), new Integer(0));
-        }
-        for (int i = 0; i < oldRandomList.size(); i++) {
-            randomMap.put(oldRandomList.get(i), new Integer(1));
-        }
-        //System.out.println("size="+randomMap.size());
-        //long mmmm = System.currentTimeMillis();
-        //long secs = (mmmm-start)/1000;
-        //System.out.println(secs);
-        List<String> ranList = new ArrayList<String>();
-        for (int j = 0; j < size; j++) {
-            if (randomMap.size() > 0) {
-                int ran = new Random().nextInt(randomMap.size() - oldRandomList.size() - j);
-                int max = Math.min(ran + oldRandomList.size() + size, randomMap.size());
-                //System.out.println("ran="+ran+",max="+max);
-                String[] keys = new String[randomMap.size()];
-                randomMap.keySet().toArray(keys);
-                for (int k = 0, x = 0; k < max; k++) {
-                    String key = keys[k];
-                    Integer flag = randomMap.get(key);
-                    if (flag == 0) {
-                        if (x == ran) {
-                            //System.out.println("x="+x+",ran="+ran);
-                            ranList.add(key);
-                            randomMap.put(key, new Integer(1));
-                            break;
-                        }
-                        x++;
-                    }
-                }
-            }
-        }
-        return ranList.toString().replaceAll("\\s+", "").replace("[", "").replace("]", "");
+    /**
+     * 返回两个数之间的随机数
+     * 前后闭区间[min, max]
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int randomNumber(int min, int max) {
+        Random random = new Random();
+        // x % (max - min + 1) 得到的数字为[0, max - min]之间
+        return random.nextInt(max) % (max - min + 1) + min;
     }
 
-    public static void main(String[] args) {
-        List<String> oldRandomList = new ArrayList<String>();
-        int r = 10000000;
-        for (int i = 1; i <= 390000; i++) {
-            oldRandomList.add(String.valueOf(r + i));
-        }
-        /*for (int i = 390000; i <= 400000; i++) {
-            oldRandomList.add(String.valueOf(r + i));
-	    }*/
-        String strList = newRandom(5, 400000, oldRandomList);
-        System.err.println(strList);
+    /**
+     * 返回两个数之间的随机数
+     * 前开后闭区间[min, max)
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int randomNumber2(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max) % (max - min) + min;
     }
+
+    /**
+     * 返回两个数之间的随机数
+     * 前开后闭区间[min, max)
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int randomNumber3(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min) + min;
+    }
+
+    /**
+     * 返回两个数之间的随机数
+     * 前开后闭区间[min, max)
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int randomNumber4(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
 }

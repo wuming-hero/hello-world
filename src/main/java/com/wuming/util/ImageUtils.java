@@ -428,7 +428,7 @@ public class ImageUtils {
     }
 
     /**
-     * fileData base64编码的图片字符串,以"data:image/jpeg;base64,"开头
+     * fileData base64编码的图片字符串（不包含图片格式信息）
      *
      * @param fileData
      * @param filePath
@@ -459,7 +459,6 @@ public class ImageUtils {
 
         String fileFolder = "D:/weibo-image/20110120/123/456/789/";
         String fileName = "posterface.jpg";
-
 
         String meinv_url = "http://126.fm/nlC2n";
         String face_url = "http://tp4.sinaimg.cn/1427388087/180/1297002209/1";
