@@ -309,8 +309,20 @@ public class DailyTest {
 
     @Test
     public void test6() {
-        System.out.println("123456");
-        System.out.println(MD5Util.encode("123456wuming").toLowerCase());
+        String a = "覆置这行话¢mLh11Qkp6qt¢转移至\uD83D\uDC49淘宀┡ē\uD83D\uDC48【【薇娅推荐】好人家老坛酸菜鱼调料包350g*3袋酸汤鱼底料包四川】；或https://m.tb.cn/h.V6zF52Q?sm=67f245 点几鏈→接，再选择瀏lan嘂..dakai";
+        String b = "覆置这行话$UQ3Z1QklMWh$转移至\uD83D\uDC49淘宀┡ē\uD83D\uDC48，【sakose凡士林海盐磨砂膏去鸡皮肤嫩白全身体去除疙瘩毛囊去角质】 还有这样的，获取中括号中间的这一部分";
+        String c = "ab无名【【薇娅推荐】好人家老坛酸菜鱼调料包350g*3袋酸汤鱼底料包四川】蜗杆喳呆f ";
+        // 懒惰模式，匹配第一个"【"即不再匹配
+        String reg = ".*?【(.*)】.*";
+        Pattern pattern = Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(b);
+        if (matcher.matches()) {
+            System.out.println(matcher.group(1));
+        }
+
+        System.out.println(a.replaceAll(".*?【(.*)】.*", "$1"));
+        System.out.println(b.replaceAll(reg, "$1"));
+        System.out.println(c.replaceAll(reg, "$1"));
     }
 
 }
