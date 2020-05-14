@@ -323,6 +323,10 @@ public class DailyTest {
         System.out.println(a.replaceAll(".*?【(.*)】.*", "$1"));
         System.out.println(b.replaceAll(reg, "$1"));
         System.out.println(c.replaceAll(reg, "$1"));
+
+        List<String> aList = new ArrayList<>(2);
+        System.out.println(aList.size());
+
     }
 
 }
