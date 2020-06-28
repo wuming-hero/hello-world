@@ -43,4 +43,27 @@ public class JUnitTest {
         Assert.assertEquals("乘法计算有误", 14, result, 0);
     }
 
+    @Test
+    public void StringTest() {
+        String st1 = "a" + "b" + "c";
+        String st2 = "abc";
+        System.out.println(st1 == st2);
+        System.out.println(st1.equals(st2));
+    }
+
+    @Test
+    public void StringTest2() {
+        String st1 = "ab" ;
+        String st3 = st1 + "c";
+        String st2 = "abc";
+        String st4 = "ab" + "c";
+        System.out.println(st3 == st2);
+        System.out.println(st3.equals(st2));
+
+        System.out.println(st4 == st2);
+        System.out.println(st4.equals(st2));
+    }
+
+
+
 }

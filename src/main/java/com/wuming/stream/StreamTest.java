@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+
 /**
  * 为什么不在集合类实现这些操作，而是定义了全新的Stream API？
  * 1.集合类持有的所有元素都是存储在内存中的，非常巨大的集合类会占用大量的内存，而Stream的元素却是在访问的时候才被计算出来，
@@ -357,7 +358,7 @@ public class StreamTest {
         Set set1 = stream.collect(Collectors.toSet());
         Stack stack1 = stream.collect(Collectors.toCollection(Stack::new));
         // 3. String
-        String str = stream.collect(Collectors.joining()).toString();
+        String str = stream.collect(Collectors.joining("_"));
     }
 
 }
