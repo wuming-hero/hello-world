@@ -1,5 +1,11 @@
+import com.google.common.collect.Sets;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by wuming on 16/6/26.
@@ -65,5 +71,13 @@ public class JUnitTest {
     }
 
 
+    @Test
+    public void local() {
+        List<Integer> aSet = Arrays.asList(1, 2, 3, 4);
+        List<Integer> bSet = Arrays.asList(3,4, 5, 6);
+        Set<Integer> newShopIdSet = Sets.difference(new HashSet<>(bSet), new HashSet<>(aSet)).immutableCopy();
+        System.out.println(newShopIdSet);
+
+    }
 
 }
