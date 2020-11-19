@@ -294,17 +294,54 @@ public class DailyTest {
 
     @Test
     public void test5() {
-        String jsonStr = "{\"rds\":{\"rd\":{\"payeeacctno\":\"33001616783059000667\",\"abstractinfo\":\"吴豪支付宝转账\",\"payeeacctname\":\"支付宝（中国）网络技术有限公司客户备付金\",\"balance\":\"0.01\",\"companyname\":\"杭州长风科技有限公司\",\"tranamount\":\"0.01\",\"paytime\":\"2018-10-12 17:27:52\",\"operatecode\":\"1\",\"trantype\":\"1\",\"cardno\":\"9558853901001275150\",\"mername\":\"宁波中惠网络科技有限公司\"}},\"transtime\":\"20181015103814\",\"nextpage\":\"\",\"total\":\"1\"}";
+        String a = "[{\"nickName\":\"给不起的未来\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605166332568.jpg\"},{\"nickName\":\"一份执着。\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605166838004.jpg\"},{\"nickName\":\"亡棋\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605166921932.jpg\"},{\"nickName\":\"冰封de薆=\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605166958993.jpg\"},{\"nickName\":\"亡心念你\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167020793.jpg\"},{\"nickName\":\"局外人\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167056215.jpg\"},{\"nickName\":\"断梦残念\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167090701.jpg\"},{\"nickName\":\"凉城\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167163725.jpg\"},{\"nickName\":\"旧城旅人\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167206019.jpg\"},{\"nickName\":\"嗜你如命\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167224791.jpg\"},{\"nickName\":\"心情杂货铺\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167270899.jpg\"},{\"nickName\":\"灬低调是种错\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167299198.jpg\"},{\"nickName\":\"人世多愁\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167321835.jpg\"},{\"nickName\":\"赖人寻味i\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167350085.jpg\"},{\"nickName\":\"不吃猫的鱼\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167371350.jpg\"},{\"nickName\":\"一个人的青春战役\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167395013.jpg\"},{\"nickName\":\"零点过十分\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167416894.jpg\"},{\"nickName\":\"试着放下丶\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167433916.jpg\"},{\"nickName\":\"看淡一切╮\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167460046.jpg\"},{\"nickName\":\"好男人不止曾小贤〃\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167478579.jpg\"},{\"nickName\":\"该如何是好\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167498544.jpg\"},{\"nickName\":\"帝国觉醒灬梦之队\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167516302.jpg\"},{\"nickName\":\"弦断心凉\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167542492.jpg\"},{\"nickName\":\"孤独的悲傷\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167576533.jpg\"},{\"nickName\":\"无敌小罗卜\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167593696.jpg\"},{\"nickName\":\"一颗心变得冰凉。\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167608947.jpg\"},{\"nickName\":\"过分宠爱\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167627575.jpg\"},{\"nickName\":\"爱情过期\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167664924.jpg\"},{\"nickName\":\"ヅ失溫℡\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167678536.jpg\"},{\"nickName\":\"不供祖宗\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167698211.jpg\"},{\"nickName\":\"繁华散尽\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167719682.jpg\"},{\"nickName\":\"被偏爱的有恃无恐\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167736405.jpg\"},{\"nickName\":\"岁月滥好人\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167757431.jpeg\"},{\"nickName\":\"不得我命\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167773325.jpeg\"},{\"nickName\":\"拿稳的你心\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167790643.jpg\"},{\"nickName\":\"心囚\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168056662.jpg\"},{\"nickName\":\"3年之约@\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168076665.jpg\"},{\"nickName\":\"暧昧\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168095560.jpg\"},{\"nickName\":\"大富豪\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168112259.jpg\"},{\"nickName\":\"有本事，别出来。\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168347194.jpg\"}]";
+
+        String jsonStr = "[{\"nickName\":\"给不起的未来\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605166332568.jpg\"},\n" +
+                "{\"nickName\":\"一份执着。\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605166838004.jpg\"},\n" +
+                "{\"nickName\":\"亡棋\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605166921932.jpg\"},\n" +
+                "{\"nickName\":\"冰封de薆=\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605166958993.jpg\"},\n" +
+                "{\"nickName\":\"亡心念你\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167020793.jpg\"},\n" +
+                "{\"nickName\":\"局外人\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167056215.jpg\"},\n" +
+                "{\"nickName\":\"断梦残念\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167090701.jpg\"},\n" +
+                "{\"nickName\":\"凉城\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167163725.jpg\"},\n" +
+                "{\"nickName\":\"旧城旅人\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167206019.jpg\"},\n" +
+                "{\"nickName\":\"嗜你如命\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167224791.jpg\"},\n" +
+                "{\"nickName\":\"心情杂货铺\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167270899.jpg\"},\n" +
+                "{\"nickName\":\"灬低调是种错\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167299198.jpg\"},\n" +
+                "{\"nickName\":\"人世多愁\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167321835.jpg\"},\n" +
+                "{\"nickName\":\"赖人寻味i\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167350085.jpg\"},\n" +
+                "{\"nickName\":\"不吃猫的鱼\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167371350.jpg\"},\n" +
+                "{\"nickName\":\"一个人的青春战役\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167395013.jpg\"},\n" +
+                "{\"nickName\":\"零点过十分\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167416894.jpg\"},\n" +
+                "{\"nickName\":\"试着放下丶\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167433916.jpg\"},\n" +
+                "{\"nickName\":\"看淡一切╮\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167460046.jpg\"},\n" +
+                "{\"nickName\":\"好男人不止曾小贤〃\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167478579.jpg\"},\n" +
+                "{\"nickName\":\"该如何是好\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167498544.jpg\"},\n" +
+                "{\"nickName\":\"帝国觉醒灬梦之队\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167516302.jpg\"},\n" +
+                "{\"nickName\":\"弦断心凉\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167542492.jpg\"},\n" +
+                "{\"nickName\":\"孤独的悲傷\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167576533.jpg\"},\n" +
+                "{\"nickName\":\"无敌小罗卜\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167593696.jpg\"},\n" +
+                "{\"nickName\":\"一颗心变得冰凉。\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167608947.jpg\"},\n" +
+                "{\"nickName\":\"过分宠爱\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167627575.jpg\"},\n" +
+                "{\"nickName\":\"爱情过期\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167664924.jpg\"},\n" +
+                "{\"nickName\":\"ヅ失溫℡\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167678536.jpg\"},\n" +
+                "{\"nickName\":\"不供祖宗\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167698211.jpg\"},\n" +
+                "{\"nickName\":\"繁华散尽\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167719682.jpg\"},\n" +
+                "{\"nickName\":\"被偏爱的有恃无恐\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167736405.jpg\"},\n" +
+                "{\"nickName\":\"岁月滥好人\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167757431.jpeg\"},\n" +
+                "{\"nickName\":\"不得我命\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167773325.jpeg\"},\n" +
+                "{\"nickName\":\"拿稳的你心\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605167790643.jpg\"},\n" +
+                "{\"nickName\":\"心囚\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168056662.jpg\"},\n" +
+                "{\"nickName\":\"3年之约@\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168076665.jpg\"},\n" +
+                "{\"nickName\":\"暧昧\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168095560.jpg\"},\n" +
+                "{\"nickName\":\"大富豪\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168112259.jpg\"},\n" +
+                "{\"nickName\":\"有本事，别出来。\",\"avatar\":\"https://fula.oss-cn-hangzhou.aliyuncs.com/activity/1000001/20201112/1605168347194.jpg\"}]";
 //        log.debug("---->>>>account query result: {}", jsonObject.getJSONObject("result"));
-        JSONObject result = JSON.parseObject(jsonStr);
-        Object rdObject = result.getJSONObject("rds").get("rd");
-        if (rdObject instanceof JSONObject) {
-            // 如果只有一条记录，返回的数据为rd对象，则对数据进行封装，返回 JSONArray 格式的 rd
-            JSONArray jsonArray = new JSONArray(1);
-            jsonArray.add(rdObject);
-            result.getJSONObject("rds").put("rd", jsonArray);
-        }
+        jsonStr = jsonStr.replace("\n", "");
+
+        JSONArray result = JSON.parseArray(jsonStr);
         System.out.println("----result: {}" + result);
+        System.out.println(JSON.parseArray(a));
     }
 
     @Test

@@ -1,11 +1,17 @@
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableList;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by wuming on 16/6/26.
@@ -13,6 +19,9 @@ import java.util.Set;
  * update dev
  */
 public class JUnitTest {
+
+    public static final char A = '：';
+    private static final char[] CHARS = {':', '：', ' ', '\n', '\r'};
 
     @Test
     public void add() throws Exception {
@@ -73,11 +82,49 @@ public class JUnitTest {
 
     @Test
     public void local() {
-        List<Integer> aSet = Arrays.asList(1, 2, 3, 4);
-        List<Integer> bSet = Arrays.asList(3,4, 5, 6);
-        Set<Integer> newShopIdSet = Sets.difference(new HashSet<>(bSet), new HashSet<>(aSet)).immutableCopy();
-        System.out.println(newShopIdSet);
+        List<Integer> dataList = ImmutableList.of(0, 1, 10, 100, 1000);
+        System.out.println(dataList.stream().map(data -> data / 100).collect(Collectors.toList()));
 
+        System.out.println(dataList.stream().map(data -> centsToYuan(Long.valueOf(data))).collect(Collectors.toList()));
+
+    }
+
+    public static String centsToYuan(Long cents) {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(new BigDecimal(cents).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP).doubleValue());
+    }
+
+
+    @Test
+    public void dateTimetest() {
+        String startTime = "2020-08-01";
+        String endTime = "2020-08-26";
+        LocalDate startDate = LocalDate.parse(startTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate endDate = LocalDate.parse(endTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        int days = (int) (endDate.toEpochDay() - startDate.toEpochDay() + 1);
+        System.out.println(days);
+        // 构建时间x轴, 日期最大一个月
+        List<String> dateList = new ArrayList<>(days);
+        Map<String, Integer> pvMap = new LinkedHashMap<>(days);
+        Map<String, Integer> uvMap = new LinkedHashMap<>(days);
+        Map<String, Integer> participateMap = new LinkedHashMap<>(days);
+        Map<String, Integer> shareAmountMap = new LinkedHashMap<>(days);
+        Map<String, Integer> shareTimesMap = new LinkedHashMap<>(days);
+        for (int i = 0; i < days; i++) {
+            LocalDate nowDate = startDate.plusDays(i);
+            if (nowDate.isAfter(endDate)) {
+                break;
+            }
+            String dateKey = nowDate.format(DateTimeFormatter.ofPattern("dd"));
+            dateList.add(dateKey);
+            pvMap.put(dateKey, 0);
+            uvMap.put(dateKey, 0);
+            participateMap.put(dateKey, 0);
+            shareAmountMap.put(dateKey, 0);
+            shareTimesMap.put(dateKey, 0);
+        }
+        System.out.println(dateList);
+        System.out.println(pvMap);
     }
 
 }
