@@ -8,6 +8,9 @@ import java.util.Objects;
  * 2、如果一组字符串是通过单链表来存储的，那该如何来判断该字符串是一个回文字符串？并说明一下其时间空间复杂度是多少。
  * 回文链表如 ABBA 或 ABCBA
  *
+ * https://www.jianshu.com/p/9a4561d42e9a
+ * https://www.jianshu.com/p/21b4b8d7d31b
+ *
  * @author wuming
  * Created on 2020-11-19 07:35
  */
