@@ -115,8 +115,9 @@ public class Regex {
      */
     @Test
     public void repeatTest() {
-        String sentence = "Paris in the the \n" +
+        String sentence = "Paris's in the the \n" +
                 "spring";
+        sentence = "Java has regular expressions in 1.4";
         // 匹配单词
         Pattern pattern = Pattern.compile("\\b\\w+\\b");
         Matcher matcher = pattern.matcher(sentence);

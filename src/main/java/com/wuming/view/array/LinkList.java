@@ -31,7 +31,7 @@ public class LinkList {
      */
     public void addNode(int data) {
         if (head == null) {
-            head.data = data;
+            head = new Node(data);
         } else {
             head.next = new Node(data);
         }
