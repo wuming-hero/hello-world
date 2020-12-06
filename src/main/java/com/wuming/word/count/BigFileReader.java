@@ -36,7 +36,7 @@ public class BigFileReader {
     // 文件大小
     private long fileLength;
     // 基于文件的RandomAccessFile 类,用来随机从指定位置读取文件
-    private RandomAccessFile rAccessFile;
+    private RandomAccessFile randomAccessFile;
     // 文件切片
     private Set<StartEndPair> startEndPairs;
     // 全局数据统计队列
@@ -70,7 +70,7 @@ public class BigFileReader {
         this.bufferSize = bufferSize;
         this.threadSize = threadSize;
         try {
-            this.rAccessFile = new RandomAccessFile(file, "r");
+            this.randomAccessFile = new RandomAccessFile(file, "r");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -126,7 +126,7 @@ public class BigFileReader {
                 this.fileFailSliceQueue.offer(new BigFileReader(filePath, failSliceSet));
             }
             // 文件操作完成，及时关闭文件流
-            this.rAccessFile.close();
+            this.randomAccessFile.close();
         } catch (InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
         }
@@ -152,16 +152,16 @@ public class BigFileReader {
             return;
         }
         // 跳转到指定位置
-        rAccessFile.seek(endPosition);
-        byte tmp = (byte) rAccessFile.read();
+        randomAccessFile.seek(endPosition);
+        byte tmp = (byte) randomAccessFile.read();
         while (tmp != '\n' && tmp != '\r') {
             endPosition++;
             if (endPosition >= fileLength - 1) {
                 endPosition = fileLength - 1;
                 break;
             }
-            rAccessFile.seek(endPosition);
-            tmp = (byte) rAccessFile.read();
+            randomAccessFile.seek(endPosition);
+            tmp = (byte) randomAccessFile.read();
         }
         pair.end = endPosition;
         startEndPairs.add(pair);
@@ -305,7 +305,7 @@ public class BigFileReader {
             ByteArrayOutputStream bos = null;
             try {
                 bos = new ByteArrayOutputStream();
-                MappedByteBuffer mapBuffer = rAccessFile.getChannel().map(MapMode.READ_ONLY, start, this.sliceSize);
+                MappedByteBuffer mapBuffer = randomAccessFile.getChannel().map(MapMode.READ_ONLY, start, this.sliceSize);
                 // 循环遍历切片大小，步长为bufferSize
                 for (int offset = 0; offset < sliceSize; offset += bufferSize) {
                     int readLength;

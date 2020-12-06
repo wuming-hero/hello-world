@@ -8,7 +8,7 @@ import java.util.ArrayList;
 @SuppressWarnings("rawtypes")
 class Searcher implements FileVisitor {
     private final PathMatcher matcher;
-    private ArrayList<String> filePaths = new ArrayList<String>();
+    private ArrayList<String> filePaths = new ArrayList<>();
 
     public Searcher(String ext) {
         matcher = FileSystems.getDefault().getPathMatcher("glob:" + ext);

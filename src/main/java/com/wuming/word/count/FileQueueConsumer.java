@@ -15,11 +15,11 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class FileQueueConsumer implements Runnable {
     /**
-     * 文件路径队列
+     * 无界线程安全的文件路径队列
      */
     private ConcurrentLinkedQueue<String> filePathQueue;
     /**
-     * 切片统计map数据队列
+     * 无界线程安全队列的切片统计map数据队列
      */
     private ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue;
     /**
