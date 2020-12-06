@@ -23,15 +23,10 @@ public class FileFailSliceQueueConsumer implements Runnable {
      * 切片统计map数据队列
      */
     private ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue;
-    /**
-     * 失败的大文件切片队列
-     */
-    private ConcurrentLinkedQueue<BigFileReader> bigFileFailQueue;
 
-    public FileFailSliceQueueConsumer(ConcurrentLinkedQueue<BigFileReader> fileFailSliceQueue, ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue, ConcurrentLinkedQueue<BigFileReader> bigFileFailQueue) {
+    public FileFailSliceQueueConsumer(ConcurrentLinkedQueue<BigFileReader> fileFailSliceQueue, ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue) {
         this.fileFailSliceQueue = fileFailSliceQueue;
         this.wordCountQueue = wordCountQueue;
-        this.bigFileFailQueue = bigFileFailQueue;
     }
 
     @Override
@@ -42,7 +37,7 @@ public class FileFailSliceQueueConsumer implements Runnable {
                 //从队列取出一个元素 排队的人少一个
                 BigFileReader fileSliceData = fileFailSliceQueue.poll();
                 // 构建基础流信息
-                BigFileReader.Builder builder = new BigFileReader.Builder(fileSliceData.getFilePath(), wordCountQueue, bigFileFailQueue);
+                BigFileReader.Builder builder = new BigFileReader.Builder(fileSliceData.getFilePath(), wordCountQueue, fileFailSliceQueue);
                 builder.withThreadSize(2).withBufferSize(1024 * 1024);
                 BigFileReader bigFileReader = builder.build();
                 // 设置要统计的失败的流片段

@@ -241,15 +241,15 @@ public class BigFileReader {
         private int threadSize = 1;
         private int bufferSize = 1024 * 1024;
         private ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue;
-        private ConcurrentLinkedQueue<BigFileReader> bigFileFailQueue;
+        private ConcurrentLinkedQueue<BigFileReader> fileFailSliceQueue;
 
-        public Builder(String filePath, ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue, ConcurrentLinkedQueue<BigFileReader> bigFileFailQueue) {
+        public Builder(String filePath, ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue, ConcurrentLinkedQueue<BigFileReader> fileFailSliceQueue) {
             this.file = new File(filePath);
             if (!this.file.exists()) {
                 throw new IllegalArgumentException("文件不存在！");
             }
             this.wordCountQueue = wordCountQueue;
-            this.bigFileFailQueue = bigFileFailQueue;
+            this.fileFailSliceQueue = fileFailSliceQueue;
         }
 
         public Builder withThreadSize(int size) {
@@ -263,7 +263,7 @@ public class BigFileReader {
         }
 
         public BigFileReader build() {
-            return new BigFileReader(this.file, this.bufferSize, this.threadSize, this.wordCountQueue, this.bigFileFailQueue);
+            return new BigFileReader(this.file, this.bufferSize, this.threadSize, this.wordCountQueue, this.fileFailSliceQueue);
         }
     }
 

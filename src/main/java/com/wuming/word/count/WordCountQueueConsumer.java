@@ -48,7 +48,7 @@ public class WordCountQueueConsumer implements Runnable {
                 if (fileCountMap.containsKey(partKey)) {
                     fileCountMap.get(partKey).addAndGet(partCount.longValue());
                 } else {
-                    fileCountMap.put(partKey, partCount);
+                    fileCountMap.putIfAbsent(partKey, partCount);
                 }
             }
         }

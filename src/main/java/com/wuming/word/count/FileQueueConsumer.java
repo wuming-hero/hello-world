@@ -25,12 +25,12 @@ public class FileQueueConsumer implements Runnable {
     /**
      * 失败的大文件切片队列
      */
-    private ConcurrentLinkedQueue<BigFileReader> bigFileFailQueue;
+    private ConcurrentLinkedQueue<BigFileReader> fileFailSliceQueue;
 
-    public FileQueueConsumer(ConcurrentLinkedQueue<String> filePathQueue, ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue, ConcurrentHashMap<String, AtomicLong> wordCountMap, ConcurrentLinkedQueue<BigFileReader> bigFileFailQueue) {
+    public FileQueueConsumer(ConcurrentLinkedQueue<String> filePathQueue, ConcurrentLinkedQueue<ConcurrentHashMap<String, AtomicLong>> wordCountQueue, ConcurrentHashMap<String, AtomicLong> wordCountMap, ConcurrentLinkedQueue<BigFileReader> fileFailSliceQueue) {
         this.filePathQueue = filePathQueue;
         this.wordCountQueue = wordCountQueue;
-        this.bigFileFailQueue = bigFileFailQueue;
+        this.fileFailSliceQueue = fileFailSliceQueue;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class FileQueueConsumer implements Runnable {
             while (!filePathQueue.isEmpty()) {
                 //从队列取出一个元素 排队的人少一个
                 String filePath = filePathQueue.poll();
-                BigFileReader.Builder builder = new BigFileReader.Builder(filePath, wordCountQueue, bigFileFailQueue);
+                BigFileReader.Builder builder = new BigFileReader.Builder(filePath, wordCountQueue, fileFailSliceQueue);
                 builder.withThreadSize(10).withBufferSize(1024 * 1024);
                 BigFileReader bigFileReader = builder.build();
                 bigFileReader.countWord();

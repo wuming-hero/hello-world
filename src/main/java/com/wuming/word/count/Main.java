@@ -120,7 +120,7 @@ public class Main {
         mergeDataService.shutdown();
 
         // 多线程处理之前处理异常的切片信息
-        failSliceService.execute(new FileFailSliceQueueConsumer(fileFailSliceQueue, wordCountQueue, fileFailSliceQueue));
+        failSliceService.execute(new FileFailSliceQueueConsumer(fileFailSliceQueue, wordCountQueue));
         failSliceService.shutdown();
     }
 
