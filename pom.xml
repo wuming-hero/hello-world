@@ -24,7 +24,7 @@
         <httpcore.version>4.4.9</httpcore.version>
         <fastjson.version>1.2.49</fastjson.version>
         <joda-time.version>2.9.4</joda-time.version>
-        <httpclient.version>4.5.5</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <commons-lang.version>3.7</commons-lang.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-logging.version>1.2</commons-logging.version>
