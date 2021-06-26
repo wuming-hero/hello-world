@@ -209,6 +209,18 @@
             <artifactId>commons-csv</artifactId>
             <version>1.5</version>
         </dependency>
+        <!-- 使用zxing生成二维码 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>

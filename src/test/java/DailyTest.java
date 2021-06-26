@@ -1,10 +1,12 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ctc.wstx.osgi.WstxBundleActivator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 import com.wuming.model.Account;
+import com.wuming.model.Student;
 import com.wuming.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -13,6 +15,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
+import sun.jvm.hotspot.code.StubQueue;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
@@ -24,6 +27,11 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -31,6 +39,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -387,15 +396,18 @@ public class DailyTest {
 
     @Test
     public void test5() throws FileNotFoundException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("/Users/wuming/a.exp")));
-        Stream<String> lines = bufferedReader.lines();
-        long number = lines.count();
-        lines.forEach(line-> {
-            System.out.println("1" + line);
-        });
-        System.out.println(lines.limit(10));
+//        BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("/Users/wuming/a.exp")));
+//        Stream<String> lines = bufferedReader.lines();
+//        long number = lines.count();
+//        lines.forEach(line-> {
+//            System.out.println("1" + line);
+//        });
+//        System.out.println(lines.limit(10));
 //        System.out.println(lines.limit(12));
 //        System.out.println(lines.count());
+        Date validDate = Date.from(LocalDateTime.now().minusMinutes(5).atZone(ZoneId.systemDefault()).toInstant());
+        System.out.println(validDate);
+
     }
 
     @Test
@@ -417,6 +429,79 @@ public class DailyTest {
 
         List<String> aList = new ArrayList<>(2);
         System.out.println(aList.size());
+
+    }
+
+    private static Pattern humpPattern = Pattern.compile("[A-Z]");
+    private static Pattern linePattern = Pattern.compile("_(\\w)");
+
+    /**
+     * 下划线命名转驼峰格式命名
+     */
+    private static String lineToHump(String string) {
+        string = string.toLowerCase();
+        Matcher matcher = linePattern.matcher(string);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+
+    /**
+     * 驼峰格式命名转下划线格式
+     *
+     * @param string
+     * @return
+     */
+    public static String humpToLine(String string) {
+        Matcher matcher = humpPattern.matcher(string);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+    @Test
+    public void test7() {
+        String word = "aa_bb_cc_dd";
+        System.out.println(lineToHump(word));
+    }
+
+    @Test
+    public void sortTest() {
+        List<Student> studentList = new ArrayList<>(4);
+        Student student = new Student();
+        student.setAge(16);
+        student.setName("小明16");
+        studentList.add(student);
+
+        student = new Student();
+        student.setAge(16);
+        student.setName("小明16-1");
+        studentList.add(student);
+
+        student = new Student();
+        student.setAge(18);
+        student.setName("小明18");
+        studentList.add(student);
+
+        student = new Student();
+        student.setAge(17);
+        student.setName("小明17");
+        studentList.add(student);
+
+        System.out.println(JSON.toJSONString(studentList));
+
+        List<Student> sortedList = studentList.stream().sorted(Comparator.comparing(Student::getAge)).collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(sortedList));
+
+        List<Student> maxSortedList = studentList.stream().sorted(Comparator.comparing(Student::getAge).reversed()).collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(maxSortedList));
 
     }
 
