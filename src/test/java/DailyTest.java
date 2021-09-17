@@ -4,15 +4,21 @@ import com.alibaba.fastjson.JSONObject;
 import com.ctc.wstx.osgi.WstxBundleActivator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
+import com.sun.security.auth.UnixNumericUserPrincipal;
+import com.sun.tools.corba.se.idl.StringGen;
 import com.wuming.model.Account;
 import com.wuming.model.Student;
 import com.wuming.util.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import sun.jvm.hotspot.code.StubQueue;
@@ -26,6 +32,7 @@ import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -466,10 +473,14 @@ public class DailyTest {
         return sb.toString();
     }
 
+    private static final Long CREATE_USER_SUCCESS_ERROR_CODE = 40103L;
+
     @Test
     public void test7() {
         String word = "aa_bb_cc_dd";
         System.out.println(lineToHump(word));
+        String code = String.valueOf(CREATE_USER_SUCCESS_ERROR_CODE);
+        System.out.println(code);
     }
 
     @Test
@@ -504,5 +515,42 @@ public class DailyTest {
         System.out.println(JSON.toJSONString(maxSortedList));
 
     }
+
+    @Test
+    public void replaceTest() {
+        JSONArray userIdArray = JSON.parseArray("[\"091549022126214746\",\"036308233436490420\",\"09154902191147553\",\"295868363623285786\",\"2943106357851685\",\"3723380800996542\",\"01620141421263761\",\"190833331923102269\",\"051465494232995563\",\"2633261602775803\",\"01311364680132669043\",\"196114452537914998\",\"3048506468854662\",\"030224492523449159\",\"2802492735955635\",\"172253291223500337\",\"123743554930696717\",\"0646405720774908\",\"20090058611031150\",\"01393715591252632\",\"2853170253853285\",\"140845103226407318\",\"290114505938218152\",\"295741281421034915\",\"286563172729497259\",\"01255637462521729017\",\"28561401421041531\",\"131121244220914380\",\"181659075526272041\",\"2853441344784659\",\"036613225435056584\",\"174156226438255496\",\"092154004223224129\",\"293954392032912367\",\"172144664226041271\",\"222451053720846830\",\"142347086438937589\",\"01100261151529257803\",\"01083815406321463341\",\"280106371930203470\",\"035416146724293076\",\"035554611920255535\"]");
+        List<Long> userIds = new ArrayList<>(userIdArray.size());
+        for (int i = 0; i < userIdArray.size(); i++) {
+            userIds.add(Long.valueOf(userIdArray.get(i).toString()));
+        }
+        System.out.println("userId size: "  + userIds.size());
+        userIds = userIds.subList(0, 10);
+        System.out.println(userIds);
+        System.out.println("userId size: "  + userIds.size());
+        // 计算切片次数
+        int cuteTimes = userIds.size() % 10 > 0 ? userIds.size() / 10 + 1 : userIds.size()/10;
+        System.out.println("sendTimes: "  + cuteTimes);
+        List<Long> subUserIds;
+        for (int i = 0; i < cuteTimes; i++) {
+            int startPos = i * 10;
+            int endPos = Math.min(startPos + 10, userIds.size());
+            subUserIds = userIds.subList(startPos, endPos);
+            System.out.println(String.format("sendWorkMessageByUserId#info, startPos=%s, endPos=%s, subUserIs=%s", startPos, endPos, subUserIds));
+
+        }
+    }
+
+    @Test
+    public void replaceTest2() {
+//        String urlTemplate = "pages/activity/index?q=ENCODE_URL";
+//        String a = StringUtils.replaceEach(urlTemplate, new String[]{"ENCODE_URL", "SOURCE"}, new String[]{"abc", ""});
+//        System.out.println(a);
+        List<String> dataList = Arrays.asList("a", "null", "", "b", "");
+        dataList = Arrays.asList("a", null, "", "b", null);
+//        System.out.println(Joiner.on(",").join(dataList));
+        System.out.println(Joiners.COMMA.join(dataList));
+
+    }
+
 
 }
