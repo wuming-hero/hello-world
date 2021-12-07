@@ -22,7 +22,7 @@ public class ExecutorTest2 {
      * 自定义线程池名称
      */
     private static final ThreadFactory customerThreadFactory = new ThreadFactoryBuilder()
-            .setNameFormat("customerFlowPool-%d").build();
+            .setNameFormat("customerThreadPool-%d").build();
     /**
      * 线程池设置策略：
      * <p>
