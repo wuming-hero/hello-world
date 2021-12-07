@@ -16,6 +16,7 @@ public class Student extends Account implements Serializable {
     private Integer age;
     private String name;
     private Map<String, String> featureMap;
+    private Boolean hasMore;
 
     public static void main(String[] args) {
         Student test = new Student();
@@ -75,4 +76,11 @@ public class Student extends Account implements Serializable {
         return featureMap.get(key);
     }
 
+    public Boolean getHasMore() {
+        return hasMore;
+    }
+
+    public void setHasMore(Boolean hasMore) {
+        this.hasMore = hasMore;
+    }
 }

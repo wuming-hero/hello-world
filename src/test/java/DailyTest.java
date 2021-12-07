@@ -20,6 +20,9 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
 import sun.jvm.hotspot.code.StubQueue;
 
@@ -34,12 +37,14 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.Base64;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -545,12 +550,29 @@ public class DailyTest {
 //        String urlTemplate = "pages/activity/index?q=ENCODE_URL";
 //        String a = StringUtils.replaceEach(urlTemplate, new String[]{"ENCODE_URL", "SOURCE"}, new String[]{"abc", ""});
 //        System.out.println(a);
-        List<String> dataList = Arrays.asList("a", "null", "", "b", "");
-        dataList = Arrays.asList("a", null, "", "b", null);
-//        System.out.println(Joiner.on(",").join(dataList));
-        System.out.println(Joiners.COMMA.join(dataList));
+//        List<String> dataList = Arrays.asList("a", "null", "", "b", "");
+//        dataList = Arrays.asList("无名", "b", "蛮极");
+////        System.out.println(Joiner.on(",").join(dataList));
+//        System.out.println(Joiners.DUN_HAO.join(dataList));
+        LocalDate localDate = LocalDate.parse("2021-08-11", DateTimeFormat.forPattern ("yyyy-MM-dd"));
+        System.out.println(localDate);
+        System.out.println(localDate.plusDays(100));
+        String sellerAddressErrorFrameContent = "<div style=\"font-size: 17px;color: #FD3434;text-align:center;line-height: 25px\">收件人：%s</div><div style=\"font-size: 17px;color: #111111;text-align:center;line-height: 25px\">请联系商家，获取正确地址后再修改后寄出</div>";
+        String data = String.format(sellerAddressErrorFrameContent, "蛮极 13123936686 浙江省杭州市叙述区");
+        System.out.println(data);
+
+        Student student = new Student();
+        System.out.println(Objects.equals(student.getHasMore(), Boolean.TRUE) ? "1" : 2);
+
+        String linkUrl = "https://h5.m.taobao.com/ww/index.htm#!dialog-{0}---";
+
+//        System.out.println(Base64.getEncoder().encodeToString("c大垚测试账号03".getBytes(StandardCharsets.UTF_8)));
+//        System.out.println(Base64.getEncoder().encodeToString("c测试蛮极007".getBytes(StandardCharsets.UTF_8)));
+
+        System.out.println(MessageFormat.format(linkUrl, Base64.getEncoder().encodeToString("蛮极".getBytes(StandardCharsets.UTF_8))));
+
+        System.out.println(MessageFormat.format(linkUrl, Base64.getEncoder().encodeToString("c大垚测试账号03".getBytes(StandardCharsets.UTF_8))));
 
     }
-
 
 }
