@@ -13,7 +13,7 @@
         <guava.version>21.0</guava.version>
         <junit.version>4.12</junit.version>
         <dozer.version>5.5.1</dozer.version>
-        <log4j.version>2.8.2</log4j.version>
+        <log4j.version>2.15.0</log4j.version>
         <dom4j.version>1.6.1</dom4j.version>
         <jsoup.version>1.10.3</jsoup.version>
         <slf4j.version>1.7.25</slf4j.version>
