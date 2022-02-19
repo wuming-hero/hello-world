@@ -7,11 +7,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 import com.sun.security.auth.UnixNumericUserPrincipal;
 import com.sun.tools.corba.se.idl.StringGen;
 import com.wuming.model.Account;
 import com.wuming.model.Student;
 import com.wuming.util.*;
+import com.wuming.util.excel.PoiExcel2k7Helper;
+import com.wuming.util.excel.PoiExcelHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.csv.CSVFormat;
@@ -38,6 +41,7 @@ import java.net.SocketException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -554,25 +558,65 @@ public class DailyTest {
 //        dataList = Arrays.asList("无名", "b", "蛮极");
 ////        System.out.println(Joiner.on(",").join(dataList));
 //        System.out.println(Joiners.DUN_HAO.join(dataList));
-        LocalDate localDate = LocalDate.parse("2021-08-11", DateTimeFormat.forPattern ("yyyy-MM-dd"));
-        System.out.println(localDate);
-        System.out.println(localDate.plusDays(100));
-        String sellerAddressErrorFrameContent = "<div style=\"font-size: 17px;color: #FD3434;text-align:center;line-height: 25px\">收件人：%s</div><div style=\"font-size: 17px;color: #111111;text-align:center;line-height: 25px\">请联系商家，获取正确地址后再修改后寄出</div>";
-        String data = String.format(sellerAddressErrorFrameContent, "蛮极 13123936686 浙江省杭州市叙述区");
-        System.out.println(data);
+//        LocalDate localDate = LocalDate.parse("2021-08-11", DateTimeFormat.forPattern ("yyyy-MM-dd"));
+//        System.out.println(localDate);
+//        System.out.println(localDate.plusDays(100));
+//        String sellerAddressErrorFrameContent = "<div style=\"font-size: 17px;color: #FD3434;text-align:center;line-height: 25px\">收件人：%s</div><div style=\"font-size: 17px;color: #111111;text-align:center;line-height: 25px\">请联系商家，获取正确地址后再修改后寄出</div>";
+//        String data = String.format(sellerAddressErrorFrameContent, "蛮极 13123936686 浙江省杭州市叙述区");
+//        System.out.println(data);
+//
+//        String linkUrl = "https://h5.m.taobao.com/ww/index.htm#!dialog";
+//        System.out.println(MessageFormat.format(linkUrl, Base64.getEncoder().encodeToString("蛮极".getBytes(StandardCharsets.UTF_8))));
+//
+//        String a = "{\"buyerId\":2212853034913,\"orderSource\":2,\"sellerId\":2211776916769,\"msgId\":\"ef8dfc2247fba88cd212998b9bb39143\",\"refundId\":147406573557034900,\"bizOrderId\":2417459689293031400,\"messageType\":\"RP-REFUND-AGRT-APPLIED\",\"bizClaimTypeEnum\":\"RETURN_AND_REFUND\"}";
+//        System.out.println(JSON.parse(a));
+        String address = "杭州市萧山区萧山区靖江街道保税大道西侧";
+        Map<String, Double> dataMap = BaiduMapApi.getLngLat(address);
+        DecimalFormat df = new DecimalFormat("#.000000");
+        System.out.println(dataMap);
+        System.out.println(df.format(dataMap.get("lng")));
+        System.out.println(df.format(dataMap.get("lat")));
 
-        Student student = new Student();
-        System.out.println(Objects.equals(student.getHasMore(), Boolean.TRUE) ? "1" : 2);
+        Map<String, String> dataMap2 = GaoDeMapApi.getLngLat(address);
+        System.out.println(dataMap2);
+        System.out.println(dataMap2.get("lng"));
+        System.out.println(dataMap2.get("lat"));
 
-        String linkUrl = "https://h5.m.taobao.com/ww/index.htm#!dialog-{0}---";
+    }
 
-//        System.out.println(Base64.getEncoder().encodeToString("c大垚测试账号03".getBytes(StandardCharsets.UTF_8)));
-//        System.out.println(Base64.getEncoder().encodeToString("c测试蛮极007".getBytes(StandardCharsets.UTF_8)));
+    @Test
+    public void excelTest() throws Exception {
+        String filePath = "/Users/manji/documents/地址工作簿.xlsx";
+        PoiExcelHelper excelHelper = PoiExcelHelper.create(filePath.substring(filePath.lastIndexOf(".")));
 
-        System.out.println(MessageFormat.format(linkUrl, Base64.getEncoder().encodeToString("蛮极".getBytes(StandardCharsets.UTF_8))));
+        List<String> addressList = Lists.newArrayList();
+        List<String> sheetList = excelHelper.getSheetList(filePath);
+        for (int i = 0; i < sheetList.size(); i++) {
+            // 表头字段列表
+            List<String> fieldList = new ArrayList<>();
+            // 循环读取每个sheet的内容
+            List<List<String>> dataList = excelHelper.readExcel(filePath, i);
+            // windows上新建excel文件，默认生成3个sheet,有两个空的备用sheet
+            if (dataList.isEmpty()) continue;
 
-        System.out.println(MessageFormat.format(linkUrl, Base64.getEncoder().encodeToString("c大垚测试账号03".getBytes(StandardCharsets.UTF_8))));
+            // 打印表头数据，因为有合并行，最后一列为合并行标志，即标志当前单元格是否在合并行范围内，且数值代表在当前合并行的行号
+            List<String> keyList = dataList.get(0);
+            for (int j = 0; j < keyList.size(); j++) {
+                fieldList.add(keyList.get(j));
+            }
+            System.out.println("---->>>>fieldList: " + fieldList);
 
+            // 打印所有数据
+            for (List<String> strings : dataList) {
+//                System.out.println("count: " + strings.size() + ", data: " + strings);
+                String address = strings.get(0);
+                Map<String, String> dataMap = GaoDeMapApi.getLngLat(address);
+                System.out.println(address + "," + dataMap.get("lng") + "," + dataMap.get("lat"));
+
+            }
+//            System.out.println("---->>>>addressSize: " + addressList.size());
+//            System.out.println("---->>>>addressList: " + addressList);
+        }
     }
 
 }
