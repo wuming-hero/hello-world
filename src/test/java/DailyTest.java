@@ -41,8 +41,10 @@ import java.net.SocketException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -618,5 +620,13 @@ public class DailyTest {
 //            System.out.println("---->>>>addressList: " + addressList);
         }
     }
+
+    @Test
+    public void dateTest() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        System.out.println(dateFormat.format(new Date()));
+    }
+
+
 
 }
