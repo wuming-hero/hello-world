@@ -23,7 +23,6 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
@@ -45,10 +44,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.*;
 import java.util.Base64;
 import java.util.concurrent.ConcurrentHashMap;
@@ -467,7 +463,6 @@ public class DailyTest {
         return sb.toString();
     }
 
-
     /**
      * 驼峰格式命名转下划线格式
      *
@@ -534,13 +529,13 @@ public class DailyTest {
         for (int i = 0; i < userIdArray.size(); i++) {
             userIds.add(Long.valueOf(userIdArray.get(i).toString()));
         }
-        System.out.println("userId size: "  + userIds.size());
+        System.out.println("userId size: " + userIds.size());
         userIds = userIds.subList(0, 10);
         System.out.println(userIds);
-        System.out.println("userId size: "  + userIds.size());
+        System.out.println("userId size: " + userIds.size());
         // 计算切片次数
-        int cuteTimes = userIds.size() % 10 > 0 ? userIds.size() / 10 + 1 : userIds.size()/10;
-        System.out.println("sendTimes: "  + cuteTimes);
+        int cuteTimes = userIds.size() % 10 > 0 ? userIds.size() / 10 + 1 : userIds.size() / 10;
+        System.out.println("sendTimes: " + cuteTimes);
         List<Long> subUserIds;
         for (int i = 0; i < cuteTimes; i++) {
             int startPos = i * 10;
@@ -627,6 +622,19 @@ public class DailyTest {
         System.out.println(dateFormat.format(new Date()));
     }
 
-
+    /**
+     * 媳妇产假计算
+     * <p>
+     * 158天产假 [8.15-2023.1.19]
+     * <p>
+     * 从8.15号开始，包括15号，结束时间 2023.1.19号，包括19号
+     */
+    @Test
+    public void dateTest2() {
+        LocalDate localDate = LocalDate.of(2022, 8, 15);
+        System.out.println(localDate);
+        LocalDate targetDay = localDate.plusDays(158);
+        System.out.println(targetDay);
+    }
 
 }
