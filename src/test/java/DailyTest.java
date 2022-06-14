@@ -637,4 +637,13 @@ public class DailyTest {
         System.out.println(targetDay);
     }
 
+    @Test
+    public void subListTest() {
+        List<Integer> dataList = Arrays.asList(1, 2, 3, 4, 5);
+        System.out.println(dataList.subList(0, dataList.size()));
+
+    }
+
+
+
 }

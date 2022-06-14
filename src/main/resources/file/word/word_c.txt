@@ -11,6 +11,7 @@ apps "App Store"
 appw Watch
 aqtr 艾特
 atlt 甘特图
+aviy 切流
 ayay 蓑芒
 bbds 子奇
 bbgr 子珠
@@ -48,10 +49,12 @@ fctg 去重
 fcyh 云卞 文卞
 ffth 封版
 fgdd 二套
+fhqy 赶鸟
 fhrm 直投
 fhtj 真香
 fism 未枫
 fiyf 未读
+fjge 乾静
 fjhk 埋点
 fjxg 进线
 fksk 嘉哥
@@ -100,6 +103,7 @@ irwr 派件
 isxt 河络
 itbb 涤子
 itdc 活码
+item itemDetail
 itsk 海歌
 iupy 润福
 ivpg 当宝
@@ -144,6 +148,7 @@ msyh 岗李店
 mtuh 峰站
 mtuj 几单
 myqy 丹鸟
+myvv 丹娜
 nnbm 已出
 nnyc 快充
 nnyf 已读
@@ -163,7 +168,7 @@ pyrv 社招
 qaps 金戈宁
 qedp 触达
 qesk 觞哥
-qgg   https://qingg.im 清歌输入法
+qgg       https://qingg.im 清歌输入法
 qgtg 鲜生
 qhuj 外单
 qimf 尔冉
@@ -180,6 +185,7 @@ rfdm 热干面
 rgsf 抹标
 rhsf 年桔
 rjim 提测
+rjir 揽派
 rjnh 揽收
 rjrb 提报
 rjuq 提效
@@ -194,7 +200,7 @@ rtdf 搬砖
 rtiq 手淘
 rtwq 挺爷
 ruow 拉粉
-ruuj 抖音 拌音
+ruuj 抖音
 ruus 拉新
 ruvt 拉群
 rvdc 扫码
@@ -231,8 +237,10 @@ tfym 行高
 tgrm 重投
 tgyt 重放
 theg 息县
+tjte 复盘
 tmwb 奥创
 touj 释意
+trac traceId
 trbf 循际
 tryk 牧识
 tthp 笑睿
@@ -254,6 +262,7 @@ utsw 产检
 uttg 首重
 utyw 首座
 uyfg 六雨
+vjgf 旭玮
 vtwf 君传
 wark 代扣
 wawf 代付
@@ -288,12 +297,15 @@ ygiw 语雀
 yjsg 裹配
 yjyj 裹裹
 ykha 识虚
+ymtf 高德
 ynfg 忘雨
 ynkh 望路
 yose 蛮极
 ytsy 话术
 yuiw 谦誉
+yusw 谦橙
 yxhe 玄眀
 yxvo 玄灵
 yyte 方舱
+yyuk 方总
 zzem 常用Emoji 😂 🐶 👍 ❤️ 🙏
