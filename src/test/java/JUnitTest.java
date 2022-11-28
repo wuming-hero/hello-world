@@ -1,4 +1,5 @@
 import com.google.common.collect.ImmutableList;
+import com.wuming.enums.CalculateTypeEnum;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -86,6 +87,10 @@ public class JUnitTest {
         System.out.println(dataList.stream().map(data -> data / 100).collect(Collectors.toList()));
 
         System.out.println(dataList.stream().map(data -> centsToYuan(Long.valueOf(data))).collect(Collectors.toList()));
+
+        System.out.println(CalculateTypeEnum.VOLUME);
+        System.out.println(String.valueOf(CalculateTypeEnum.VOLUME));
+        System.out.println(String.valueOf(CalculateTypeEnum.VOLUME.name()));
 
     }
 

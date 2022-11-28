@@ -3,6 +3,7 @@ package com.wuming.date;
 import org.junit.Test;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
@@ -62,6 +63,7 @@ public class LocalDateTest {
         // 方法一
         Date date = Date.from(LocalDateTime.now().atZone(zoneId).toInstant());
         System.out.println("LocalDateTime:" + localDateTime + "---->Date = " + date);
+        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
     @Test
@@ -94,6 +96,7 @@ public class LocalDateTest {
 
         System.out.println(LocalDateTime.now().getYear());
         System.out.println(LocalDateTime.now().getNano());
+
     }
 
 }

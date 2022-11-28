@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.sun.security.auth.UnixNumericUserPrincipal;
 import com.sun.tools.corba.se.idl.StringGen;
@@ -620,6 +621,17 @@ public class DailyTest {
     public void dateTest() throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日");
         System.out.println(dateFormat.format(new Date()));
+        System.out.println(Math.log10(1));
+
+        long options = 1152921508901814272L;
+        String binaryOptions = Long.toBinaryString(options);
+        System.out.println(binaryOptions);
+        System.out.println(StringUtils.reverse(binaryOptions));
+        System.out.println(Objects.equals(String.valueOf(StringUtils.reverse(binaryOptions).charAt(60)), "1"));
+        if (binaryOptions.length() < 61 || !Objects.equals(String.valueOf(StringUtils.reverse(binaryOptions).charAt(60)), "1")) {
+            System.out.println(StringUtils.reverse(binaryOptions).charAt(60));
+        }
+        System.out.println(true);
     }
 
     /**
@@ -631,7 +643,7 @@ public class DailyTest {
      */
     @Test
     public void dateTest2() {
-        LocalDate localDate = LocalDate.of(2022, 8, 15);
+        LocalDate localDate = LocalDate.of(2022, 8, 10);
         System.out.println(localDate);
         LocalDate targetDay = localDate.plusDays(158);
         System.out.println(targetDay);
@@ -639,9 +651,42 @@ public class DailyTest {
 
     @Test
     public void subListTest() {
-        List<Integer> dataList = Arrays.asList(1, 2, 3, 4, 5);
-        System.out.println(dataList.subList(0, dataList.size()));
+//        List<Integer> dataList = Arrays.asList(1, 2, 3, 4, 5);
+//        System.out.println(dataList.subList(0, dataList.size()));
+//
+//        String cacheKey = String.format("calculatePriceKey_%s_%s_%s_%s", 1, 2, 3, 4);
+//        Object a = "242424";
+//        cacheKey += "_" + a;
+//        System.out.println(cacheKey);
+        String dutyType = null;
+        System.out.println(Arrays.asList("1", "2").contains(dutyType));
+        System.out.println(ImmutableList.of("1", "2").contains(dutyType));
 
+        String listString = "[\n" +
+                "\"2022-11-04 17:00~2022-11-04 19:00\",\n" +
+                "\"2022-11-05 09:00~2022-11-05 11:00\",\n" +
+                "\"2022-11-05 11:00~2022-11-05 13:00\",\n" +
+                "\"2022-11-05 13:00~2022-11-05 15:00\",\n" +
+                "\"2022-11-05 15:00~2022-11-05 17:00\",\n" +
+                "\"2022-11-05 17:00~2022-11-05 19:00\",\n" +
+                "\"2022-11-06 09:00~2022-11-06 11:00\",\n" +
+                "\"2022-11-06 11:00~2022-11-06 13:00\",\n" +
+                "\"2022-11-06 13:00~2022-11-06 15:00\",\n" +
+                "\"2022-11-06 15:00~2022-11-06 17:00\",\n" +
+                "\"2022-11-06 17:00~2022-11-06 19:00\",\n" +
+                "\"2022-11-07 09:00~2022-11-07 11:00\",\n" +
+                "\"2022-11-07 11:00~2022-11-07 13:00\",\n" +
+                "\"2022-11-07 13:00~2022-11-07 15:00\",\n" +
+                "\"2022-11-07 15:00~2022-11-07 17:00\",\n" +
+                "\"2022-11-07 17:00~2022-11-07 19:00\",\n" +
+                "\"2022-11-08 09:00~2022-11-08 11:00\",\n" +
+                "\"2022-11-08 11:00~2022-11-08 13:00\",\n" +
+                "\"2022-11-08 13:00~2022-11-08 15:00\",\n" +
+                "\"2022-11-08 15:00~2022-11-08 17:00\",\n" +
+                "\"2022-11-08 17:00~2022-11-08 19:00\"\n" +
+                "]";
+        List<String> timeRangeList = JSON.parseArray(listString, String.class);
+        System.out.println(timeRangeList);
     }
 
 
