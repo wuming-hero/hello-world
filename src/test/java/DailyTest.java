@@ -9,6 +9,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.sun.security.auth.UnixNumericUserPrincipal;
 import com.sun.tools.corba.se.idl.StringGen;
 import com.wuming.model.Account;
@@ -17,6 +18,7 @@ import com.wuming.util.*;
 import com.wuming.util.excel.PoiExcel2k7Helper;
 import com.wuming.util.excel.PoiExcelHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -35,6 +37,8 @@ import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -642,11 +646,27 @@ public class DailyTest {
      * 从8.15号开始，包括15号，结束时间 2023.1.19号，包括19号
      */
     @Test
-    public void dateTest2() {
-        LocalDate localDate = LocalDate.of(2022, 8, 10);
-        System.out.println(localDate);
-        LocalDate targetDay = localDate.plusDays(158);
-        System.out.println(targetDay);
+    public void dateTest2() throws InvocationTargetException, IllegalAccessException {
+//        LocalDate localDate = LocalDate.of(2022, 8, 10);
+//        System.out.println(localDate);
+//        LocalDate targetDay = localDate.plusDays(158);
+//        System.out.println(targetDay);
+
+        // 先深拷贝出原标签，后面需要回补标签
+        Map<String, String> oldExtensionMap = Maps.newHashMap();
+        Map<String, String> extensionMap = Maps.newHashMap();
+        extensionMap.put("a", "1");
+        extensionMap.put("b", "2");
+        extensionMap.put("c", "3");
+//        BeanUtils.copyProperties(extensionMap, oldExtensionMap);
+        for (Map.Entry<String, String> entry : extensionMap.entrySet()) {
+            oldExtensionMap.put(entry.getKey(), entry.getValue());
+        }
+
+        extensionMap.remove("a");
+        System.out.println(extensionMap);
+        System.out.println(oldExtensionMap);
+        System.out.println(Long.MAX_VALUE);
     }
 
     @Test
@@ -662,33 +682,31 @@ public class DailyTest {
         System.out.println(Arrays.asList("1", "2").contains(dutyType));
         System.out.println(ImmutableList.of("1", "2").contains(dutyType));
 
-        String listString = "[\n" +
-                "\"2022-11-04 17:00~2022-11-04 19:00\",\n" +
-                "\"2022-11-05 09:00~2022-11-05 11:00\",\n" +
-                "\"2022-11-05 11:00~2022-11-05 13:00\",\n" +
-                "\"2022-11-05 13:00~2022-11-05 15:00\",\n" +
-                "\"2022-11-05 15:00~2022-11-05 17:00\",\n" +
-                "\"2022-11-05 17:00~2022-11-05 19:00\",\n" +
-                "\"2022-11-06 09:00~2022-11-06 11:00\",\n" +
-                "\"2022-11-06 11:00~2022-11-06 13:00\",\n" +
-                "\"2022-11-06 13:00~2022-11-06 15:00\",\n" +
-                "\"2022-11-06 15:00~2022-11-06 17:00\",\n" +
-                "\"2022-11-06 17:00~2022-11-06 19:00\",\n" +
-                "\"2022-11-07 09:00~2022-11-07 11:00\",\n" +
-                "\"2022-11-07 11:00~2022-11-07 13:00\",\n" +
-                "\"2022-11-07 13:00~2022-11-07 15:00\",\n" +
-                "\"2022-11-07 15:00~2022-11-07 17:00\",\n" +
-                "\"2022-11-07 17:00~2022-11-07 19:00\",\n" +
-                "\"2022-11-08 09:00~2022-11-08 11:00\",\n" +
-                "\"2022-11-08 11:00~2022-11-08 13:00\",\n" +
-                "\"2022-11-08 13:00~2022-11-08 15:00\",\n" +
-                "\"2022-11-08 15:00~2022-11-08 17:00\",\n" +
-                "\"2022-11-08 17:00~2022-11-08 19:00\"\n" +
-                "]";
-        List<String> timeRangeList = JSON.parseArray(listString, String.class);
-        System.out.println(timeRangeList);
+        Map<String, String> dataMap = Maps.newHashMap();
+        dataMap.put("code", "20000");
+        dataMap.put("msg", "failed");
+        dataMap.put("sub_code", "SYSTEM_ERROR");
+        dataMap.put("sub_msg", "系统错误，请稍后重试");
+        String a = JSON.toJSONString(dataMap);
+        System.out.println(a);
+
+        JSONObject dataObj = new JSONObject();
+        dataObj.put("code", "20000");
+        dataObj.put("msg", "failed");
+        dataObj.put("sub_code", "SYSTEM_ERROR");
+        dataObj.put("sub_msg", "系统错误，请稍后重试");
+        String b = dataObj.toJSONString();
+        System.out.println(b);
+
+        System.out.println(Objects.equals(a, b));
+
     }
 
-
+    private String cents2Yuan(Long cents) {
+        if (Objects.isNull(cents)) {
+            return null;
+        }
+        return new BigDecimal(cents).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).toString();
+    }
 
 }

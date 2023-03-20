@@ -1,11 +1,22 @@
 package com.wuming.date;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * JDK 1.8 日期、时间处理
@@ -51,6 +62,7 @@ public class LocalDateTest {
         // 方法二
         LocalDateTime localDateTime2 = LocalDateTime.ofInstant(date.toInstant(), zoneId);
         System.out.println("Date:" + date + "---->LocalDateTime = " + localDateTime2);
+
     }
 
     /**
@@ -96,6 +108,56 @@ public class LocalDateTest {
 
         System.out.println(LocalDateTime.now().getYear());
         System.out.println(LocalDateTime.now().getNano());
+
+    }
+
+    public static void main(String[] args) {
+        String value = "2023021608050889092272";
+//        Map<String, String> dataMap = Maps.newHashMap();
+//        dataMap.put("couponId", value);
+//        Long couponId = MapUtils.getLong(dataMap, "couponId");
+//        System.out.println(couponId);
+
+//        Long longValue = Long.parseLong(value);
+//        System.out.println(longValue);
+//        System.out.println(Objects.equals(null, null));
+
+//        Number number = new Double(value);
+//        System.out.println(number.longValue());
+
+//        long triggerTime = 1677152380;
+//        LocalDateTime targetTime = LocalDateTime.ofEpochSecond(triggerTime, 0, ZoneOffset.ofHours(8));
+//        // 当天可发送的时间段
+//        LocalDateTime startTime = LocalDateTime.of(targetTime.toLocalDate(), LocalTime.of(8, 0));
+//        LocalDateTime endTime = LocalDateTime.of(targetTime.toLocalDate(), LocalTime.of(22, 0));
+//        LocalDateTime now = LocalDateTime.now().plusHours(11);
+//        System.out.println("startTime:" + startTime);
+//        System.out.println("endTime:" + endTime);
+//        System.out.println("now:" + now);
+//        if (now.isBefore(startTime) || now.isAfter(endTime)) {
+//            System.out.println("fail");
+//        }
+//        System.out.println(String.format("SKIP_NEAREST_EXPIRE_WRONG_TIME_MSG_%s", LocalDateTime.now()));
+//
+//        List<Integer> aList = Lists.newArrayList(990,1,3);
+//        System.out.println(CollectionUtils.containsAny(aList, Lists.newArrayList(2, 99)));
+
+//        LocalDateTime now = LocalDateTime.now();
+//        System.out.println(now);
+//        long triggerTime = now.atZone(ZoneId.systemDefault()).toEpochSecond();
+//        System.out.println(triggerTime);
+//
+//
+//
+//        long millisecond = TimeUnit.MILLISECONDS.convert(triggerTime, TimeUnit.SECONDS);
+//        System.out.println(millisecond);
+//        LocalDateTime target = LocalDateTime.ofInstant(Instant.ofEpochMilli(millisecond), ZoneOffset.ofHours(8));
+//        System.out.println(target);
+//
+//        System.out.println(Long.MAX_VALUE);
+//        LocalDateTime targetTime = LocalDateTime.ofEpochSecond(1677168000L, 0, ZoneOffset.of("+8"));
+//        System.out.println(targetTime);
+//        System.out.println(Long.MAX_VALUE > 1677168000000L);
 
     }
 
