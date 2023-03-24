@@ -85,23 +85,34 @@ public class ImageUtils {
         }
     }
 
+    /**
+     * 图片裁剪
+     *
+     * @param srcImageFile 要裁剪的图片路径
+     * @param result  裁剪后输出的图片路径
+     * @param x 裁剪开始的坐标x
+     * @param y 裁剪开始的坐标y
+     * @param width 裁剪的宽度
+     * @param height 裁剪的高度
+     */
     public static final void cut(String srcImageFile, String result, int x, int y, int width, int height) {
         try {
             BufferedImage bi = ImageIO.read(new File(srcImageFile));
-            int srcWidth = bi.getHeight();
-            int srcHeight = bi.getWidth();
+            int srcWidth = bi.getWidth();
+            int srcHeight = bi.getHeight();
             if ((srcWidth > 0) && (srcHeight > 0)) {
                 Image image = bi.getScaledInstance(srcWidth, srcHeight, 1);
-
                 ImageFilter cropFilter = new CropImageFilter(x, y, width, height);
-                Image img = Toolkit.getDefaultToolkit()
-                        .createImage(new FilteredImageSource(image.getSource(), cropFilter));
+                // 根据传入坐标和宽高进行截图
+                Image img = Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(image.getSource(), cropFilter));
+                // 创建输出图片的缓存
                 BufferedImage tag = new BufferedImage(width, height, 1);
+                // 使用Graphics将截图写入目标图片
                 Graphics g = tag.getGraphics();
                 g.drawImage(img, 0, 0, width, height, null);
                 g.dispose();
-
-                ImageIO.write(tag, "JPEG", new File(result));
+                // 图片缓存写入目标文件
+                ImageIO.write(tag, "PNG", new File(result));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -454,16 +465,23 @@ public class ImageUtils {
     }
 
     public static void main(String[] args) {
-        String imgFile = "d:\\123.jpg";
-        String netUrl = "http://t3.qlogo.cn/mbloghead/35f3469a2fa055c25ec2/120";
+//        String imgFile = "d:\\123.jpg";
+//        String netUrl = "http://t3.qlogo.cn/mbloghead/35f3469a2fa055c25ec2/120";
+//
+//        String fileFolder = "D:/weibo-image/20110120/123/456/789/";
+//        String fileName = "posterface.jpg";
+//
+//        String meinv_url = "http://126.fm/nlC2n";
+//        String face_url = "http://tp4.sinaimg.cn/1427388087/180/1297002209/1";
+//        for (int i = 0; i < 100; i++) {
+//            readNetImageToLocal(meinv_url, "d:/meinv/", i + "meinv.jpg");
+//        }
+        String sourceImage = "/Users/manji/Pictures/dian_shang_refund/pdd.png";
+        String descImage = "/Users/manji/Pictures/dian_shang_refund/cut/pdd.png";
 
-        String fileFolder = "D:/weibo-image/20110120/123/456/789/";
-        String fileName = "posterface.jpg";
 
-        String meinv_url = "http://126.fm/nlC2n";
-        String face_url = "http://tp4.sinaimg.cn/1427388087/180/1297002209/1";
-        for (int i = 0; i < 100; i++) {
-            readNetImageToLocal(meinv_url, "d:/meinv/", i + "meinv.jpg");
-        }
+        int x = 0, y = 859, width = 750, height = 120;
+        cut(sourceImage, descImage, x, y, width, height);
+
     }
 }
