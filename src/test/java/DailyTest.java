@@ -651,6 +651,8 @@ public class DailyTest {
 //        System.out.println(localDate);
 //        LocalDate targetDay = localDate.plusDays(158);
 //        System.out.println(targetDay);
+        LocalDate localDate = LocalDate.now();
+        System.out.println(localDate.minusDays(30));
 
         // 先深拷贝出原标签，后面需要回补标签
         Map<String, String> oldExtensionMap = Maps.newHashMap();
@@ -678,27 +680,29 @@ public class DailyTest {
 //        Object a = "242424";
 //        cacheKey += "_" + a;
 //        System.out.println(cacheKey);
-        String dutyType = null;
-        System.out.println(Arrays.asList("1", "2").contains(dutyType));
-        System.out.println(ImmutableList.of("1", "2").contains(dutyType));
+//        String dutyType = null;
+//        System.out.println(Arrays.asList("1", "2").contains(dutyType));
+//        System.out.println(ImmutableList.of("1", "2").contains(dutyType));
+//
+//        Map<String, String> dataMap = Maps.newHashMap();
+//        dataMap.put("code", "20000");
+//        dataMap.put("msg", "failed");
+//        dataMap.put("sub_code", "SYSTEM_ERROR");
+//        dataMap.put("sub_msg", "系统错误，请稍后重试");
+//        String a = JSON.toJSONString(dataMap);
+//        System.out.println(a);
+//
+//        JSONObject dataObj = new JSONObject();
+//        dataObj.put("code", "20000");
+//        dataObj.put("msg", "failed");
+//        dataObj.put("sub_code", "SYSTEM_ERROR");
+//        dataObj.put("sub_msg", "系统错误，请稍后重试");
+//        String b = dataObj.toJSONString();
+//        System.out.println(b);
+//
+//        System.out.println(Objects.equals(a, b));
 
-        Map<String, String> dataMap = Maps.newHashMap();
-        dataMap.put("code", "20000");
-        dataMap.put("msg", "failed");
-        dataMap.put("sub_code", "SYSTEM_ERROR");
-        dataMap.put("sub_msg", "系统错误，请稍后重试");
-        String a = JSON.toJSONString(dataMap);
-        System.out.println(a);
-
-        JSONObject dataObj = new JSONObject();
-        dataObj.put("code", "20000");
-        dataObj.put("msg", "failed");
-        dataObj.put("sub_code", "SYSTEM_ERROR");
-        dataObj.put("sub_msg", "系统错误，请稍后重试");
-        String b = dataObj.toJSONString();
-        System.out.println(b);
-
-        System.out.println(Objects.equals(a, b));
+        System.out.println(cents2Yuan(100L));
 
     }
 
