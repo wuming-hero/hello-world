@@ -14,6 +14,13 @@
       },
       {
         "name": "收件人姓名提取规则",
+        "desc": "退货地址：顺序异常，出现在在手机号后面",
+        "extractType": "text",
+        "extractKey": "receiverName",
+        "rule": "(.{2,8}?)(1[3-9]\\d{9}|\\d{3,4}[ -]?\\d{7,8}|\\d{3}-\\d{3}-\\d{4})(?=退货地址：)"
+      },
+      {
+        "name": "收件人姓名提取规则",
         "desc": "收件人姓名提取规则",
         "extractType": "text",
         "extractKey": "receiverName",
@@ -36,6 +43,13 @@
       },
       {
         "name": "收件人联系方式提取规则",
+        "desc": "退货地址：顺序异常，出现在在手机号后面",
+        "extractType": "text",
+        "extractKey": "receiverMobile",
+        "rule": "(1[3-9]\\d{9}|\\d{3,4}[ -]?\\d{7,8}|\\d{3}-\\d{3}-\\d{4})(?=退货地址：)"
+      },
+      {
+        "name": "收件人联系方式提取规则",
         "desc": "收件人联系方式提取规则",
         "extractType": "text",
         "extractKey": "receiverMobile",
@@ -55,7 +69,20 @@
         "extractType": "text",
         "extractKey": "receiverAddress",
         "extractIndex": 2,
-        "rule": ".*退货地址：.*?(1[3-9]\\d{9}|\\d{3,4}[ -]?\\d{7,8}|\\d{3}-\\d{3}-\\d{4})(.*?)(填写快递单号|自己联系快递).*",
+        "rule": ".*退货地址：.*?(1[3-9]\\d{9}|\\d{3,4}[ -]?\\d{7,8}|\\d{3}-\\d{3}-\\d{4})(.*?)(填写[快递]?单号|自己联系快递|什么是退货快递单号|撤销售后).*",
+        "shiftWordList": [
+          "（）",
+          "［",
+          "["
+        ]
+      },
+      {
+        "name": "收件地址提取规则",
+        "desc": "退货地址：顺序异常，出现在在手机号后面",
+        "extractType": "text",
+        "extractKey": "receiverAddress",
+        "extractIndex": 2,
+        "rule": "(1[3-9]\\d{9}|\\d{3,4}[ -]?\\d{7,8}|\\d{3}-\\d{3}-\\d{4})退货地址：(.*?)(填写快递单号|自己联系快递)",
         "shiftWordList": [
           "（）",
           "［",
@@ -199,7 +226,7 @@
     "confidence": 100,
     "extractRuleList": [
       {
-        "name": "件人姓名提取规则",
+        "name": "收件人姓名提取规则",
         "desc": "收件人姓名提取规则",
         "extractType": "text",
         "extractKey": "receiverName",
@@ -209,6 +236,14 @@
           "1",
           "商家地址"
         ]
+      },
+      {
+        "name": "收件人姓名提取规则",
+        "desc": "【兜底】商家地址 顺序异常，出现在联系方式中间",
+        "extractType": "text",
+        "extractKey": "receiverName",
+        "extractIndex": 2,
+        "rule": ".*(商家退款|退款完成|内填写物流信息|寄件详情)(.*?)商家地址"
       },
       {
         "name": "收件人联系方式提取规则",
@@ -228,6 +263,22 @@
           "2小时上门·免填地址·丢损必赔",
           "免填地址·丢损必赔",
           "商家地址",
+          "口强",
+          "口云",
+          "婴口",
+          "口O",
+          "云C"
+        ]
+      },
+      {
+        "name": "收件地址提取规则",
+        "desc": "【兜底】商家地址 顺序异常，出现在联系方式中间",
+        "extractType": "text",
+        "extractKey": "receiverAddress",
+        "rule": "商家地址(.*?)(上门取件|我要寄件|自行寄回|我已寄出|商家退货说明)",
+        "shiftWordList": [
+          "2小时上门·免填地址·丢损必赔",
+          "免填地址·丢损必赔",
           "口强",
           "口云",
           "婴口",
@@ -463,7 +514,7 @@
         "extractType": "text",
         "extractKey": "receiverAddress",
         "extractIndex": 2,
-        "rule": ".*(1[3-9]\\d{9}|\\d{3}-\\d{3}-\\d{4}|\\d{3,4}[ -]?\\d{7,8})(.*?)(?=(退货商品|退货包[运费]?))",
+        "rule": "(1[3-9]\\d{9}|\\d{3}-\\d{3}-\\d{4}|\\d{3,4}[ -]?\\d{7,8})(.*?)(?=(退货商品|退货包[运费]?))",
         "shiftWordList": [
           "收",
           "保障中"
