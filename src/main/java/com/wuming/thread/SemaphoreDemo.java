@@ -1,7 +1,9 @@
-package com.wuming.concurrent;
+package com.wuming.thread;
 
+import com.wuming.util.DateUtil;
 import org.apache.commons.lang3.RandomUtils;
 
+import java.util.Date;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -94,15 +96,16 @@ public class SemaphoreDemo {
                     //将打饭机会让后后面的同学
                     semaphore.release();
                     //打到了饭
-                    LOGGER.info(name + " 终于打到了饭.");
+                    LOGGER.info(name + " 终于打到了饭." + DateUtil.dateTimeToStrings(new Date()));
                     break;
-
                 //这个学生没有耐心，等了1000毫秒没打到饭，就回宿舍泡面了
                 case 1:
                     //排队
                     try {
                         //如果等待超时，则不再等待，回宿舍吃泡面
-                        if (semaphore.tryAcquire(RandomUtils.nextInt(6000, 16000), TimeUnit.MILLISECONDS)) {
+                        int millSecond = RandomUtils.nextInt(6000, 16000);
+                        LOGGER.info(name + " ---------start." + DateUtil.dateTimeToStrings(new Date()));
+                        if (semaphore.tryAcquire(millSecond, TimeUnit.MILLISECONDS)) {
                             //进行打饭
                             try {
                                 Thread.sleep(RandomUtils.nextLong(1000, 3000));
@@ -112,10 +115,10 @@ public class SemaphoreDemo {
                             //将打饭机会让后后面的同学
                             semaphore.release();
                             //打到了饭
-                            LOGGER.info(name + " 终于打到了饭.");
+                            LOGGER.info(name + " 终于打到了饭." + DateUtil.dateTimeToStrings(new Date()) + "wait:" + millSecond);
                         } else {
                             //回宿舍吃泡面
-                            LOGGER.info(name + " 回宿舍吃泡面.");
+                            LOGGER.info(name + " 回宿舍吃泡面."  + DateUtil.dateTimeToStrings(new Date()) + "wait:" + millSecond);
                         }
                     } catch (InterruptedException e) {
                         //e.printStackTrace();
@@ -136,11 +139,11 @@ public class SemaphoreDemo {
                         //将打饭机会让后后面的同学
                         semaphore.release();
                         //打到了饭
-                        LOGGER.info(name + " 终于打到了饭.");
+                        LOGGER.info(name + " 终于打到了饭." + DateUtil.dateTimeToStrings(new Date()));
                     } catch (InterruptedException e) {
                         //e.printStackTrace();
                         //被叫去聚餐，不再打饭
-                        LOGGER.info(name + " 全部聚餐，不再打饭.");
+                        LOGGER.info(name + " 全部聚餐，不再打饭." + DateUtil.dateTimeToStrings(new Date()));
                     }
                     break;
                 default:

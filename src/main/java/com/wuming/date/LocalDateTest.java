@@ -1,22 +1,16 @@
 package com.wuming.date;
 
-import com.alibaba.fastjson.JSON;
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * JDK 1.8 日期、时间处理
@@ -45,6 +39,9 @@ public class LocalDateTest {
         System.out.println("millSecond: " + milliSecond);
         System.out.println("millSecond2: " + milliSecond2);
 
+        System.out.println(LocalDate.now().atStartOfDay().toEpochSecond(ZoneOffset.of("+8")) * 1000);
+
+
     }
 
     /**
@@ -62,6 +59,7 @@ public class LocalDateTest {
         // 方法二
         LocalDateTime localDateTime2 = LocalDateTime.ofInstant(date.toInstant(), zoneId);
         System.out.println("Date:" + date + "---->LocalDateTime = " + localDateTime2);
+
 
     }
 
@@ -158,6 +156,8 @@ public class LocalDateTest {
 //        LocalDateTime targetTime = LocalDateTime.ofEpochSecond(1677168000L, 0, ZoneOffset.of("+8"));
 //        System.out.println(targetTime);
 //        System.out.println(Long.MAX_VALUE > 1677168000000L);
+
+        System.out.println(LocalDateTime.now().getHour());
 
     }
 
