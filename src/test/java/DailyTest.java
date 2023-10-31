@@ -673,8 +673,8 @@ public class DailyTest {
 
     @Test
     public void subListTest() {
-//        List<Integer> dataList = Arrays.asList(1, 2, 3, 4, 5);
-//        System.out.println(dataList.subList(0, dataList.size()));
+        List<Integer> dataList = Arrays.asList(1, 2, 3, 4, 5);
+        System.out.println(dataList.subList(0, dataList.size()));
 //
 //        String cacheKey = String.format("calculatePriceKey_%s_%s_%s_%s", 1, 2, 3, 4);
 //        Object a = "242424";
@@ -702,15 +702,8 @@ public class DailyTest {
 //
 //        System.out.println(Objects.equals(a, b));
 
-        System.out.println(cents2Yuan(100L));
+//        System.out.println(cents2Yuan(100L));
 
-    }
-
-    private String cents2Yuan(Long cents) {
-        if (Objects.isNull(cents)) {
-            return null;
-        }
-        return new BigDecimal(cents).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).toString();
     }
 
 }

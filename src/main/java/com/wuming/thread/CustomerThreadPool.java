@@ -35,28 +35,16 @@ public class CustomerThreadPool {
             1000L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(256), customerThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
-//    public static void main(String[] args) {
-//        for (int i = 0; i < 10; i++) {
-//            customerExecutorPool.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    System.out.println("-----" + Thread.currentThread().getName());
-//                }
-//            });
-//        }
-//    }
-
-
-
     public static void main(String[] args) {
-        List<Callable<Integer>> callableList = Lists.newArrayList();
+        // 1. 初始化数据
         List<Student> studentList = Lists.newArrayList();
         for (int i = 0; i < 5; i++) {
             Student student = new Student();
             student.setAge(RandomUtil.randomNumber(1, 99));
             studentList.add(student);
         }
-        // 2.1 构建下单参数
+        // 2. 构建Callable任务列表
+        List<Callable<Integer>> callableList = Lists.newArrayList();
         for (Student student : studentList) {
             callableList.add(() -> {
                 try {
@@ -67,11 +55,17 @@ public class CustomerThreadPool {
                 }
             });
         }
+        // 调用执行器执行并返回结果 && 设置超时时间
         List<Integer> integerList = ThreadUtil.run(callableList, customerExecutorPool, 3 * 1000L);
         System.out.println(integerList);
 
     }
 
+    /**
+     * mock 执行任务
+     * @param student
+     * @return
+     */
     private static Integer getStudentAge(Student student) {
         return student.getAge();
     }

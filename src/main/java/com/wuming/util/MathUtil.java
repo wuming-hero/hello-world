@@ -1,11 +1,13 @@
 package com.wuming.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
 
 /**
  * Created by wuming on 16/4/13.
  */
-public class MathExtend {
+public class MathUtil {
 
     //默认除法运算精度
     private static final int DEFAULT_DIV_SCALE = 10;
@@ -230,4 +232,18 @@ public class MathExtend {
         BigDecimal b = new BigDecimal(v);
         return b.setScale(scale, round_mode).toString();
     }
+
+    /**
+     * 分转元
+     *
+     * @param cents
+     * @return
+     */
+    public static String cents2Yuan(Long cents) {
+        if (Objects.isNull(cents)) {
+            return null;
+        }
+        return new BigDecimal(cents).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).toString();
+    }
+
 }
