@@ -3,6 +3,7 @@ package com.wuming.model;
 import java.io.Serializable;
 
 /**
+ * excel 表头列数据，当前表格只有 _co 一列
  * @author manji
  * Created on 2023/10/26 16:54
  */

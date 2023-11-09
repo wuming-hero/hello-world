@@ -1,15 +1,23 @@
 package com.wuming.tool.easyexcel;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
+import com.alibaba.excel.metadata.Sheet;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.util.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wuming.model.UserExtData;
+import org.junit.Test;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +30,10 @@ public class UserExtExcelListener extends AnalysisEventListener<UserExtData> {
 
     int index = 1;
 
-    private List<String> ll = Lists.newArrayList();
+    /**
+     * 定稿的数据对象，注意又列表格式不能变
+     */
+    List<List<String>> dataList = Lists.newArrayList();
 
     @Override
     public void invoke(UserExtData userExtData, AnalysisContext analysisContext) {
@@ -44,41 +55,26 @@ public class UserExtExcelListener extends AnalysisEventListener<UserExtData> {
         m.put("userAccountType", Long.valueOf(useraccounttype));
         m.put("endTime", Long.valueOf(endtime));
 
-        ll.add("[" + JSON.toJSONString(m) + "],");
-
-        if (ll.size() >= 5) {
-            StringBuilder s = new StringBuilder();
-            for (int i = 0; i < ll.size(); i++) {
-                s.append(ll.get(i)).append(System.lineSeparator());
-            }
-            System.out.println("write data:" + s);
-
-//            EasyExcel.write("/Users/manji/Downloads/data_" + index + ".txt").sheet().doWrite(ll);
-            EasyExcel.write("/Users/manji/Downloads/data_" + index + ".xlsx").sheet("Sheet1").doWrite(ll);
-            ll.clear();
+        // 行数据
+        List<String> rowDataList = Lists.newArrayList();
+        rowDataList.add("[" + JSON.toJSONString(m) + "],");
+        dataList.add(rowDataList);
+        if (dataList.size() >= 5) {
+            System.out.println(dataList.size() + "----" + JSON.toJSONString(dataList));
+            EasyExcel.write("/Users/manji/Downloads/data_" + index + ".xlsx").sheet("模板").doWrite(dataList);
+            dataList.clear();
             index++;
         }
-
     }
-
 
 
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
-        System.out.println(ll.size());
-        if (CollectionUtils.isEmpty(ll)) {
+        System.out.println(dataList.size() + "----" + JSON.toJSONString(dataList));
+        if (CollectionUtils.isEmpty(dataList)) {
             return;
         }
-
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < ll.size(); i++) {
-            s.append(ll.get(i)).append(System.lineSeparator());
-        }
-        System.out.println(s.toString());
-
-//        WriteFileTest.testWriteFileWithContent("/Users/celen/Desktop/userExt/fixData_" + index + ".txt", s.toString());
-        EasyExcel.write("/Users/manji/Downloads/data_" + index + ".xlsx").sheet(0).doWrite(ll);
-
+        EasyExcel.write("/Users/manji/Downloads/data_" + index + ".xlsx").sheet("模板").doWrite(dataList);
         System.out.println("----------doAfterAllAnalysed--------");
 
     }
