@@ -1,5 +1,6 @@
 package com.wuming.regex;
 
+import lombok.experimental.var;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
@@ -26,6 +27,8 @@ import java.util.regex.Pattern;
  * \S [^\t\n\r\f\v]   非空格
  * <p>
  * java 正则中 使用双反斜杠(\\)表示转义字符反斜杠(\)
+ *
+ * 参考文档  https://blog.csdn.net/qq_40241957/article/details/97750036
  */
 public class Regex {
 
@@ -218,7 +221,7 @@ public class Regex {
      * 从一个给定的字符串中找到数字串
      */
     @Test
-    public void groupTest2() {
+    public void groupMoreTest() {
         // 按指定模式在字符串查找
         String line = "This order was placed for QT3000! OK?";
         String pattern = "(\\D*)(\\d+)(.*)";
@@ -324,13 +327,167 @@ public class Regex {
     @Test
     public void resetTest() {
         Matcher m = Pattern.compile("[frb][aiu][gx]").matcher("fix the rug with bags");
-        while (m.find())
+        while (m.find()) {
             System.out.println(m.group());
+        }
         // 用reset()方法给现有的Matcher对象配上个新的CharSequence。
         m.reset("fix the rig with rags");
         System.out.println("-----------");
-        while (m.find())
+        while (m.find()) {
             System.out.println(m.group());
+        }
+    }
+
+    /**
+     * 正则表达式的括号的作用：
+     *
+     * 1. 分组和分支结构
+     * 2. 捕获分组
+     * 3. 反向引用
+     * 4. 非捕获分组
+     * 相关案例
+      */
+
+    /**
+     * 分组
+     *
+     * 我们知道/a+/匹配连续出现的“a”，而要匹配连续出现的“ab”时，需要使用/(ab)+/。
+     *
+     * 其中括号是提供分组功能，使量词+作用于“ab”这个整体
+     */
+    // TODO manji 2024/1/8 16:17 如果匹配全部的ab?
+    @Test
+    public void groupTest() {
+        String string = "ababa abbb ababab";
+        Pattern pattern = Pattern.compile("(ab)+");
+        Matcher matcher = pattern.matcher(string);
+        // 输出匹配的数据
+        while (matcher.find()) {
+            System.out.println(matcher.group() + "----" + matcher.group(1));
+        }
+    }
+
+    /**
+     * 反向引用
+     *
+     * 除了使用相应API来引用分组，也可以在正则本身里引用分组。但只能引用之前出现的分组，即反向引用。
+     */
+    @Test
+    public void groupMoreTest2() {
+        String string = "123";
+        Pattern pattern = Pattern.compile("((\\d)(\\d(\\d)))");
+
+        Matcher matcher = pattern.matcher(string);
+        System.out.println(matcher.matches());
+        System.out.println("group1: " + matcher.group(1));
+        System.out.println("group2: " + matcher.group(2));
+        System.out.println("group3: " + matcher.group(3));
+        System.out.println("group4: " + matcher.group(4));
+    }
+
+
+    /**
+     * 分支结构
+     *
+     * 而在多选分支结构(p1|p2)中，此处括号的作用也是不言而喻的，提供了子表达式的所有可能。
+     *
+     * 如果去掉正则中的括号，即/^I love JavaScript|Regular Expression$/，匹配字符串是”I love JavaScript”和”Regular Expression”，当然这不是我们想要的。
+     */
+    @Test
+    public void branchTest() {
+        String string = "I love JavaScript";
+        String string2 = "I love Regular Expression";
+        Pattern pattern = Pattern.compile("I love (JavaScript|Regular Expression)");
+        System.out.println( pattern.matcher(string).matches());
+        System.out.println( pattern.matcher(string2).matches());
+    }
+
+    /**
+     * 引用分组
+     *
+     * 比如提取出年、月、日
+     */
+    @Test
+    public void groupQuoteExtraTest() {
+        String string = "2017-06-12";
+        Pattern pattern = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2})");
+        // 1. 分组数据
+        Matcher matcher = pattern.matcher(string);
+        if (matcher.find()) {
+            System.out.println(matcher.group());
+            // group(0) = group()
+            System.out.println(matcher.group(0));
+            System.out.println(matcher.group(1));
+            System.out.println(matcher.group(2));
+            System.out.println(matcher.group(3));
+        }
+
+        // 2.引用分组数据进行替换
+        System.out.println(matcher.replaceAll("$2/$3/$1"));
+    }
+
+    /**
+     * 首先我们先看((\d)(\d(\d)))的意思，不管带不带括号，都是匹配3个数字。
+     * 假设((\d)(\d(\d)))匹配到的3个数字是1,2,3 那么接下来我们再看
+     *
+     * 接下来的是\1，是第一个分组内容，那么看第一个开括号对应的分组是什么，是123，
+     * 接下来的是\2，找到第2个开括号，对应的分组，匹配的内容是1，
+     * 接下来的是\3，找到第3个开括号，对应的分组，匹配的内容是23，
+     * 最后的是\4，找到第3个开括号，对应的分组，匹配的内容是3。
+     */
+    @Test
+    public void groupQuoteReverseTest() {
+        // (-|\/|\.)的意思是 -或/或.
+        Pattern pattern = Pattern.compile("\\d{4}(-|\\/|\\.)\\d{2}(-|\\/|\\.)\\d{2}");
+        System.out.println(pattern.matcher("2017-06-12").matches());
+        System.out.println(pattern.matcher("2017/06/12").matches());
+        System.out.println(pattern.matcher("2017.06.12").matches());
+        // 错误的格式也会识别为true
+        System.out.println(pattern.matcher("2017-06/12").matches());
+
+        // 注意里面的\1，表示的引用之前的那个分组(-|\/|\.)。不管它匹配到什么（比如-），\1都匹配那个同样的具体某个字符
+        Pattern reversePattern = Pattern.compile("\\d{4}(-|\\/|\\.)\\d{2}\\1\\d{2}");
+        System.out.println(reversePattern.matcher("2017-06-12").matches());
+        System.out.println(reversePattern.matcher("2017/06/12").matches());
+        System.out.println(reversePattern.matcher("2017.06.12").matches());
+        // 错误的格式正确识别，返回false
+        System.out.println(reversePattern.matcher("2017-06/12").matches());
+    }
+
+    /**
+     * 非捕获分组
+     *
+     *
+     * 输入?:之后，使用\\1报错了，说明此时标注的?:表示前面的后面的都不再捕获，那么这里就不存在组号了
+     */
+    @Test
+    public void noCatchGroupTest() {
+        String string = "123122423a";
+        Pattern pattern = Pattern.compile("\\d{6,20}(?:a|z)\\1");
+        // 1. 分组数据
+        Matcher matcher = pattern.matcher(string);
+        System.out.println(matcher.matches());
+        if (matcher.matches()) {
+            System.out.println(matcher.group());
+        }
+    }
+
+    /**
+     * 正则应用：去空格
+     *
+     */
+    @Test
+    public void trimTest() {
+        String string = " 123122423a ";
+        // 1. 匹配到开头和结尾的空白符，然后替换成空字符
+        Pattern pattern = Pattern.compile("^\\s+|\\s+$");
+        Matcher matcher = pattern.matcher(string);
+        System.out.println(matcher.replaceAll(""));
+
+        // 匹配整个字符串，然后用引用来提取出相应的数据
+        Pattern pattern2 = Pattern.compile("^\\s?(.*?)\\s?$");
+        Matcher matcher2 = pattern2.matcher(string);
+        System.out.println(matcher2.replaceAll("$1"));
     }
 
 }
