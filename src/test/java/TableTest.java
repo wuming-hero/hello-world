@@ -3,6 +3,7 @@ import com.google.common.collect.Table;
 import org.junit.Test;
 
 import java.util.Hashtable;
+import java.util.Optional;
 
 /**
  *
@@ -19,6 +20,8 @@ public class TableTest {
         hashtable.put("a", 1);
         hashtable.put("b", 2);
         System.out.println(hashtable);
+        String a = "9991710294306017";
+        System.out.println(Long.valueOf(a));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.wuming.stream;
 
 import com.google.common.collect.ImmutableList;
+import com.wuming.model.Student;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -90,6 +91,26 @@ public class StreamTest {
         Stream<String> stream = Stream.of("I", "love", "you", "too");
         stream.map(str -> str.toUpperCase()).forEach(str -> System.out.println(str));
     }
+
+    /**
+     * 针对非标准化类对象的数据链式处理示例
+     */
+    @Test
+    public void mapTest2() {
+        Student student = new Student();
+        student.addFeature("flag", "0");
+        boolean flag = Optional.ofNullable(student)
+                .map((stu) -> {
+                    return stu.getFeature("flag");
+                })
+                .map((s) -> {
+            return "1".equals(s);
+                })
+                .orElse(false);
+
+        System.out.println(flag);
+    }
+
 
     /**
      * 是对每个元素执行mapper指定的操作，并用所有mapper返回的Stream中的元素组成一个新的Stream作为最终返回结果。

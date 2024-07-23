@@ -1,0 +1,51 @@
+<request>
+<partnerCode>P_CAINIAO_GP</partnerCode>
+<productCode>MP09000052</productCode>
+<transSerialNo>LP00659304119158</transSerialNo>
+<policy>
+  <schemeName>CainiaoL</schemeName>
+  <insuranceBeginDate>2024-06-28 10:39:41</insuranceBeginDate>
+  <totalInsuredAmount>381.08</totalInsuredAmount>
+  <applicantInfoList>
+    <applicantInfo>
+    <linkManName>CAINIAO</linkManName>
+    <mobileTelephone>18867543358</mobileTelephone>
+    <personnelType>0</personnelType>
+    <name>杭州菜鸟供应链管理有限公司</name>
+    <certificateNo>91330110MA27YYMU0E</certificateNo>
+    <certificateType>99</certificateType>
+    </applicantInfo>
+  </applicantInfoList>
+  <insurantInfoList>
+    <insurantInfo>
+      <linkManName>CAINIAO</linkManName>
+      <mobileTelephone>18867543358</mobileTelephone>
+      <personnelType>0</personnelType>
+      <name>杭州菜鸟供应链管理有限公司</name>
+      <certificateNo>91330110MA27YYMU0E</certificateNo>
+      <certificateType>99</certificateType>
+    </insurantInfo>
+  </insurantInfoList>
+  <beneficaryInfoList>
+  <beneficaryInfo>
+  <linkManName>CAINIAO</linkManName>
+  <mobileTelephone>18867543358</mobileTelephone>
+  <personnelType>0</personnelType>
+  <name>杭州菜鸟供应链管理有限公司-优选</name>
+  <certificateNo>91330110MA27YYMU0E</certificateNo>
+  <certificateType>99</certificateType>
+  </beneficaryInfo>
+  </beneficaryInfoList>
+  <riskPropertyMap>
+  <access_token>21BB08CDFA384713B16393A58D1EB3C2</access_token>
+  <trace_id>2133d05d17195411799448000f2333</trace_id>
+  <conveyanceNo>LP00659304119158</conveyanceNo>
+  <eachInsuranceValue>381.08</eachInsuranceValue>
+  <cargoDescription>IP Camera</cargoDescription>
+  <consignorDate>{"oneDate":"2024-06-28 10:19:41"}</consignorDate>
+  <attr1>38108</attr1>
+  <productType>PL</productType>
+  <attr4>CNY</attr4>
+  </riskPropertyMap>
+</policy>
+</request>

@@ -25,6 +25,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -654,56 +655,308 @@ public class DailyTest {
         LocalDate localDate = LocalDate.now();
         System.out.println(localDate.minusDays(30));
 
-        // 先深拷贝出原标签，后面需要回补标签
-        Map<String, String> oldExtensionMap = Maps.newHashMap();
-        Map<String, String> extensionMap = Maps.newHashMap();
-        extensionMap.put("a", "1");
-        extensionMap.put("b", "2");
-        extensionMap.put("c", "3");
-//        BeanUtils.copyProperties(extensionMap, oldExtensionMap);
-        for (Map.Entry<String, String> entry : extensionMap.entrySet()) {
-            oldExtensionMap.put(entry.getKey(), entry.getValue());
-        }
+        List<String> dataList = null;
+//        for (String s : dataList) {
+//            System.out.println(s);
+//        }
 
-        extensionMap.remove("a");
-        System.out.println(extensionMap);
-        System.out.println(oldExtensionMap);
-        System.out.println(Long.MAX_VALUE);
+        List<String> dataList2 = new ArrayList<>(dataList);
+        System.out.println(dataList2);
     }
 
     @Test
     public void subListTest() {
         List<Integer> dataList = Arrays.asList(1, 2, 3, 4, 5);
         System.out.println(dataList.subList(0, dataList.size()));
-//
-//        String cacheKey = String.format("calculatePriceKey_%s_%s_%s_%s", 1, 2, 3, 4);
-//        Object a = "242424";
-//        cacheKey += "_" + a;
-//        System.out.println(cacheKey);
-//        String dutyType = null;
-//        System.out.println(Arrays.asList("1", "2").contains(dutyType));
-//        System.out.println(ImmutableList.of("1", "2").contains(dutyType));
-//
-//        Map<String, String> dataMap = Maps.newHashMap();
-//        dataMap.put("code", "20000");
-//        dataMap.put("msg", "failed");
-//        dataMap.put("sub_code", "SYSTEM_ERROR");
-//        dataMap.put("sub_msg", "系统错误，请稍后重试");
-//        String a = JSON.toJSONString(dataMap);
-//        System.out.println(a);
-//
-//        JSONObject dataObj = new JSONObject();
-//        dataObj.put("code", "20000");
-//        dataObj.put("msg", "failed");
-//        dataObj.put("sub_code", "SYSTEM_ERROR");
-//        dataObj.put("sub_msg", "系统错误，请稍后重试");
-//        String b = dataObj.toJSONString();
-//        System.out.println(b);
-//
-//        System.out.println(Objects.equals(a, b));
+        String data = String.format("%s:%s", null, null);
+        System.out.println(data);
+//        System.out.println(NumberUtils.isCreatable("1.23111"));
+//        System.out.println(NumberUtils.isCreatable("0.23"));
+//        System.out.println(NumberUtils.isCreatable("0.23"));
 
-//        System.out.println(cents2Yuan(100L));
+        System.out.println(NumberUtils.isParsable("-.11"));
+        System.out.println(NumberUtils.isParsable("1.23111"));
+        System.out.println(NumberUtils.isParsable("-0.23"));
+        System.out.println(NumberUtils.isParsable("0.23"));
+        System.out.println(new BigDecimal("-.11").multiply(new BigDecimal(100)).longValue());
 
+        List<String> lpCodeList = Lists.newArrayList(
+                "LP00641363740503",
+                "LP00642228397050",
+                "LP00643106441744",
+                "LP00643381953676",
+                "LP00644450698594",
+                "LP00645335515873",
+                "LP00648412578553",
+                "LP00645236996933",
+                "LP00646178404057",
+                "LP00642789270843",
+                "LP00645604716604",
+                "LP00646273354910",
+                "LP00649763798833",
+                "LP00644326726733",
+                "LP00649123427886",
+                "LP00650021180142",
+                "LP00643186757427",
+                "LP00645485567892",
+                "LP00647029046297",
+                "LP00649632345403",
+                "LP00643881507249",
+                "LP00644650846418",
+                "LP00644880868558",
+                "LP00645117349778",
+                "LP00645179912164",
+                "LP00645192095244",
+                "LP00645264207857",
+                "LP00645336587038",
+                "LP00645805440036",
+                "LP00646163294532",
+                "LP00646352549531",
+                "LP00646648296954",
+                "LP00646872166091",
+                "LP00648022047098",
+                "LP00648248669785",
+                "LP00648360772775",
+                "LP00649018931234",
+                "LP00649056155710",
+                "LP00649147766901",
+                "LP00649306267031",
+                "LP00649717873525",
+                "LP00650960127351",
+                "LP00646272239890",
+                "LP00649668456037",
+                "LP00651620147071",
+                "LP00651621154369",
+                "LP00652710967454",
+                "LP00652711758496",
+                "LP00648041045823",
+                "LP00648896756980",
+                "LP00649099999409",
+                "LP00649556893250",
+                "LP00640481810665",
+                "LP00649292913912",
+                "LP00647568980027",
+                "LP00648697914125",
+                "LP00648922604220",
+                "LP00649001012365",
+                "LP00649483967255",
+                "LP00649844235875",
+                "LP00649983917727",
+                "LP00650121856388",
+                "LP00650173310705",
+                "LP00650658663128",
+                "LP00650663706568",
+                "LP00651014220164",
+                "LP00642110048630",
+                "LP00649396374268",
+                "LP00650176872599",
+                "LP00651822235413",
+                "LP00645008610349",
+                "LP00646213741053",
+                "LP00646274170276",
+                "LP00646392209546",
+                "LP00646697119597",
+                "LP00646842587882",
+                "LP00647259257250",
+                "LP00647765846645",
+                "LP00648292184626",
+                "LP00648939194684",
+                "LP00650258884739",
+                "LP00650264746637",
+                "LP00650632907930",
+                "LP00647005691639",
+                "LP00651690643241",
+                "LP00652809760428",
+                "LP00654174499524",
+                "LP00654380424419",
+                "LP00654623934158",
+                "LP00654951734180",
+                "LP00655677109878",
+                "LP00647192692299",
+                "LP00647201408013",
+                "LP00648116933011",
+                "LP00648280944956",
+                "LP00648640084476",
+                "LP00648706038449",
+                "LP00649572218718",
+                "LP00650046662818",
+                "LP00650701215799",
+                "LP00653256711203",
+                "LP00653270339949",
+                "LP00653527293294",
+                "LP00646724379834",
+                "LP00647665750661",
+                "LP00647689084215",
+                "LP00648182786073",
+                "LP00648625204069",
+                "LP00648727262795",
+                "LP00649851695073",
+                "LP00650958035299",
+                "LP00651771834002",
+                "LP00652325467752",
+                "LP00655052502520",
+                "LP00655405144201",
+                "LP00649582400696",
+                "LP00648916694815",
+                "LP00651469918858",
+                "LP00652709214816",
+                "LP00655078408009",
+                "LP00655623632233",
+                "LP00657200191063",
+                "LP00655984303873",
+                "LP00653632992219",
+                "LP00653641729170",
+                "LP00655342277925",
+                "LP00655730061831",
+                "LP00656464255727",
+                "LP00656543011356",
+                "LP00657073656363",
+                "LP00653935203820",
+                "LP00654403525395",
+                "LP00654425244364",
+                "LP00647164228413",
+                "LP00652068222035",
+                "LP00653054512536",
+                "LP00655350855161",
+                "LP00648463291949",
+                "LP00649055321386",
+                "LP00649813166086",
+                "LP00650125956389",
+                "LP00651209108926",
+                "LP00653245475323",
+                "LP00653267884554",
+                "LP00653413174191",
+                "LP00653844584466",
+                "LP00653862926159",
+                "LP00654270854251",
+                "LP00654532537951",
+                "LP00654806014821",
+                "LP00655383542680",
+                "LP00655577199076",
+                "LP00655938979023",
+                "LP00657454322137",
+                "LP00657854992025",
+                "LP00658494779882",
+                "LP00647616269146",
+                "LP00648352301962",
+                "LP00648803266108",
+                "LP00649098832475",
+                "LP00649720901687",
+                "LP00649726624931",
+                "LP00649884630277",
+                "LP00649950457287",
+                "LP00650049602948",
+                "LP00650064782624",
+                "LP00650260433400",
+                "LP00650264175048",
+                "LP00650354708201",
+                "LP00650597554458",
+                "LP00650609909636",
+                "LP00651064273716",
+                "LP00651266629230",
+                "LP00652078898174",
+                "LP00652115992140",
+                "LP00652325893693",
+                "LP00652365980341",
+                "LP00652614122486",
+                "LP00652848037618",
+                "LP00652876320664",
+                "LP00653561338450",
+                "LP00653949910699",
+                "LP00654874094158",
+                "LP00655293003709",
+                "LP00655362554723",
+                "LP00655374477835",
+                "LP00655515458005",
+                "LP00655710465822",
+                "LP00655766952598",
+                "LP00655941546085",
+                "LP00656028307114",
+                "LP00656457758954",
+                "LP00656637264524",
+                "LP00657047946159",
+                "LP00655981476838",
+                "LP00656959167837",
+                "LP00657760021317",
+                "LP00658138121569",
+                "LP00656184921102",
+                "LP00657048561990",
+                "LP00658458555688",
+                "LP00658754413315",
+                "LP00658861046885",
+                "LP00659051360921",
+                "LP00659053070477",
+                "LP00659056573735",
+                "LP00659590381380",
+                "LP00659625786633",
+                "LP00653624203060",
+                "LP00656705211413",
+                "LP00659856582391",
+                "LP00653152409726",
+                "LP00656464049383",
+                "LP00657892190706",
+                "LP00658024547398",
+                "LP00658147173293",
+                "LP00658847955988",
+                "LP00652347418172",
+                "LP00652439282927",
+                "LP00652444430728",
+                "LP00652543427834",
+                "LP00652988718255",
+                "LP00653906772944",
+                "LP00654001507023",
+                "LP00657276637910",
+                "LP00657526873545",
+                "LP00659298638129",
+                "LP00659567040399",
+                "LP00654542735809",
+                "LP00654624919815",
+                "LP00656632140138",
+                "LP00653097507549",
+                "LP00659337830732",
+                "LP00650427108570",
+                "LP00652646020837",
+                "LP00653387256927",
+                "LP00654124419218",
+                "LP00654143865460",
+                "LP00654158723446",
+                "LP00654503786501",
+                "LP00654797801296",
+                "LP00655179082252",
+                "LP00655387857485",
+                "LP00655675317496",
+                "LP00656214126034",
+                "LP00656416309483",
+                "LP00656487480824",
+                "LP00656543845432",
+                "LP00656660791296",
+                "LP00656747612580",
+                "LP00657315327993",
+                "LP00657494619477",
+                "LP00657638639559",
+                "LP00657643619924",
+                "LP00657710765188",
+                "LP00658399055387",
+                "LP00658540296190",
+                "LP00658802221384",
+                "LP00653664081791",
+                "LP00655396978268",
+                "LP00655844918370",
+                "LP00655858113755",
+                "LP00656261143253",
+                "LP00657521959084",
+                "LP00659151877843",
+                "LP00661001322927");
+
+        String sqlTmpl = "UPDATE `cndcp_tms_order` SET `is_deleted` = 'Y', `gmt_modified` = now() WHERE `order_type` = 1 AND `lg_order_code` = '${lpCode}';\n" +
+                "DELETE FROM  `cndcp_repeat_check` WHERE `biz_type` = 'createNewTms' AND `unique_id` LIKE '%#5000000011405#%' AND `lg_order_code` = '${lpCode}';\n" +
+                "UPDATE `global_fulfill_order` SET `is_deleted` = -1, `gmt_modified` = now() WHERE `order_type` = 1 AND `lg_order_code` = '${lpCode}';\n" +
+                "DELETE FROM `global_repeat_check` WHERE `unique_key` LIKE '%TRANSIT_UNREACHABLE_RETURN_CALLBACK%' AND `lg_order_code` = '${lpCode}';";
+
+        for (String lpCode : lpCodeList) {
+            System.out.println(sqlTmpl.replace("${lpCode}", lpCode));
+            System.out.println("\n");
+        }
     }
 
 }
