@@ -24,6 +24,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.DateTime;
@@ -49,6 +50,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
@@ -665,298 +667,1843 @@ public class DailyTest {
     }
 
     @Test
-    public void subListTest() {
-        List<Integer> dataList = Arrays.asList(1, 2, 3, 4, 5);
-        System.out.println(dataList.subList(0, dataList.size()));
-        String data = String.format("%s:%s", null, null);
-        System.out.println(data);
-//        System.out.println(NumberUtils.isCreatable("1.23111"));
-//        System.out.println(NumberUtils.isCreatable("0.23"));
-//        System.out.println(NumberUtils.isCreatable("0.23"));
+    public void subListTest() throws ParseException {
+//        List<Integer> dataList = Arrays.asList(1, 2, 3, 4, 5);
+//        System.out.println(dataList.subList(0, dataList.size()));
+//        String data = String.format("%s:%s", null, null);
+//        System.out.println(data);
+////        System.out.println(NumberUtils.isCreatable("1.23111"));
+////        System.out.println(NumberUtils.isCreatable("0.23"));
+////        System.out.println(NumberUtils.isCreatable("0.23"));
+//
+//        System.out.println(NumberUtils.isParsable("-.11"));
+//        System.out.println(NumberUtils.isParsable("1.23111"));
+//        System.out.println(NumberUtils.isParsable("-0.23"));
+//        System.out.println(NumberUtils.isParsable("0.23"));
+//        System.out.println(new BigDecimal("-.11").multiply(new BigDecimal(100)).longValue());
+//
+////        ZoneId zoneId1 = ZoneId.of("+8");
+////        ZoneId zoneId2 = ZoneId.of("+8:00");
+////        System.out.println(zoneId1.equals(zoneId2));
+////        ZoneOffset zoneOffset = ZoneOffset.of("8");
+////        ZoneOffset zoneOffset2 = ZoneOffset.of("+8");
+////        ZoneOffset zoneOffset3 = ZoneOffset.of("+08:00");
+//
+//        for (int i = 0; i < 1000; i++) {
+//            System.out.println(RandomUtils.nextInt(0, 2));
+//
+//        }
 
-        System.out.println(NumberUtils.isParsable("-.11"));
-        System.out.println(NumberUtils.isParsable("1.23111"));
-        System.out.println(NumberUtils.isParsable("-0.23"));
-        System.out.println(NumberUtils.isParsable("0.23"));
-        System.out.println(new BigDecimal("-.11").multiply(new BigDecimal(100)).longValue());
-
-        List<String> lpCodeList = Lists.newArrayList(
-                "LP00641363740503",
-                "LP00642228397050",
-                "LP00643106441744",
-                "LP00643381953676",
-                "LP00644450698594",
-                "LP00645335515873",
-                "LP00648412578553",
-                "LP00645236996933",
-                "LP00646178404057",
-                "LP00642789270843",
-                "LP00645604716604",
-                "LP00646273354910",
-                "LP00649763798833",
-                "LP00644326726733",
-                "LP00649123427886",
-                "LP00650021180142",
-                "LP00643186757427",
-                "LP00645485567892",
-                "LP00647029046297",
-                "LP00649632345403",
-                "LP00643881507249",
-                "LP00644650846418",
-                "LP00644880868558",
-                "LP00645117349778",
-                "LP00645179912164",
-                "LP00645192095244",
-                "LP00645264207857",
-                "LP00645336587038",
-                "LP00645805440036",
-                "LP00646163294532",
-                "LP00646352549531",
-                "LP00646648296954",
-                "LP00646872166091",
-                "LP00648022047098",
-                "LP00648248669785",
-                "LP00648360772775",
-                "LP00649018931234",
-                "LP00649056155710",
-                "LP00649147766901",
-                "LP00649306267031",
-                "LP00649717873525",
-                "LP00650960127351",
-                "LP00646272239890",
-                "LP00649668456037",
-                "LP00651620147071",
-                "LP00651621154369",
-                "LP00652710967454",
-                "LP00652711758496",
-                "LP00648041045823",
-                "LP00648896756980",
-                "LP00649099999409",
-                "LP00649556893250",
-                "LP00640481810665",
-                "LP00649292913912",
-                "LP00647568980027",
-                "LP00648697914125",
-                "LP00648922604220",
-                "LP00649001012365",
-                "LP00649483967255",
-                "LP00649844235875",
-                "LP00649983917727",
-                "LP00650121856388",
-                "LP00650173310705",
-                "LP00650658663128",
-                "LP00650663706568",
-                "LP00651014220164",
-                "LP00642110048630",
-                "LP00649396374268",
-                "LP00650176872599",
-                "LP00651822235413",
-                "LP00645008610349",
-                "LP00646213741053",
-                "LP00646274170276",
-                "LP00646392209546",
-                "LP00646697119597",
-                "LP00646842587882",
-                "LP00647259257250",
-                "LP00647765846645",
-                "LP00648292184626",
-                "LP00648939194684",
-                "LP00650258884739",
-                "LP00650264746637",
-                "LP00650632907930",
-                "LP00647005691639",
-                "LP00651690643241",
-                "LP00652809760428",
-                "LP00654174499524",
-                "LP00654380424419",
-                "LP00654623934158",
-                "LP00654951734180",
-                "LP00655677109878",
-                "LP00647192692299",
-                "LP00647201408013",
-                "LP00648116933011",
-                "LP00648280944956",
-                "LP00648640084476",
-                "LP00648706038449",
-                "LP00649572218718",
-                "LP00650046662818",
-                "LP00650701215799",
-                "LP00653256711203",
-                "LP00653270339949",
-                "LP00653527293294",
-                "LP00646724379834",
-                "LP00647665750661",
-                "LP00647689084215",
-                "LP00648182786073",
-                "LP00648625204069",
-                "LP00648727262795",
-                "LP00649851695073",
-                "LP00650958035299",
-                "LP00651771834002",
-                "LP00652325467752",
-                "LP00655052502520",
-                "LP00655405144201",
-                "LP00649582400696",
-                "LP00648916694815",
-                "LP00651469918858",
-                "LP00652709214816",
-                "LP00655078408009",
-                "LP00655623632233",
-                "LP00657200191063",
-                "LP00655984303873",
-                "LP00653632992219",
-                "LP00653641729170",
-                "LP00655342277925",
-                "LP00655730061831",
-                "LP00656464255727",
-                "LP00656543011356",
-                "LP00657073656363",
-                "LP00653935203820",
-                "LP00654403525395",
-                "LP00654425244364",
-                "LP00647164228413",
-                "LP00652068222035",
-                "LP00653054512536",
-                "LP00655350855161",
-                "LP00648463291949",
-                "LP00649055321386",
-                "LP00649813166086",
-                "LP00650125956389",
-                "LP00651209108926",
-                "LP00653245475323",
-                "LP00653267884554",
-                "LP00653413174191",
-                "LP00653844584466",
-                "LP00653862926159",
-                "LP00654270854251",
-                "LP00654532537951",
-                "LP00654806014821",
-                "LP00655383542680",
-                "LP00655577199076",
-                "LP00655938979023",
-                "LP00657454322137",
-                "LP00657854992025",
-                "LP00658494779882",
-                "LP00647616269146",
-                "LP00648352301962",
-                "LP00648803266108",
-                "LP00649098832475",
-                "LP00649720901687",
-                "LP00649726624931",
-                "LP00649884630277",
-                "LP00649950457287",
-                "LP00650049602948",
-                "LP00650064782624",
-                "LP00650260433400",
-                "LP00650264175048",
-                "LP00650354708201",
-                "LP00650597554458",
-                "LP00650609909636",
-                "LP00651064273716",
-                "LP00651266629230",
-                "LP00652078898174",
-                "LP00652115992140",
-                "LP00652325893693",
-                "LP00652365980341",
-                "LP00652614122486",
-                "LP00652848037618",
-                "LP00652876320664",
-                "LP00653561338450",
-                "LP00653949910699",
-                "LP00654874094158",
-                "LP00655293003709",
-                "LP00655362554723",
-                "LP00655374477835",
-                "LP00655515458005",
-                "LP00655710465822",
-                "LP00655766952598",
-                "LP00655941546085",
-                "LP00656028307114",
-                "LP00656457758954",
-                "LP00656637264524",
-                "LP00657047946159",
-                "LP00655981476838",
-                "LP00656959167837",
-                "LP00657760021317",
-                "LP00658138121569",
-                "LP00656184921102",
-                "LP00657048561990",
-                "LP00658458555688",
-                "LP00658754413315",
-                "LP00658861046885",
-                "LP00659051360921",
-                "LP00659053070477",
-                "LP00659056573735",
-                "LP00659590381380",
-                "LP00659625786633",
-                "LP00653624203060",
-                "LP00656705211413",
-                "LP00659856582391",
-                "LP00653152409726",
-                "LP00656464049383",
-                "LP00657892190706",
-                "LP00658024547398",
-                "LP00658147173293",
-                "LP00658847955988",
-                "LP00652347418172",
-                "LP00652439282927",
-                "LP00652444430728",
-                "LP00652543427834",
-                "LP00652988718255",
-                "LP00653906772944",
-                "LP00654001507023",
-                "LP00657276637910",
-                "LP00657526873545",
-                "LP00659298638129",
-                "LP00659567040399",
-                "LP00654542735809",
-                "LP00654624919815",
-                "LP00656632140138",
-                "LP00653097507549",
-                "LP00659337830732",
-                "LP00650427108570",
-                "LP00652646020837",
-                "LP00653387256927",
-                "LP00654124419218",
-                "LP00654143865460",
-                "LP00654158723446",
-                "LP00654503786501",
-                "LP00654797801296",
-                "LP00655179082252",
-                "LP00655387857485",
-                "LP00655675317496",
-                "LP00656214126034",
-                "LP00656416309483",
-                "LP00656487480824",
-                "LP00656543845432",
-                "LP00656660791296",
-                "LP00656747612580",
-                "LP00657315327993",
-                "LP00657494619477",
-                "LP00657638639559",
-                "LP00657643619924",
-                "LP00657710765188",
-                "LP00658399055387",
-                "LP00658540296190",
-                "LP00658802221384",
-                "LP00653664081791",
-                "LP00655396978268",
-                "LP00655844918370",
-                "LP00655858113755",
-                "LP00656261143253",
-                "LP00657521959084",
-                "LP00659151877843",
-                "LP00661001322927");
-
-        String sqlTmpl = "UPDATE `cndcp_tms_order` SET `is_deleted` = 'Y', `gmt_modified` = now() WHERE `order_type` = 1 AND `lg_order_code` = '${lpCode}';\n" +
-                "DELETE FROM  `cndcp_repeat_check` WHERE `biz_type` = 'createNewTms' AND `unique_id` LIKE '%#5000000011405#%' AND `lg_order_code` = '${lpCode}';\n" +
-                "UPDATE `global_fulfill_order` SET `is_deleted` = -1, `gmt_modified` = now() WHERE `order_type` = 1 AND `lg_order_code` = '${lpCode}';\n" +
-                "DELETE FROM `global_repeat_check` WHERE `unique_key` LIKE '%TRANSIT_UNREACHABLE_RETURN_CALLBACK%' AND `lg_order_code` = '${lpCode}';";
-
-        for (String lpCode : lpCodeList) {
-            System.out.println(sqlTmpl.replace("${lpCode}", lpCode));
-            System.out.println("\n");
-        }
+        String configInfo = "{\n" +
+                "   \"UNREACHABLE_RETURN_START_CONFIG\": {\n" +
+                "      \"AE_OVERSEA_WAREHOUSE_CONSIGN\": \"OVERSEA_UNREACHABLE_RETURN_REQUEST\",\n" +
+                "      \"AE_SELF_SUPPORT_SPAIN\": \"OVERSEA_UNREACHABLE_RETURN_REQUEST\",\n" +
+                "      \"AE_SELF_SUPPORT\": \"OVERSEA_UNREACHABLE_RETURN_REQUEST\",\n" +
+                "      \"AE_SELF_SUPPORT_STATION\": \"OVERSEA_UNREACHABLE_RETURN_REQUEST\",\n" +
+                "      \"AE_RU_OVERSEA_GD\": \"OVERSEA_UNREACHABLE_RETURN_REQUEST\",\n" +
+                "      \"AE_RU_MARKETPLACE_PUDO\": \"OVERSEA_UNREACHABLE_RETURN_REQUEST\",\n" +
+                "      \"AE_4PL_SPAIN_FMCG\": \"NEW_OVERSEA_UNREACHABLE_RETURN_REQUEST\",\n" +
+                "      \"DEFAULT\": \"UNREACHABLE_RETURN_REQUEST\"\n" +
+                "   },\n" +
+                "   \"OPEN_GRAY_ROUTE\": true,\n" +
+                "   \"GRAY_COUNTRY_ID_LIST\": [\n" +
+                "      \"32\",\n" +
+                "      \"174\",\n" +
+                "      \"134\"\n" +
+                "   ],\n" +
+                "   \"GRAY_CP_CODE_LIST\": [\n" +
+                "      \"DISTRIBUTOR_30550506\",\n" +
+                "      \"DISTRIBUTOR_30551634\",\n" +
+                "      \"DISTRIBUTOR_30518537\",\n" +
+                "      \"DISTRIBUTOR_1366684\",\n" +
+                "      \"DISTRIBUTOR_30305166\",\n" +
+                "      \"DISTRIBUTOR_13422877\",\n" +
+                "      \"DISTRIBUTOR_13507140\",\n" +
+                "      \"DISTRIBUTOR_30477762\",\n" +
+                "      \"DISTRIBUTOR_30223562\",\n" +
+                "      \"DISTRIBUTOR_30284443\",\n" +
+                "      \"FPXSG\",\n" +
+                "      \"DISTRIBUTOR_1216244\",\n" +
+                "      \"DISTRIBUTOR_30092388\",\n" +
+                "      \"DISTRIBUTOR_11991627\",\n" +
+                "      \"DISTRIBUTOR_30253977\",\n" +
+                "      \"DISTRIBUTOR_30405541\",\n" +
+                "      \"DISTRIBUTOR_13421799\",\n" +
+                "      \"DISTRIBUTOR_30425636\",\n" +
+                "      \"DISTRIBUTOR_30112472\",\n" +
+                "      \"DISTRIBUTOR_30506448\",\n" +
+                "      \"DISTRIBUTOR_30425560\",\n" +
+                "      \"GATE_30224341\",\n" +
+                "      \"GATE_30088431\",\n" +
+                "      \"GATE_30523872\",\n" +
+                "      \"GATE_13506798\"\n" +
+                "   ],\n" +
+                "   \"UNREACHABLE_CONSO_CODE_LIST\": [\n" +
+                "      \"TRAN_STORE_30127724\",\n" +
+                "      \"TRAN_STORE_30463958\",\n" +
+                "      \"TRAN_STORE_30554302\",\n" +
+                "      \"TRAN_STORE_30553909\",\n" +
+                "      \"TRAN_STORE_30553130\",\n" +
+                "      \"TRAN_STORE_30554115\",\n" +
+                "      \"TRAN_STORE_30471444\",\n" +
+                "      \"TRAN_STORE_30284913\",\n" +
+                "      \"TRAN_STORE_30320469\",\n" +
+                "      \"TRAN_STORE_30874365\",\n" +
+                "      \"TRAN_STORE_31116966\",\n" +
+                "      \"TRAN_STORE_31135158\",\n" +
+                "      \"TRAN_STORE_30435089\",\n" +
+                "      \"TRAN_STORE_31353997\"\n" +
+                "   ],\n" +
+                "   \"GRAY_CP_CODE_MAP\": {\n" +
+                "      \"32\": [\n" +
+                "         \"DISTRIBUTOR_30319743\",\n" +
+                "         \"DISTRIBUTOR_30223562\",\n" +
+                "         \"DISTRIBUTOR_30284443\",\n" +
+                "         \"DISTRIBUTOR_1366684\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30784974\",\n" +
+                "         \"GATE_30507025\",\n" +
+                "         \"TRAN_STORE_30704588\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"GATE_30937793\",\n" +
+                "         \"GATE_30937583\",\n" +
+                "         \"DISTRIBUTOR_30506357\",\n" +
+                "         \"DISTRIBUTOR_30506438\",\n" +
+                "         \"DISTRIBUTOR_30506837\",\n" +
+                "         \"DISTRIBUTOR_30507164\"\n" +
+                "      ],\n" +
+                "      \"33\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"174\": [\n" +
+                "         \"DISTRIBUTOR_30305166\",\n" +
+                "         \"DISTRIBUTOR_30092388\",\n" +
+                "         \"DISTRIBUTOR_11991627\",\n" +
+                "         \"DISTRIBUTOR_30425636\",\n" +
+                "         \"DISTRIBUTOR_30112472\",\n" +
+                "         \"DISTRIBUTOR_30425560\",\n" +
+                "         \"GATE_30224341\",\n" +
+                "         \"GATE_30088431\",\n" +
+                "         \"GATE_30523872\",\n" +
+                "         \"DISTRIBUTOR_13422877\",\n" +
+                "         \"DISTRIBUTOR_13507140\",\n" +
+                "         \"DISTRIBUTOR_30477762\",\n" +
+                "         \"DISTRIBUTOR_30518537\",\n" +
+                "         \"DISTRIBUTOR_30253977\",\n" +
+                "         \"DISTRIBUTOR_30405541\",\n" +
+                "         \"DISTRIBUTOR_13421799\",\n" +
+                "         \"DISTRIBUTOR_30506448\",\n" +
+                "         \"GATE_13506798\",\n" +
+                "         \"TRAN_STORE_30149953\",\n" +
+                "         \"TRAN_STORE_30258519\",\n" +
+                "         \"TRAN_STORE_30412160\",\n" +
+                "         \"TRAN_STORE_30407252\",\n" +
+                "         \"DISTRIBUTOR_30792239\"\n" +
+                "      ],\n" +
+                "      \"134\": [\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_30550506\",\n" +
+                "         \"DISTRIBUTOR_30551634\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30784388\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"185\": [\n" +
+                "         \"DISTRIBUTOR_30832844\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_30695375\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"GATE_31023955\",\n" +
+                "         \"DISTRIBUTOR_31023097\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_31199230\",\n" +
+                "         \"DISTRIBUTOR_31023097\",\n" +
+                "         \"DISTRIBUTOR_31043296\",\n" +
+                "         \"DISTRIBUTOR_31264672\",\n" +
+                "         \"DISTRIBUTOR_31052471\",\n" +
+                "         \"DISTRIBUTOR_30884786\",\n" +
+                "         \"GATE_31200160\"\n" +
+                "      ],\n" +
+                "      \"224\": [\n" +
+                "         \"DISTRIBUTOR_30696279\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30832845\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_31171074\"\n" +
+                "      ],\n" +
+                "      \"19\": [\n" +
+                "         \"DISTRIBUTOR_30715650\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"159\": [\n" +
+                "         \"DISTRIBUTOR_30716188\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"153\": [\n" +
+                "         \"DISTRIBUTOR_30521976\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"141\": [\n" +
+                "         \"DISTRIBUTOR_30521976\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"109\": [\n" +
+                "         \"DISTRIBUTOR_30521976\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"78\": [\n" +
+                "         \"DISTRIBUTOR_30521976\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"16\": [\n" +
+                "         \"DISTRIBUTOR_31094522\",\n" +
+                "         \"GATE_31093480\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30986012\",\n" +
+                "         \"GATE_30986121\",\n" +
+                "         \"GATE_30986121\",\n" +
+                "         \"DISTRIBUTOR_30986012\",\n" +
+                "         \"GATE_31171271\",\n" +
+                "         \"DISTRIBUTOR_31216234\"\n" +
+                "      ],\n" +
+                "      \"17\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"228\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30792239\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"TRAN_STORE_30407252\",\n" +
+                "         \"TRAN_STORE_30149953\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"190\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30676796\"\n" +
+                "      ],\n" +
+                "      \"37\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_31108882\",\n" +
+                "         \"DISTRIBUTOR_31191299\",\n" +
+                "         \"DISTRIBUTOR_31200225\",\n" +
+                "         \"DISTRIBUTOR_31166021\",\n" +
+                "         \"TRAN_STORE_31345344\",\n" +
+                "         \"DISTRIBUTOR_31425044\"\n" +
+                "      ],\n" +
+                "      \"100\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_30474040\",\n" +
+                "         \"DISTRIBUTOR_30134774\"\n" +
+                "      ],\n" +
+                "      \"95\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"173\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"98\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"150\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30782201\"\n" +
+                "      ],\n" +
+                "      \"6\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"128\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"158\": [\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"209\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30460633\",\n" +
+                "         \"TRAN_STORE_30552669\"\n" +
+                "      ],\n" +
+                "      \"104\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"GATE_30652901\",\n" +
+                "         \"DISTRIBUTOR_30652654\",\n" +
+                "         \"GATE_30778947\",\n" +
+                "         \"DISTRIBUTOR_30778660\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30320559\",\n" +
+                "         \"DISTRIBUTOR_30792239\"\n" +
+                "      ],\n" +
+                "      \"160\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30706214\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"172\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"206\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30728886\",\n" +
+                "         \"DISTRIBUTOR_31029250\"\n" +
+                "      ],\n" +
+                "      \"170\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"5\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"111\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"46\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30696771\",\n" +
+                "         \"DISTRIBUTOR_30785301\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"200\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30792425\",\n" +
+                "         \"DISTRIBUTOR_30945536\"\n" +
+                "      ],\n" +
+                "      \"9\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"142\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"218\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"198\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_13489152\",\n" +
+                "         \"DISTRIBUTOR_30876223\",\n" +
+                "         \"DISTRIBUTOR_30943840\",\n" +
+                "         \"GATE_30874427\",\n" +
+                "         \"GATE_13486697\",\n" +
+                "         \"TRAN_STORE_31345344\"\n" +
+                "      ],\n" +
+                "      \"233\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30721631\",\n" +
+                "         \"TRAN_STORE_30552669\"\n" +
+                "      ],\n" +
+                "      \"13\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"71\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"43\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"165\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30785235\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"125\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30753581\"\n" +
+                "      ],\n" +
+                "      \"226\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"188\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"120\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"121\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_31089825\",\n" +
+                "         \"DISTRIBUTOR_30943096\"\n" +
+                "      ],\n" +
+                "      \"63\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"144\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"147\": [\n" +
+                "         \"DISTRIBUTOR_30874400\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874413\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_30874400\",\n" +
+                "         \"DISTRIBUTOR_30888815\",\n" +
+                "         \"DISTRIBUTOR_13474562\",\n" +
+                "         \"DISTRIBUTOR_30943096\",\n" +
+                "         \"DISTRIBUTOR_31198598\",\n" +
+                "         \"DISTRIBUTOR_31037258\",\n" +
+                "         \"DISTRIBUTOR_31089624\"\n" +
+                "      ],\n" +
+                "      \"229\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"101\": [\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_31066034\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"TRAN_STORE_30986541\",\n" +
+                "         \"DISTRIBUTOR_30528050\",\n" +
+                "         \"DISTRIBUTOR_30441528\",\n" +
+                "         \"DISTRIBUTOR_30675922\",\n" +
+                "         \"DISTRIBUTOR_30889763\",\n" +
+                "         \"DISTRIBUTOR_30888815\"\n" +
+                "      ],\n" +
+                "      \"196\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"112\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_13331996\"\n" +
+                "      ],\n" +
+                "      \"171\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_13331996\",\n" +
+                "         \"DISTRIBUTOR_31089836\",\n" +
+                "         \"DISTRIBUTOR_30278133\"\n" +
+                "      ],\n" +
+                "      \"102\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"93\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"132\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"108\": [\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"CHINA_TRAN_STORE_30488682\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_13331996\",\n" +
+                "         \"DISTRIBUTOR_30278133\",\n" +
+                "         \"DISTRIBUTOR_13331996\",\n" +
+                "         \"TRAN_STORE_31415927\"\n" +
+                "      ],\n" +
+                "      \"240\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"107\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"TRAN_STORE_31010459\"\n" +
+                "      ],\n" +
+                "      \"60\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"123\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"86\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"152\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"74\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"67\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"23\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30278133\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"TRAN_STORE_31308072\"\n" +
+                "      ],\n" +
+                "      \"76\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30278133\",\n" +
+                "         \"DISTRIBUTOR_13331996\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_13331996\"\n" +
+                "      ],\n" +
+                "      \"217\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"254\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"14\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30278133\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"64\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"242\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"39\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"187\": [\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"18\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30278133\"\n" +
+                "      ],\n" +
+                "      \"117\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"50\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"51\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"53\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"230\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30278133\"\n" +
+                "      ],\n" +
+                "      \"3\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"183\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"129\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"110\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"124\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"89\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"179\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"184\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"213\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"194\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"215\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"227\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"127\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"12\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"2\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"113\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"114\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"212\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"42\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"211\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"177\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"195\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"249\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"225\": [\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"1\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"TRAN_STORE_31308072\"\n" +
+                "      ],\n" +
+                "      \"122\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"62\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"15\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"10\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"210\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"27\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"157\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"169\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"34\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_1216244\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"59\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"252\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"205\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"68\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"48\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"20\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"246\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"148\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"87\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"99\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"140\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"135\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"154\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"155\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"161\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"182\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"241\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"244\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"191\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"192\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"193\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"180\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"181\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"203\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"220\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"216\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"236\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"243\": [\n" +
+                "         \"FPXSG\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"234\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"235\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"7\": [\n" +
+                "         \"FPXSG\"\n" +
+                "      ],\n" +
+                "      \"77\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30544403\",\n" +
+                "         \"DISTRIBUTOR_30544414\",\n" +
+                "         \"DISTRIBUTOR_30544376\",\n" +
+                "         \"DISTRIBUTOR_31052829\",\n" +
+                "         \"DISTRIBUTOR_30825132\",\n" +
+                "         \"DISTRIBUTOR_31098259\",\n" +
+                "         \"DISTRIBUTOR_30744258\",\n" +
+                "         \"DISTRIBUTOR_12008647\",\n" +
+                "         \"DISTRIBUTOR_31089485\",\n" +
+                "         \"DISTRIBUTOR_30796353\",\n" +
+                "         \"DISTRIBUTOR_31020079\",\n" +
+                "         \"DISTRIBUTOR_30889790\"\n" +
+                "      ],\n" +
+                "      \"65\": [\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"66\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"24\": [\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30943096\",\n" +
+                "         \"DISTRIBUTOR_30671493\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_31101485\",\n" +
+                "         \"DISTRIBUTOR_30888815\"\n" +
+                "      ],\n" +
+                "      \"223\": [\n" +
+                "         \"TRAN_STORE_30552669\",\n" +
+                "         \"DISTRIBUTOR_30874813\",\n" +
+                "         \"DISTRIBUTOR_30541618\",\n" +
+                "         \"DISTRIBUTOR_30536679\",\n" +
+                "         \"DISTRIBUTOR_13331996\",\n" +
+                "         \"DISTRIBUTOR_13480256\",\n" +
+                "         \"DISTRIBUTOR_13480265\",\n" +
+                "         \"DISTRIBUTOR_30116091\",\n" +
+                "         \"DISTRIBUTOR_31089606\",\n" +
+                "         \"DISTRIBUTOR_31096841\"\n" +
+                "      ],\n" +
+                "      \"199\": [\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30438883\",\n" +
+                "         \"DISTRIBUTOR_30526399\",\n" +
+                "         \"DISTRIBUTOR_30250031\",\n" +
+                "         \"DISTRIBUTOR_30527138\",\n" +
+                "         \"DISTRIBUTOR_30748369\",\n" +
+                "         \"DISTRIBUTOR_30749306\",\n" +
+                "         \"DISTRIBUTOR_30462294\",\n" +
+                "         \"DISTRIBUTOR_30766261\",\n" +
+                "         \"DISTRIBUTOR_30294626\",\n" +
+                "         \"DISTRIBUTOR_30749686\",\n" +
+                "         \"DISTRIBUTOR_30129706\",\n" +
+                "         \"DISTRIBUTOR_30438000\",\n" +
+                "         \"DISTRIBUTOR_13453351\",\n" +
+                "         \"DISTRIBUTOR_30884976\",\n" +
+                "         \"DISTRIBUTOR_30526252\",\n" +
+                "         \"DISTRIBUTOR_31034751\",\n" +
+                "         \"DISTRIBUTOR_31035063\",\n" +
+                "         \"DISTRIBUTOR_30526184\",\n" +
+                "         \"DISTRIBUTOR_30749178\",\n" +
+                "         \"DISTRIBUTOR_31036065\",\n" +
+                "         \"AE_HUB_L300000351\"\n" +
+                "      ],\n" +
+                "      \"80\": [\n" +
+                "         \"DISTRIBUTOR_30939910\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"167\": [\n" +
+                "         \"DISTRIBUTOR_30133106\",\n" +
+                "         \"DISTRIBUTOR_30776027\",\n" +
+                "         \"DISTRIBUTOR_30887461\",\n" +
+                "         \"DISTRIBUTOR_13463001\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30888477\"\n" +
+                "      ],\n" +
+                "      \"92\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30476027\",\n" +
+                "         \"DISTRIBUTOR_30776027\",\n" +
+                "         \"DISTRIBUTOR_30886918\",\n" +
+                "         \"DISTRIBUTOR_30442375\"\n" +
+                "      ],\n" +
+                "      \"54\": [\n" +
+                "         \"DISTRIBUTOR_30298106\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30874813\"\n" +
+                "      ],\n" +
+                "      \"56\": [\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"168\": [\n" +
+                "         \"DISTRIBUTOR_30777681\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_31206438\",\n" +
+                "         \"AE_HUB_L300000202\",\n" +
+                "         \"DISTRIBUTOR_31206438\"\n" +
+                "      ],\n" +
+                "      \"72\": [\n" +
+                "         \"DISTRIBUTOR_30874367\",\n" +
+                "         \"DISTRIBUTOR_30874247\",\n" +
+                "         \"DISTRIBUTOR_30874547\",\n" +
+                "         \"DISTRIBUTOR_30874723\",\n" +
+                "         \"DISTRIBUTOR_30728660\",\n" +
+                "         \"DISTRIBUTOR_30937534\",\n" +
+                "         \"DISTRIBUTOR_30223590\",\n" +
+                "         \"DISTRIBUTOR_30728948\",\n" +
+                "         \"DISTRIBUTOR_30728966\",\n" +
+                "         \"DISTRIBUTOR_30789261\",\n" +
+                "         \"DISTRIBUTOR_30492988\",\n" +
+                "         \"DISTRIBUTOR_30798142\",\n" +
+                "         \"DISTRIBUTOR_30735881\",\n" +
+                "         \"DISTRIBUTOR_30885735\",\n" +
+                "         \"DISTRIBUTOR_30885925\",\n" +
+                "         \"DISTRIBUTOR_30879677\",\n" +
+                "         \"DISTRIBUTOR_30941646\",\n" +
+                "         \"DISTRIBUTOR_30748180\",\n" +
+                "         \"DISTRIBUTOR_30788028\",\n" +
+                "         \"DISTRIBUTOR_30788723\",\n" +
+                "         \"DISTRIBUTOR_30424555\",\n" +
+                "         \"DISTRIBUTOR_30438148\",\n" +
+                "         \"DISTRIBUTOR_30443043\",\n" +
+                "         \"DISTRIBUTOR_13492249\",\n" +
+                "         \"DISTRIBUTOR_31089827\",\n" +
+                "         \"DISTRIBUTOR_31089364\",\n" +
+                "         \"DISTRIBUTOR_31089663\",\n" +
+                "         \"DISTRIBUTOR_31089715\"\n" +
+                "      ]\n" +
+                "   },\n" +
+                "   \"GENERATE_WILL_BILL_ERROR_CODE_OF_REFUND\": [\n" +
+                "      \"consigneePhone and consigneeMobile can not be both null\",\n" +
+                "      \"phone of consignee too long\",\n" +
+                "      \"mobile of consignee too long\",\n" +
+                "      \"name of consignee too long\",\n" +
+                "      \"province of consigneeAddress can not be null\",\n" +
+                "      \"consignee_address_area_too_long\",\n" +
+                "      \"detail consigneeAddress can not be null\",\n" +
+                "      \"consignee_address_city_too_long\",\n" +
+                "      \"consignee_address_province_too_long\",\n" +
+                "      \"consignee address too long\",\n" +
+                "      \"consignee_address_town_too_long\",\n" +
+                "      \"consignee_address_detail_too_long\",\n" +
+                "      \"detail consigneeAddress has invalid character\",\n" +
+                "      \"name of consignee has invalid character\",\n" +
+                "      \"phone or mobile illegal\"\n" +
+                "   ],\n" +
+                "   \"REFUND_ERROR_OP_REMARK\": [\n" +
+                "      \"130^^^联系不上客户\",\n" +
+                "      \"1711^^^客户地址错误\",\n" +
+                "      \"1004^^^客户更改配送地址\",\n" +
+                "      \"1710^^^拒收-客户-其它原因\",\n" +
+                "      \"SEC_CODE^^^130\",\n" +
+                "      \"SEC_CODE^^^1002\",\n" +
+                "      \"SEC_CODE^^^1711\",\n" +
+                "      \"SEC_CODE^^^3004\",\n" +
+                "      \"SEC_CODE^^^3005\"\n" +
+                "   ],\n" +
+                "   \"OVERSEAS_RETURN_SORTING_CENTER_RES_CODE_LIST\": [\n" +
+                "      \"TRAN_STORE_30716478\",\n" +
+                "      \"TRAN_STORE_30534825\",\n" +
+                "      \"Tran_Store_11955923\",\n" +
+                "      \"Tran_Store_13459842\",\n" +
+                "      \"Tran_Store_11929262\"\n" +
+                "   ],\n" +
+                "   \"SINOTRANS_SORTING_CENTER_RES_CODE\": [\n" +
+                "      \"TRAN_STORE_30986541\",\n" +
+                "      \"TRAN_STORE_30886279\",\n" +
+                "      \"Tran_Store_11955923\",\n" +
+                "      \"TRAN_STORE_30835544\"\n" +
+                "   ],\n" +
+                "   \"OVERDUE_RETURN_IS_NO_SUPPORT_RES_CODE\": [\n" +
+                "      \"TRAN_STORE_30705521\"\n" +
+                "   ],\n" +
+                "   \"START_RETURN_RES_EXPRESS_RES_MAP\": {\n" +
+                "      \"Tran_Store_13497362\": \"DISTRIBUTOR_30439715\"\n" +
+                "   },\n" +
+                "   \"EXCLUDE_TOTAL_AMOUNT_RES_CODE\": [\n" +
+                "      \"Tran_Store_11955923\",\n" +
+                "      \"TRAN_STORE_30534825\",\n" +
+                "      \"TRAN_STORE_30886279\"\n" +
+                "   ],\n" +
+                "   \"DOMESTIC_DELIVERY_ACCESS_STO_RES_CODE\": [\n" +
+                "      \"TRAN_1_STORE_30299685\",\n" +
+                "      \"TRAN_1_STORE_30320880\",\n" +
+                "      \"TRAN_1_STORE_30790506\"\n" +
+                "   ],\n" +
+                "   \"PRINT_DATA_TEMPLATE_URL\": {\n" +
+                "      \"DISTRIBUTOR_30439715\": \"http://cloudprint.cainiao.com/template/standard/420313/27\",\n" +
+                "      \"DISTRIBUTOR_31078355\": \"https://cloudprint.cainiao.com/template/standard/643524/1\"\n" +
+                "   },\n" +
+                "   \"DOMESITC_DELIVERY_RES_CODE_TO_CP_CODE\": {\n" +
+                "      \"DISTRIBUTOR_30439715\": \"YTO\",\n" +
+                "      \"DISTRIBUTOR_31078355\": \"STO\"\n" +
+                "   },\n" +
+                "   \"ABNORMAL_CODE_INFO_LIST\": [\n" +
+                "      {\n" +
+                "         \"opCode\": \"5225\",\n" +
+                "         \"remark\": \"IPR问题\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5280\",\n" +
+                "         \"remark\": \"禁运品：毒性物质（毒品、食品、药品、活体）\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5277\",\n" +
+                "         \"remark\": \"禁运品：管制器具\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5276\",\n" +
+                "         \"remark\": \"禁运品：枪支弹药\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5279\",\n" +
+                "         \"remark\": \"禁运品：压缩容器（含打火机、电子烟等）\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5291\",\n" +
+                "         \"remark\": \"禁运品：易燃易爆\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5281\",\n" +
+                "         \"remark\": \"禁运品：纸币、色子、公章、筹码等\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5243\",\n" +
+                "         \"remark\": \"品类限制：纯电\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5242\",\n" +
+                "         \"remark\": \"品类限制：带电\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5275\",\n" +
+                "         \"remark\": \"品类限制：磁性物品\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5270\",\n" +
+                "         \"remark\": \"品类限制：电容类\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5272\",\n" +
+                "         \"remark\": \"品类限制：粉末\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5273\",\n" +
+                "         \"remark\": \"品类限制：膏状体\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5269\",\n" +
+                "         \"remark\": \"品类限制：化工品类\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5244\",\n" +
+                "         \"remark\": \"品类限制：化妆品\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5271\",\n" +
+                "         \"remark\": \"品类限制：液体\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5264\",\n" +
+                "         \"remark\": \"申报金额问题\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5258\",\n" +
+                "         \"remark\": \"品类限制：成人用品\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5260\",\n" +
+                "         \"remark\": \"品类限制：成人用品\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5209\",\n" +
+                "         \"remark\": \"包裹丢失\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5216\",\n" +
+                "         \"remark\": \"包裹丢失\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5208\",\n" +
+                "         \"remark\": \"包裹破损\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5215\",\n" +
+                "         \"remark\": \"包裹破损\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5251\",\n" +
+                "         \"remark\": \"品类限制:其他\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5256\",\n" +
+                "         \"remark\": \"品类限制:其他\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5217\",\n" +
+                "         \"remark\": \"包裹超轻\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5213\",\n" +
+                "         \"remark\": \"包裹超体积\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5211\",\n" +
+                "         \"remark\": \"包裹超重\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5247\",\n" +
+                "         \"remark\": \"包裹信息不全\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5245\",\n" +
+                "         \"remark\": \"标签问题\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5282\",\n" +
+                "         \"remark\": \"包装不合格\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5278\",\n" +
+                "         \"remark\": \"异型件\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5274\",\n" +
+                "         \"remark\": \"品类限制：易碎品\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5285\",\n" +
+                "         \"remark\": \"商业发票等资料缺失\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5286\",\n" +
+                "         \"remark\": \"申报品名不详\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5284\",\n" +
+                "         \"remark\": \"收件人城市、邮编不符\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5283\",\n" +
+                "         \"remark\": \"收件人姓名电话不完整\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5453\",\n" +
+                "         \"remark\": \"安检限制：违禁品\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5454\",\n" +
+                "         \"remark\": \"安检限制：限运品-带电\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5454\",\n" +
+                "         \"remark\": \"安检限制：限运品-带电\",\n" +
+                "         \"nodeCode\": \"TRANSIT\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5455\",\n" +
+                "         \"remark\": \"安检限制：限运品-特货（含磁商品）\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5456\",\n" +
+                "         \"remark\": \"安检限制：限运品-特货（液体/膏状/粉末等）\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5478\",\n" +
+                "         \"remark\": \"海关限制：疑似仿牌、IPR\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5479\",\n" +
+                "         \"remark\": \"海关限制：无法出口（成人用品、医疗用品、种子、药品等）\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5457\",\n" +
+                "         \"remark\": \"包裹破损\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5480\",\n" +
+                "         \"remark\": \"信息问题：品名不符、申报不符\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5481\",\n" +
+                "         \"remark\": \"信息问题：收件人地址、邮编、电话、姓名有误\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5482\",\n" +
+                "         \"remark\": \"信息问题：重量、体积差异\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5483\",\n" +
+                "         \"remark\": \"包裹丢失\",\n" +
+                "         \"nodeCode\": \"LINEHAUL\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5829\",\n" +
+                "         \"remark\": \"品类限制：带电\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5830\",\n" +
+                "         \"remark\": \"品类限制：电容类\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5831\",\n" +
+                "         \"remark\": \"品类限制：液体\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5832\",\n" +
+                "         \"remark\": \"品类限制：粉末\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5833\",\n" +
+                "         \"remark\": \"品类限制：膏状体\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5834\",\n" +
+                "         \"remark\": \"品类限制：易碎品\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5835\",\n" +
+                "         \"remark\": \"品类限制：磁性物品\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5836\",\n" +
+                "         \"remark\": \"限运品\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5837\",\n" +
+                "         \"remark\": \"禁运品：枪支弹药\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5838\",\n" +
+                "         \"remark\": \"禁运品：管制器具\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5839\",\n" +
+                "         \"remark\": \"禁运品：易燃易爆\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5840\",\n" +
+                "         \"remark\": \"禁运品：压缩容器（含打火机、电子烟等）\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5841\",\n" +
+                "         \"remark\": \"禁运品：毒性物质（毒品、食品、药品、活体）\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5842\",\n" +
+                "         \"remark\": \"禁运品\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5843\",\n" +
+                "         \"remark\": \"海外退\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5284\",\n" +
+                "         \"remark\": \"破损\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5285\",\n" +
+                "         \"remark\": \"丢失\",\n" +
+                "         \"nodeCode\": \"CONSO\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5245\",\n" +
+                "         \"remark\": \"标签问题\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5247\",\n" +
+                "         \"remark\": \"包裹信息不全\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5251\",\n" +
+                "         \"remark\": \"品类限制:其他\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5211\",\n" +
+                "         \"remark\": \"包裹超重\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5217\",\n" +
+                "         \"remark\": \"包裹超轻\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5213\",\n" +
+                "         \"remark\": \"包裹超体积\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5225\",\n" +
+                "         \"remark\": \"IPR问题\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5243\",\n" +
+                "         \"remark\": \"品类限制：纯电\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5208\",\n" +
+                "         \"remark\": \"包裹破损\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5264\",\n" +
+                "         \"remark\": \"申报金额问题\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5242\",\n" +
+                "         \"remark\": \"品类限制：带电\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5269\",\n" +
+                "         \"remark\": \"品类限制：化工品类\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5270\",\n" +
+                "         \"remark\": \"品类限制：电容类\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5271\",\n" +
+                "         \"remark\": \"品类限制：液体\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5272\",\n" +
+                "         \"remark\": \"品类限制：粉末\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5273\",\n" +
+                "         \"remark\": \"品类限制：膏状体\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5274\",\n" +
+                "         \"remark\": \"品类限制：易碎品\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5275\",\n" +
+                "         \"remark\": \"品类限制：磁性物品\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5276\",\n" +
+                "         \"remark\": \"禁运品：枪支弹药\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5277\",\n" +
+                "         \"remark\": \"禁运品：管制器具\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5291\",\n" +
+                "         \"remark\": \"禁运品：易燃易爆\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5279\",\n" +
+                "         \"remark\": \"禁运品：压缩容器（含打火机、电子烟等）\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5280\",\n" +
+                "         \"remark\": \"禁运品：毒性物质（毒品、食品、药品、活体）\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5281\",\n" +
+                "         \"remark\": \"禁运品：纸币、色子、公章、筹码等\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5282\",\n" +
+                "         \"remark\": \"包装不合格\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5283\",\n" +
+                "         \"remark\": \"收件人姓名电话不完整\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5284\",\n" +
+                "         \"remark\": \"收件人城市、邮编不符\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5285\",\n" +
+                "         \"remark\": \"商业发票等资料缺失\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5286\",\n" +
+                "         \"remark\": \"申报品名不详\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5209\",\n" +
+                "         \"remark\": \"包裹丢失\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5256\",\n" +
+                "         \"remark\": \"品类限制:其他\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5215\",\n" +
+                "         \"remark\": \"包裹破损\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5216\",\n" +
+                "         \"remark\": \"包裹丢失\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5258\",\n" +
+                "         \"remark\": \"品类限制：成人用品\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5278\",\n" +
+                "         \"remark\": \"异型件\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5260\",\n" +
+                "         \"remark\": \"品类限制：成人用品\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5244\",\n" +
+                "         \"remark\": \"品类限制：化妆品\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5405\",\n" +
+                "         \"remark\": \"包裹包装不符合产品要求\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5406\",\n" +
+                "         \"remark\": \"产品类目限制，非服装\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5404\",\n" +
+                "         \"remark\": \"普货产品含带电货物\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5403\",\n" +
+                "         \"remark\": \"账户已停止服务\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5407\",\n" +
+                "         \"remark\": \"异形件\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5401\",\n" +
+                "         \"remark\": \"体积重大于实重，需要按照体积重计费\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "         \"opCode\": \"5402\",\n" +
+                "         \"remark\": \"预付款账户已欠费\",\n" +
+                "         \"nodeCode\": \"SORTING_CENTER\"\n" +
+                "      }\n" +
+                "   ],\n" +
+                "   \"PRINT_WAYBILL_PRE_CHECK\": true,\n" +
+                "   \"PROCESS_LH_PACKAGE_SC\": [\n" +
+                "      \"Tran_Store_13423966\",\n" +
+                "      \"TRAN_STORE_30547804\",\n" +
+                "      \"TRAN_STORE_30526976\",\n" +
+                "      \"Tran_Store_13423967\",\n" +
+                "      \"Tran_Store_13423969\",\n" +
+                "      \"Tran_Store_13452137\",\n" +
+                "      \"TRAN_STORE_30299685\",\n" +
+                "      \"TRAN_STORE_30299953\",\n" +
+                "      \"Tran_Store_13452714\",\n" +
+                "      \"TRAN_STORE_30320880\"\n" +
+                "   ],\n" +
+                "   \"INBOUND_FAIL_CREATE_WORKORDER_OPCODE_LIST\": [\n" +
+                "      {\n" +
+                "         \"opCode\": \"5905\",\n" +
+                "         \"bizTypeId\": 1000023123,\n" +
+                "         \"workOrderInfo\": \"包裹退件入库发现破损,物流商检查核实\"\n" +
+                "      }\n" +
+                "   ],\n" +
+                "   \"CONSO_INBOUND_FAIL_OP_CODE_LIST\": [\n" +
+                "      \"5938\",\n" +
+                "      \"5905\",\n" +
+                "      \"5906\",\n" +
+                "      \"5939\",\n" +
+                "      \"5940\",\n" +
+                "      \"5941\",\n" +
+                "      \"5942\"\n" +
+                "   ],\n" +
+                "   \"INVALID_CP_CODE_MAP\": {\n" +
+                "      \"5\": [\n" +
+                "         \"DISTRIBUTOR_30476027\"\n" +
+                "      ],\n" +
+                "      \"12\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"13\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"15\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"17\": [\n" +
+                "         \"DISTRIBUTOR_30442375\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"21\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"23\": [\n" +
+                "         \"DISTRIBUTOR_13331996\"\n" +
+                "      ],\n" +
+                "      \"33\": [\n" +
+                "         \"DISTRIBUTOR_30442375\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"37\": [\n" +
+                "         \"DISTRIBUTOR_30520836\"\n" +
+                "      ],\n" +
+                "      \"50\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"51\": [\n" +
+                "         \"DISTRIBUTOR_30442375\",\n" +
+                "         \"DISTRIBUTOR_31089597\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"53\": [\n" +
+                "         \"DISTRIBUTOR_30476027\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"54\": [\n" +
+                "         \"DISTRIBUTOR_30943423\",\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"56\": [\n" +
+                "         \"DISTRIBUTOR_30776027\"\n" +
+                "      ],\n" +
+                "      \"66\": [\n" +
+                "         \"DISTRIBUTOR_30455584\"\n" +
+                "      ],\n" +
+                "      \"71\": [\n" +
+                "         \"DISTRIBUTOR_13331996\",\n" +
+                "         \"DISTRIBUTOR_31059987\"\n" +
+                "      ],\n" +
+                "      \"80\": [\n" +
+                "         \"DISTRIBUTOR_30939910\",\n" +
+                "         \"DISTRIBUTOR_30476027\"\n" +
+                "      ],\n" +
+                "      \"89\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"92\": [\n" +
+                "         \"DISTRIBUTOR_30442375\",\n" +
+                "         \"DISTRIBUTOR_30476027\"\n" +
+                "      ],\n" +
+                "      \"93\": [\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"102\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"114\": [\n" +
+                "         \"DISTRIBUTOR_13331996\",\n" +
+                "         \"DISTRIBUTOR_30455584\"\n" +
+                "      ],\n" +
+                "      \"120\": [\n" +
+                "         \"DISTRIBUTOR_13331996\",\n" +
+                "         \"DISTRIBUTOR_30455584\"\n" +
+                "      ],\n" +
+                "      \"122\": [\n" +
+                "         \"DISTRIBUTOR_30476027\"\n" +
+                "      ],\n" +
+                "      \"128\": [\n" +
+                "         \"DISTRIBUTOR_30874723\"\n" +
+                "      ],\n" +
+                "      \"147\": [\n" +
+                "         \"DISTRIBUTOR_13474562\"\n" +
+                "      ],\n" +
+                "      \"171\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"173\": [\n" +
+                "         \"DISTRIBUTOR_30476027\",\n" +
+                "         \"DISTRIBUTOR_30442375\"\n" +
+                "      ],\n" +
+                "      \"179\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"191\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"192\": [\n" +
+                "         \"DISTRIBUTOR_30442375\",\n" +
+                "         \"DISTRIBUTOR_31089597\"\n" +
+                "      ],\n" +
+                "      \"193\": [\n" +
+                "         \"DISTRIBUTOR_30442375\",\n" +
+                "         \"DISTRIBUTOR_30476027\"\n" +
+                "      ],\n" +
+                "      \"199\": [\n" +
+                "         \"DISTRIBUTOR_31036065\"\n" +
+                "      ],\n" +
+                "      \"205\": [\n" +
+                "         \"DISTRIBUTOR_30776027\"\n" +
+                "      ],\n" +
+                "      \"218\": [\n" +
+                "         \"DISTRIBUTOR_30223716\",\n" +
+                "         \"DISTRIBUTOR_30696167\"\n" +
+                "      ],\n" +
+                "      \"223\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ],\n" +
+                "      \"225\": [\n" +
+                "         \"DISTRIBUTOR_13473712\"\n" +
+                "      ],\n" +
+                "      \"229\": [\n" +
+                "         \"DISTRIBUTOR_1216244\"\n" +
+                "      ]\n" +
+                "   },\n" +
+                "   \"YTO_RETURN_SELLER_ID_MAP\": {\n" +
+                "      \"POP\": 2787715648,\n" +
+                "      \"CHOICE\": 1739253582L\n" +
+                "   }\n" +
+                "}";
+        JSONObject context = JSON.parseObject(configInfo);
+        System.out.println(context);
     }
 
+
+    /**
+     * 将日期转换为时间戳
+     *
+     * <p>将给定日期转换为指定时区的时间戳
+     *
+     * @param date 日期对象
+     * @param timeZoneStr 时区字符串
+     * @return 时间戳（毫秒），如果时区字符串为空或者日期对象为null，则返回null
+     */
+    public static Long dateToTimeStamp(Date date, String timeZoneStr) {
+        if (StringUtils.isBlank(timeZoneStr) || null == date) {
+            return null;
+        }
+        ZoneOffset offset = ZoneOffset.of(timeZoneStr);
+        ZoneId zoneId = ZoneId.from(offset);
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().atZone(zoneId)
+                .toInstant().toEpochMilli();
+    }
+
+    public static Date convertTimeZone(Date date, TimeZone sourceTimeZone, TimeZone targetTimeZone) {
+        if (date == null) {
+            return null;
+        }
+        long targetTime = date.getTime() - sourceTimeZone.getRawOffset() + targetTimeZone.getRawOffset();
+        return new Date(targetTime);
+    }
+
+
 }
+
+
