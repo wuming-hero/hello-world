@@ -9,10 +9,13 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class DateUtil {
 
     private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
+
+    public static final TimeZone bjTimeZone = TimeZone.getTimeZone("GMT+8:00");
 
     private static Calendar calendar;
 
@@ -1028,4 +1031,32 @@ public class DateUtil {
         }
 
     }
+
+    /**
+     * 转换为北京时间
+     *
+     * @param opTime 时间
+     * @param timeZoneStr 当前时间所在时区
+     * @return
+     */
+    public static Date convertBeiJingTime(Date opTime, String timeZoneStr) {
+        if (opTime == null) {
+            return null;
+        }
+        TimeZone timeZone = TimeZoneUtil.adaptTimeZone(timeZoneStr);
+        if (Objects.isNull(timeZone)) {
+            // 时区无法正常解析
+            return opTime;
+        }
+        return convertTimeZone(opTime, timeZone, bjTimeZone);
+    }
+
+    public static Date convertTimeZone(Date date, TimeZone sourceTimeZone, TimeZone targetTimeZone) {
+        if (date == null) {
+            return null;
+        }
+        long targetTime = date.getTime() - sourceTimeZone.getRawOffset() + targetTimeZone.getRawOffset();
+        return new Date(targetTime);
+    }
+
 }
