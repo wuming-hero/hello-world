@@ -1,66 +1,70 @@
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ctc.wstx.osgi.WstxBundleActivator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Joiner;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.sun.security.auth.UnixNumericUserPrincipal;
-import com.sun.tools.corba.se.idl.StringGen;
 import com.wuming.model.Account;
 import com.wuming.model.Student;
-import com.wuming.util.*;
-import com.wuming.util.excel.PoiExcel2k7Helper;
+import com.wuming.model.TestModel;
+import com.wuming.util.BaiduMapApi;
+import com.wuming.util.GaoDeMapApi;
+import com.wuming.util.HttpUtil;
+import com.wuming.util.JsonMapper;
+import com.wuming.util.OrderIdUtil;
+import com.wuming.util.OrderNoUtil;
+import com.wuming.util.Sequence;
+import com.wuming.util.XmlUtil;
+import com.wuming.util.XmlUtil2;
 import com.wuming.util.excel.PoiExcelHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.junit.Assert;
 import org.junit.Test;
-import sun.jvm.hotspot.code.StubQueue;
 
 import javax.xml.bind.DatatypeConverter;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.*;
-import java.util.*;
-import java.util.Base64;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -68,7 +72,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by wuming on 16/10/30.
@@ -80,6 +83,18 @@ public class DailyTest {
     private static final ExecutorService executorService = Executors.newFixedThreadPool(100);
 
     private final ObjectMapper objectMapper = JsonMapper.nonDefaultMapper().getMapper();
+
+    @Test
+    public void dailyTest() {
+        System.out.println(System.currentTimeMillis() / 1000);
+        System.out.println((int) System.currentTimeMillis() / 1000);
+        long curr =  System.currentTimeMillis();
+        System.out.println(curr);
+        System.out.println( curr / 1000);
+        System.out.println((int) (curr / 1000));
+        String intStr = "1738907322";
+        System.out.println(Integer.parseInt(intStr));
+    }
 
     /**
      * @return List<List < String>>
@@ -655,21 +670,52 @@ public class DailyTest {
      * 从8.15号开始，包括15号，结束时间 2023.1.19号，包括19号
      */
     @Test
-    public void dateTest2() throws InvocationTargetException, IllegalAccessException {
-//        LocalDate localDate = LocalDate.of(2022, 8, 10);
-//        System.out.println(localDate);
-//        LocalDate targetDay = localDate.plusDays(158);
-//        System.out.println(targetDay);
-        LocalDate localDate = LocalDate.now();
-        System.out.println(localDate.minusDays(30));
+    public void dateTest2() {
+        Map<String, String> dataMap = Maps.newHashMap();
+        dataMap.put("runTime", "123");
+        dataMap.put("servername", "servername");
+        dataMap.put("requestJson", "requestJson123");
 
-        List<String> dataList = null;
-//        for (String s : dataList) {
-//            System.out.println(s);
-//        }
+        TestModel testModel = JSON.parseObject(JSON.toJSONString(dataMap), TestModel.class);
+        System.out.println(testModel);
+        Map<String, String> slsKeyMap = new HashMap<>();
+        slsKeyMap.put("node_name", "eventCode");
+        slsKeyMap.put("method_signature", "eventName");
+        slsKeyMap.put("log_time", "time");
+        slsKeyMap.put("out_biz_code", "orderCode");
+        slsKeyMap.put("related_code", "outOrderId");
+        slsKeyMap.put("request_argument", "request");
+        slsKeyMap.put("rt", "runtime");
+        slsKeyMap.put("rpc_id", "rpcId");
+        slsKeyMap.put("trace_id", "traceId");
+        System.out.println(JSON.toJSONString(slsKeyMap));
 
-        List<String> dataList2 = new ArrayList<>(dataList);
-        System.out.println(dataList2);
+        String testStr = "\nabc{\"features\":{\"forcePce\":\"-1\",\"initialConsoWmsOutTime\":null,\"planWmsOutboundTime\":null,\"planWmsAcceptTime\":null,\"whCross\":\"false\",\"combinePriority\":\"prior\",\"tradeBatchId\":\"da59fab8fc9f3829d344a8b1f8635678\",\"initialWmsOutTime\":null},\"orderCode\":\"LP00711007763545\",\"whCrossMode\":\"-2\",\"whConsignType\":\"VIRTUAL_SHIPPING\",\"collabParcelConsignDTOList\":[{\"features\":{},\"orderCode\":\"LP00711100192844\",\"whConsignType\":\"DIRECT_SHIPPING\"}],\"cnespPlanDTO\":null}\n[";
+        System.out.println(deleteInvalidPrefix(testStr));
+        String testStr2 = "\nabc[{\"test\":\"242424\"}]\n111";
+        System.out.println(deleteInvalidPrefix(testStr2));
+        String testStr3 = "12\nabcdbakjsjf\n12";
+        System.out.println(testStr3);
+
+    }
+
+    public static String deleteInvalidPrefix(String jsonStr) {
+        if (StringUtils.isBlank(jsonStr)) {
+            return null;
+        }
+        // {所在的索引
+        int bigBracketIndex = jsonStr.indexOf("{");
+        // 中括号所在的索引
+        int middleBracketIndex = jsonStr.indexOf("[");
+        // 此类jsonp字符串，且没有{}
+        if ((middleBracketIndex == -1 && bigBracketIndex > 0) || (bigBracketIndex == -1 && middleBracketIndex >= 0)) {
+            return jsonStr.substring(Math.max(bigBracketIndex, middleBracketIndex));
+        }
+        // 如果2个都有
+        if(bigBracketIndex > 0 && middleBracketIndex > 0){
+            return jsonStr.substring(Math.min(bigBracketIndex, middleBracketIndex));
+        }
+        return jsonStr;
     }
 
     @Test
