@@ -21,7 +21,7 @@ isReturn	辅助判断标记，当前的方法调用以正常返回的形式结�
 ```
 
 idea 插件  https://plugins.jetbrains.com/plugin/13581-arthas-idea?spm=ata.21736010.0.0.41c87536TJ0lkK
-
+arthas 教程 https://arthas.aliyun.com/doc/watch.html
 
 # 二、安装/使用
 ```
