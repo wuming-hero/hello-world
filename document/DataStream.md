@@ -1,6 +1,6 @@
 # DataInputStream和DataOutputStream用法细节探讨
 
-> DataInputStream和DataOutputStream都是Java中输入输出流的装饰类，用起来很方便。今天就来讨论一下使用该类时候遇到的编码问题。﻿﻿
+> DataInputStream和DataOutputStream都是Java中输入输出流的装饰类，用起来很方便。今天就来讨论一下使用该类时候遇到的编码问题。
 package com.vincent.example;
 
 ```java
