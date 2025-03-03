@@ -36,7 +36,6 @@ SwitchManager.addListener("com.xxx.SwitchChangeListener");
 ```java
 Field[] fields = switchClass.getDeclaredFields();
 ```
-
 2. 然后会判断该成员变量上是否有@AppSwitch注解，如果没有的话，该变量只是普通的java变量，不会做任何特殊处理。
 
 3. 将成员变量所有值封装到类 Switch 中
@@ -69,13 +68,14 @@ public static synchronized void register(String appName, String key, Switch swit
     registerSwitchSetMethod(appName, key, setMethod);
 
 }
+
 ```
 ### 初始化变量值（内存值）
-首先会根据appName和key从SwtichContainer中取出注册的SwitchBean，
-然后取出对应的Field对象， 最后反射调用Field.set(null,newValue)即可更改内存中的开关值。
-如果设置成功了，并且配置了对应开关配置了回调类，那么会执行一次回调方法。
-如果回调方法执行成功了，那么会修改switchBean的lastModifiedTime，并且通知所有的Listener进行处理。
-如果callBack执行失败了，switch会回滚diamond里面获取的值，并输出日志然后抛出异常，Switch启动失败。
+1. 首先会根据appName和key从SwtichContainer中取出注册的SwitchBean，
+2. 然后取出对应的Field对象， 最后反射调用Field.set(null,newValue)即可更改内存中的开关值。
+3. 如果设置成功了，并且配置了对应开关配置了回调类，那么会执行一次回调方法。 
+   3.1 如果回调方法执行成功了，那么会修改switchBean的lastModifiedTime，并且通知所有的Listener进行处理。
+   3.2 如果callBack执行失败了，switch会回滚diamond里面获取的值，并输出日志然后抛出异常，Switch启动失败。
 
 ### 持久化开关
 switch开关也支持持久化，如果没有持久化的开关，每次注册之后都会使用代码里面的值。
@@ -109,8 +109,6 @@ initPersistenceSwitchFromDiamond(appName, persistenceConfig);
 diamond里面持久化开关的配置格式是Map序列化的字符串。
 配置Map的key为上文switchBean的key(即nameSpace.name，命名空间.变量名,
 value即为对应开关的序列化字符串。 对应diamond上的每一个配置，会去修改内存中的实际值。
-
-### 初始化HttpCommand
 
 
 ## 推送修改switch值
