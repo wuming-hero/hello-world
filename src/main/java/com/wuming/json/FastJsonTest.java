@@ -3,6 +3,8 @@ package com.wuming.json;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.google.common.collect.Maps;
 import com.wuming.model.Account;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -26,36 +28,42 @@ public class FastJsonTest {
         list.add(new Account(12, "张三"));
 
         // 将集合或者对象序例化成JSON
-        System.out.println(JSON.toJSON(json));
-        System.out.println(JSON.toJSON(list));
+        String accountStr = JSON.toJSONString(json);
+        String accountListStr = JSON.toJSONString(list);
+        System.out.println(accountStr);
+        System.out.println();
 
         // Json字符串反序列化成对象
-        Account person = JSON.parseObject("{\"name\":\"李明\",\"age\":19}", Account.class);
+        Account person = JSON.parseObject(accountStr, Account.class);
         System.out.printf("name: %s, id: %d\n", person.getName(), person.getId());
 
-        String str = "[{\"name\":\"李明\",\"age\":19},{\"name\":\"张三\",\"age\":12}]";
         //数组对象反序列化成集合
-        List<Account> listPerson = JSON.parseArray(str, Account.class);
+        List<Account> listPerson = JSON.parseArray(accountListStr, Account.class);
         for (Account item : listPerson) {
             System.out.println("id: " + item.getId() + "name:" + item.getName());
         }
+        // 3. 复杂类型 反序列化，可以通过TypeReference实现
+        Map<String, Account> accountMap = Maps.newHashMap();
+        accountMap.put("accountKey", json);
+        String mapStr = JSON.toJSONString(accountMap);
+        System.out.println(mapStr);
+        // 3.1简单类型直接转换也是可以的，accountMap2 的value 是JSONObject类型，此处涉及到类型强制转换，所以会有强转警告
+        Map<String, Account> accountMap2 = JSON.parseObject(mapStr, Map.class);
+        System.out.println(accountMap2);
 
-        //字符串转换为JSON对象
-        JSONObject jsonObject = JSON.parseObject("{\"name\":\"李明\",\"age\":19}");
-        System.out.printf("name:%s, age:%d\n", jsonObject.getString("name"), jsonObject.getBigInteger("age"));
-
-        //字符串转换为JSON数组
-        JSONArray jsonArray = JSON.parseArray("[{\"name\":\"李明\",\"age\":19},{\"name\":\"张三\",\"age\":12}]");
-        for (int i = 0, len = jsonArray.size(); i < len; i++) {
-            JSONObject temp = jsonArray.getJSONObject(i);
-            System.out.printf("name: %s, age: %d\n", temp.getString("name"), temp.getBigInteger("age"));
-        }
-
-        for (Object obj : jsonArray) {
-            System.out.println(obj.toString());
-        }
+        // 3.2 通过TypeReference 方式转换，更安全优雅
+        Map<String, Account> accountMap3 = JSON.parseObject(mapStr, new TypeReference<Map<String, Account>>() {});
+        System.out.println(accountMap3);
     }
 
+    /**
+     * 测试方法，用于演示如何解析JSON字符串并提取数据。
+     *
+     * <p>该方法将一个JSON格式的字符串解析为JSONObject，然后从中获取订单ID并打印其大整数和长整型值。</p>
+     *
+     * @param 无参数
+     * @return 无返回值
+     */
     @Test
     public void test2() {
         String a = "{\"gmt_create\":\"2022-11-24 21:25:42\",\"order_id\":\"8519902714490971\"}";
@@ -111,8 +119,5 @@ public class FastJsonTest {
         }
         System.out.println(terminalSource);
         System.out.println(asrId);
-
-
-
     }
 }

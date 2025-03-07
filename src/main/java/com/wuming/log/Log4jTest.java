@@ -11,7 +11,7 @@ import org.junit.Test;
  */
 public class Log4jTest {
 
-    static Logger logger = LogManager.getLogger(JsoupTest.class);
+    static Logger logger = LogManager.getLogger(Log4jTest.class);
 
     /**
      * 因为是

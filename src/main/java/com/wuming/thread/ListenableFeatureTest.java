@@ -1,12 +1,22 @@
 package com.wuming.thread;
 
-import com.google.common.util.concurrent.*;
+
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 
-public class ListenableFeature {
+/**
+ * ListenableFuture 是 Google Guava 库提供的一个增强型 Future 接口，用于更灵活地处理异步任务的结果。
+ * 通过支持回调机制，它允许开发者在任务完成后自动触发后续处理逻辑，避免了传统 Future 需要轮询或阻塞的问题。
+ *
+ */
+public class ListenableFeatureTest {
     // 创建线程池
     final static ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
 
@@ -74,6 +84,8 @@ public class ListenableFeature {
             }
         });
 
+        // 不提交任务时，关闭线程池
+        service.shutdown();
         // 执行时间
         System.err.println("time: " + (System.currentTimeMillis() - t1));
     }
