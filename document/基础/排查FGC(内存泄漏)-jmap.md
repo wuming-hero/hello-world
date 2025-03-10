@@ -34,3 +34,6 @@ jstack 97598|grep 17d40 -A20
 # 列出来存活对象占用的内存大小，并且只显示前20行
 jmap -histo:live 97598|head -20
 ```
+
+https://blog.csdn.net/weixin_49435563/article/details/135411924
+
