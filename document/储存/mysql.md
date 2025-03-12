@@ -264,3 +264,5 @@ MySQL 性能优化是一个系统性工程，涉及多个方面，在面试中�
 * 缓存机制： 使用 Redis 等缓存中间件，将热点数据缓存到内存中，减轻数据库压力。这个非常常用，提升效果非常明显，性价比极高！4. 其他优化手段除了慢 SQL 定位、索引优化和架构优化，还可以提及一些其他优化手段，展示你对 MySQL 性能调优的全面理解：连接池配置： 配置合理的数据库连接池（如 连接池大小、超时时间 等），能够有效提升数据库连接的效率，避免频繁的连接开销。硬件配置： 提升硬件性能也是优化的重要手段之一。使用高性能服务器、增加内存、使用 SSD 硬盘等硬件升级，都可以有效提升数据库的整体性能。
 
 原文链接  https://javaguide.cn/database/mysql/mysql-questions-01.html#mysql-%E6%80%A7%E8%83%BD%E6%80%8E%E4%B9%88%E4%BC%98%E5%8C%96
+
+分库分表 https://javaguide.cn/high-performance/read-and-write-separation-and-library-subtable.html#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E6%9C%89%E6%B2%A1%E6%9C%89%E4%BB%80%E4%B9%88%E6%AF%94%E8%BE%83%E6%8E%A8%E8%8D%90%E7%9A%84%E6%96%B9%E6%A1%88
