@@ -24,3 +24,6 @@ Java IO 流的 40 多个类都是从如下 4 个抽象类基类中派生出来�
 个人认为主要有两点原因：
 1. 处理字符编码、简化文本操作，以及提供更友好的API来处理文本数据。
 2. 虽然底层是字节，但字符流在更高层次上封装了这些细节，让开发者更专注于字符层面的处理，而不是字节的细节。
+
+
+java IO 详解 https://javaguide.cn/java/io/io-model.html#nio-non-blocking-new-i-o
