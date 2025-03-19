@@ -11,14 +11,13 @@
 ## 自我评价
 
 ### 技术栈
-* 熟练使用java/python/javascript编程语言
-* 精通java生态栈（Spring-boot、Mybatis）
+* 熟练使用java/python/javascript编程语言，
+* 精通java生态栈（Spring-Boot、Mybatis）
 * 熟练使用MySQL、TDDL、Lindorm、tableStore、Redis等数据库及缓存技术
 * 熟练使用Notify、MetaQ等消息中间件
-* 深度参与细叶科技自有RPC框架rpc-dubbo编写及优化，主导实现‌注解驱动开发模式‌（@RpcProvider、@RpcConsumer），基于动态代理技术简化Dubbo接口的暴露与引用，‌开发效率提升40%
-* 熟悉开放平台设计规范并独立研发细叶开放平台
-* 熟练使用常用设计模式设计及优化代码
+* 主导实现‌注解驱动开发模式‌，深度参与RPC框架rpc-dubbo编写及优化，提供@RpcProvider、@RpcConsumer注解，基于动态代理技术简化Dubbo接口的暴露与引用，‌开发效率提升40%
 * 具备高并发场景开发及优化经验
+* 熟练使用常用设计模式设计及优化代码
 * 具备独立使用javascript开发电商类、生活类uni-app经验
 * 熟练使用常用Linux命令、软件安装、项目部署等
 
@@ -26,6 +25,7 @@
 * 具有微信、企业微信生态相关开发经验
 * 具有淘宝、支付宝等淘系生态相关开发经验
 * 具有支付收款、银行系统交互相关开发经验
+* 熟悉开放平台设计规范并独立研发细叶开放平台
 * 熟悉电商物流行业寄件、逆向退货流程及核心设计
 * 熟悉跨境电商物流正向、逆向退回、保险等核心链路设计
 
