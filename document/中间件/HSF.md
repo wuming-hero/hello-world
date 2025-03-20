@@ -206,8 +206,101 @@ public List<ServiceURL> export(ServiceMetadata serviceMetadata, InvocationHandle
 
 ## HSF 消费端注册@HSFConsumer
 
+1. HSFConsumerBean初始化流程
+![图片2](../../src/main/resources/static/image/hsf/consumer_init.png)
 
-## HSF调用过程
+### 通过Spring-boot的AutoConfiguration开始注册HSFConsumer
+
+#### HSFConsumer注解
+```java
+@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Autowired
+public @interface HSFConsumer {
+    // ...
+}
+```
+
+#### @HsfConsumerAutoConfiguration 
+SpringBoot项目的入口类使用`@SpringBootApplication`修饰，该类下的`@EnableAutoConfiguration`下的`@Import(EnableAutoConfigurationImportSelector.class)`会加载`EnableAutoConfigurationImportSelector`类。
+该类在SpringBoot启动后会去扫描`META-INF/spring.factories`文件，该文件是SpringBoot提供的Starter自动配置的入口。
+
+hsf-spring-boot-autoconfigure.jar中定义了`META-INF/spring.factories`文件，该文件定义了自动配置
+```bash
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.alibaba.boot.hsf.consumer.HsfConsumerAutoConfiguration,\
+com.alibaba.boot.hsf.health.HsfHealthIndicatorAutoConfiguration
+
+org.springframework.boot.actuate.autoconfigure.ManagementContextConfiguration=\
+com.alibaba.boot.hsf.endpoint.HsfEndPointManagementContextConfiguration
+```
+这里就是告诉SpringBoot使用HsfConsumerAutoConfiguration类来装配我这个模块，
+SpringBoot获取到该配置后会经过一系列的判断(比如是否被用户手动exclude)，然后决定加载后将该类纳入SpringBoot的配置中去，让IoC容器去完成配置。
+到此整个自动配置发现流程就算完成，这种方式类似Java提供的SPI，利用classpath下的配置信息达到批量自动配置的目地
+
+##### HsfConsumerAutoConfiguration 初始化
+BeanFactoryPostProcessor是Spring Bean生命周期中的扩展过程，它和BeanPostProcess的区别如下：
+1、通过BeanFactoryPostProcessor接口，获取BeanFactory，操作BeanFactory对象，修改BeanDefinition，仅仅和BeanDefinition发生关系，不和Bean实例发生关系；
+2、通过BeanPostProcess接口，可以在Bean实例初始化前后分别做扩展性的操作，和Bean实例直接发生关系。
+```java
+@Configuration
+@ConditionalOnProperty(name = Constants.ENABLED, matchIfMissing = true)
+public class HsfConsumerAutoConfiguration {
+
+    @Bean
+    public static BeanFactoryPostProcessor hsfConsumerPostProcessor() {
+        return new HsfConsumerPostProcessor();
+    }
+
+}
+```
+HsfConsumerAutoConfiguration类会被SpringBoot接管，并且注入一个BeanFactoryPostProcessor对象，
+SpringBoot启动的过程会调用ApplicationContext的refresh()方法，方法内部会调用invokeBeanFactoryPostProcessors方法来处理hsfConsumerPostProcessor方法返回的HsfConsumerPostProcessor对象。
+
+#### HsfConsumerPostProcessor
+该类的核心能力是继承BeanFactoryPostProcessor，重写postProcessBeanFactory，springBoot启动时会调用，重写的方法内部的功能是遍历BeanFactory中的每个bean，判断每个bean的属性是否由@HSFConsumer修饰，
+如果是该注解修饰的，就创建这个属性的BeanDefinition，然后通过BeanDefinitionRegistry注册到容器中。
+
+#### HSFSpringConsumerBean
+HSFSpringConsumerBean实现了InitializingBean和FactoryBean，
+SpringBoot启动过程中会调用InitializingBean的afterPropertiesSet()方法，该方法内部调用HSFApiConsumerBean的init()方法，用来初始化HSFApiConsumerBean的serviceMetadata属性。
+BeanFactory是一个bean工厂，通过该接口可以管理Spring的所有bean。这里实现了FactoryBean的三个方法，其中getObject方法返回了ServiceMetadata的target属性，该属性是真正的HSF服务的代理对象。以上，即将消息流转到了消费者的核心类HSFApiConsumerBean。
+
+#### HSFApiConsumerBean
+类的核心功能包括ServiceMetadata的初始化（protocolFilterChain和invocationHandler的初始化）、消费者服务代理的创建和订阅、异步方法的解析（2.4节中HsfConsumerBeanDefinitionBuilder设置的futureMethods属性）等
+````java
+public HSFApiConsumerBean() {
+    // 初始化applicationModel，当前应用的管理容器
+    applicationModel = ApplicationModelFactory.setCurrentApplication();
+    // 初始化ServiceMetadata，里面有线程池的初始化
+    metadata = new ServiceMetadata(applicationModel);
+    // 从容器中获取ConfigServer应用服务的配置
+    config = HSFServiceContainer.getInstance(ConfigService.class).getConfig();
+    // 初始化规则、版本、代理类型JSK或
+    metadata.setGroup(config.getString(HSF_DEFAULT_GROUP_KEY));
+    metadata.setVersion(config.getString(HSF_DEFAULT_VERSION_KEY));
+    metadata.setProxyStyle(config.getString(HSF_DEFAULT_PROXY_STYLE_KEY));
+}
+````
+
+1. HSFApiConsumerBean#init()方法初始化服务
+2. 调用 serviceMetadata的init()方法 构建处理器InvocationHandler
+3. 调用 HSFApiConsumerBean#consume()
+通过jdk代理获得HSF服务的代理类，作为初始化HSFConsumerBean的基本数据，然后调用 metadata.referSync()方法订阅服务
+4. metadata.referSync()方法订阅服务
+   这里按照当时ServiceMetadata#init方法中构建的protocolFilterChain链时的顺序，逐一调用链上的每一个节点。
+5. 直到调用链返回了一个InvocationHandler对象，跟踪调用链路时，会发现RegistryProtocolInterceptor类的refer()方法返回了一个新创建的RegistryInvocationHandler对象，返回之前消费端会订阅ConfigServer。
+
+经过上述步骤后，会把一个代理对象注入到metadata中的target属性中。当执行FactoryBean的getObject方法时，从metadata获得代理对象。
+
+## HSFConsumerBean调用流程
+消费者调用流程总结起来就是异步执行protocolFilterChain的调用链，其中进行各种环境的初始化、订阅等准备工作，最终调用节点MultiplexingProtocol，含HSF本身与兼容Dubbo两种方式。
+以HSF为例，最终调用RemotingRPCProtocolComponent的invoke()方法，利用ip和address定位远程的HSF-RPC服务，通过NettyClientStream将socket流写给服务端。
+通过以上各Interceptor节点的处理，使得在调用HSFRPC服务时，就像在调用本地的接口一样。
+
+![图片2](../../src/main/resources/static/image/hsf/consumer_flow.png)
+
+## HSFProvider调用过程
 1. 服务提供端调用流程图
 ![图片2](../../src/main/resources/static/image/hsf/server_call_flow.png)
 
