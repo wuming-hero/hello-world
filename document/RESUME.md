@@ -36,10 +36,18 @@
 * 韩国消退项目获得公司级卓越工程奖(核心参与者)
 
 ## 工作经历
+> 公司经历小结
+### 浙江菜鸟供应链接管理有限公司
+
+
+
+### 杭州细叶科技有限公司
+
+
+## 项目经历
 
 ### 2021.1-至今 | 浙江菜鸟供应链有限公司 | Java高级研发工程师
 > JDK8、PandaBoot、HSF、configServer、TDDL、磐石、GLE、MyBatis、MetaQ、Tair、Sentinel、diamond、switch
-
 
 #### 1.菜鸟裹裹网购退货项目
 
