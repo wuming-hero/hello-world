@@ -23,7 +23,8 @@ bean实例化过程的不同阶段Spring容器(BeanFactory)会依次调用以下
 --> BeanPostProcessor.postProcessAfterInitialization()
 ```
 ### 实例化过程图
-完成了容器初始化操作之后所有bean都已经被注册在Spring框架内部的BeanFactory中了，此时，应用程序可以通过两种方式来从容器中获取一个bean实例：直接调用BeanFactory.getBean()接口或者依赖Spring提供的自动注入能力(autowire)。在应用程序拿到bean之前，Spring内部会执行如下图所示的bean实例化过程。
+完成了容器初始化操作之后所有bean都已经被注册在Spring框架内部的BeanFactory中了，此时，应用程序可以通过两种方式来从容器中获取一个bean实例：
+直接调用BeanFactory.getBean()接口或者依赖Spring提供的自动注入能力(autowire)。在应用程序拿到bean之前，Spring内部会执行如下图所示的bean实例化过程。
 
 ![图片2](../../../src/main/resources/static/image/spring/bean_init_flow.png)
 
