@@ -1,24 +1,14 @@
-# 个人简历
+# 杨朋朋个人简历
 
 ## 基本信息
-
 * 姓名：杨朋朋
 * 工作年限：11 年
 * 教育经历：2009-2013 | 武夷学院 | 科学与计算机专业 | 全日制本科
 * 联系方式: 13123936686(微信同号)
 * 邮箱: 952532573@qq.com
 
-## 自我评价
 
-### 技术栈
-* 精通java编程语言，熟练使用Spring-Boot、dubbo、zookeeper、mybatis等提供分布式微服务
-* 精通javascript，曾独立使用javascript + `HTML5+` 技术开发电商类、生活类uni-app经验
-* 熟练使用python，具备使用python+pyramid+mongoDB开发网页、电商平台经验;并经常使用scrapy框架制作爬虫小工具
-* 熟练使用MySQL、TDDL、Lindorm、tableStore、Redis等数据库及缓存技术
-* 熟练使用Notify、MetaQ等消息中间件
-* 具备高并发场景开发及优化经验
-* 熟练使用常用设计模式设计及优化代码
-* 主导实现‌注解驱动开发模模式，深度参与RPC框架`rpc-dubbo-spring-boot-starter`编写及优化，提供@RpcProvider、@RpcConsumer注解，基于动态代理技术简化Dubbo接口的暴露与引用，‌开发效率提升40%
+## 自我评价
 
 ### 行业经验
 * 具有微信、企业微信生态相关开发经验
@@ -29,6 +19,16 @@
 * 具有工程造价核心计费模型设计项目经验
 * 熟悉电商物流行业寄件、逆向退货流程及核心设计
 * 熟悉跨境电商物流正向、逆向退回、保险等核心链路设计
+
+### 技术栈
+* 精通java编程语言，熟练使用Spring-Boot、dubbo、zookeeper、mybatis等提供分布式微服务
+* 精通javascript，有独立使用javascript + `HTML5+` 技术开发电商类、生活类uni-app经验
+* 熟练使用python，具备使用python+pyramid+mongoDB开发网页、电商平台经验;并经常使用scrapy框架制作爬虫小工具
+* 熟练使用MySQL、TDDL、Lindorm、tableStore、Redis等数据库及缓存技术
+* 熟练使用Notify、MetaQ等消息中间件
+* 具备高并发场景开发及优化经验
+* 熟练使用常用设计模式设计及优化代码
+* 主导实现‌注解驱动开发模模式，深度参与RPC框架`rpc-dubbo-spring-boot-starter`编写及优化，提供@RpcProvider、@RpcConsumer注解，基于动态代理技术简化Dubbo接口的暴露与引用，‌开发效率提升40%
 
 ### 团队管理
 * 具备技术管理与跨团队协作能力，曾带领10人团队完成多个关键性项目交付，注重代码规范和交付质量

@@ -6,8 +6,72 @@
 其实简单的说，依赖注入起到的作用就是讲对象之间的依赖关系从原先的代码中解耦出来，通过配置文件或注解等方式加上Spring框架的处理让我们对依赖关系灵活集中的进行管理。
 
 
-## Spring初始化入口 AbstractApplicationContext#refresh 
+## 核心组件
+前面说 Bean 是 Spring 中的关键因素，那么 Context 和 Core 又有何作用呢？
+前面把 Bean比做一场演出中的演员，Context 就是这场演出的舞台背景，而 Core 应该就是演出的道具了。 只有它们在一起才能具备能演出一场好戏的最基本的条件。
+当然有最基本的条件还不能使这场演出脱颖而出，还要它表演的节目足够精彩，这些节目就是 Spring 能提供的特色功能了。
 
+我们知道 Bean 包装的是 Object，而 Object 必然有数据，如何给这些数据提供生存环境就是 Context 要解决的问题，对 Context 来说它就是要发现每个 Bean 之间的关系，为它们建立这种关系并且维护好这种关系。
+所以 Context 就是一个 Bean 关系的集合，这个关系集合又叫 Ioc 容器，一旦建立起这个 Ioc 容器 Spring 就可以为你工作了。
+Core 组件又有什么用武之地呢？其实 Core 就是发现、建立和维护每个 Bean 之间的关系所需要的一系列工具，从这个角度来看，Core 组件叫 Util 更能让你理解。
+
+![图片2](../../../src/main/resources/static/image/spring/spring_component.png)
+
+### Bean 组件
+Bean 组件在 Spring 的 org.springframework.beans 包下。
+这个包下的所有类主要解决了三件事：Bean 的定义、Bean 的创建及对 Bean 的解析。
+对 Spring 的使用者来说唯一需要关心的就是 Bean 的创建，其他两个由 Spring 在内部帮你完成了，对你来说是透明的。
+Spring Bean 的创建是典型的工厂模式，它的顶级接口是 BeanFactory，下图是这个工厂的继承层次关系。
+![图片2](../../../src/main/resources/static/image/spring/beans.png)
+
+BeanFactory 有三个子类：ListableBeanFactory、HierarchicalBeanFactory 和 AutowireCapableBeanFactory。
+但是从图中我们可以发现最终的默认实现类是 DefaultListableBeanFactory，它实现了所有的接口。
+
+为何要定义这么多层次的接口呢？查阅这些接口的源码和说明可以发现每个接口都有它使用的场合，它主要是为了区分在 Spring 内部对象的传递和转化过程中，对对象的数据访问所做的限制。
+例如，ListableBeanFactory 接口表示这些 Bean 是可列表的，
+而 HierarchicalBeanFactory 表示的是这些 Bean 是有继承关系的，也就是每个 Bean 有可能有父 Bean，
+AutowireCapableBeanFactory 接口定义 Bean 的自动装配规则。这四个接口共同定义了 Bean 的集合、Bean 之间的关系和 Bean 的行为。
+
+### Bean 定义 及解析
+Bean 的定义主要由 BeanDefinition 描述
+![图片2](../../../src/main/resources/static/image/spring/bean_definition.png)
+Bean 的定义完整地描述了在 Spring 的配置文件中你定义的<bean/>节点中所有的信息，包括各种子节点。当 Spring 成功解析你定义的一个<bean/>节点后，在 Spring 的内部它就被转化成 BeanDefinition 对象，以后所有的操作都是对这个对象进行的。
+
+Bean 的解析过程非常复杂，功能被分得很细，因为这里需要被扩展的地方很多，必须保证有足够的灵活性，以应对可能的变化。
+Bean 的解析主要就是对 Spring 配置文件的解析，这个解析过程主要通过下图中的类完成。
+
+![图片2](../../../src/main/resources/static/image/spring/bean_reader.png)
+
+### Context 组件
+Context 在 Spring 的 org.springframework.context 包下，前面已经讲解了 Context 组件在 Spring 中的作用，它实际上就是给 Spring 提供一个运行时的环境，用以保存各个对象的状态。
+ApplicationContext 是 Context 的顶级父类，它除了能标识一个应用环境的基本信息外，还继承了 5 个接口，这 5 个接口主要是扩展了 Context 的功能。下图是 Context 相关的类结构图。
+
+![图片2](../../../src/main/resources/static/image/spring/context.png)
+从图中可以看出，ApplicationContext 继承了 BeanFactory，这也说明了 Spring 容器中运行的主体对象是 Bean。
+另外 ApplicationContext 继承了 ResourceLoader 接口，使得ApplicationContext 可以访问到任何外部资源，这将在 Core 中详细说明。
+
+ApplicationContext 的子类主要包含两个方面：
+1. ConfigurableApplicationContext 表示该 Context 是可修改的，也就是在构建 Context中用户可以动态添加或修改已有的配置信息，它下面又有多个子类，其中最经常使用的是可更新的 Context，即 AbstractRefreshableApplicationContext 类。
+2. WebApplicationContext 顾名思义就是为 Web 准备的 Context，它可以直接访问到ServletContext，通常情况下，这个接口使用得很少。
+
+Context 作为 Spring 的 Ioc 容器，基本上整合了 Spring 的大部分功能，或者说是大部分功能的基础。
+
+### CORE组件
+Core 组件作为 Spring 的核心组件，其中包含了很多关键类，一个重要的组成部分就是定义了资源的访问方式。
+这种把所有资源都抽象成一个接口的方式很值得在以后的设计中拿来学习。
+
+![图片3](../../../src/main/resources/static/image/spring/core.png)
+Resource 接口封装了各种可能的资源类型，也就是对使用者来说屏蔽了文件类型的不同。
+对资源的提供者来说，如何把资源包装起来交给其他人用这也是一个问题，我们看到 Resource 接口继承了 InputStreamSource 接口，这个接口中有个getInputStream 方法，返回的是 InputStream 类。
+这样所有的资源都可以通过 InputStream类来获取，所以也屏蔽了资源的提供者。
+另外还有一个问题就是加载资源的问题，也就是资源的加载者要统一，从上图中可以看出这个任务是由 ResourceLoader 接口完成的，它屏蔽了所有的资源加载者的差异，只需要实现这个接口就可以加载所有的资源，它的默认实现是 DefaultResourceLoader。
+
+#### Context 和 Resource 是如何建立关系的？
+![图片4](../../../src/main/resources/static/image/spring/context_resource.png)
+从图中可以看出，Context 把资源的加载、解析和描述工作委托给了 ResourcePatternResolver 类来完成，它相当于一个接头人，它把资源的加载、解析和资源的定义整合在一起便于其他组件使用。
+Core 组件中还有很多类似的方式。
+
+## Spring初始化入口 AbstractApplicationContext#refresh
 org.springframework.context.support.AbstractApplicationContext#refresh
 
 ```java
@@ -77,6 +141,7 @@ public void refresh() throws BeansException, IllegalStateException {
     }
 }
 ```
+
 
 ## Bean初始化时机
 > AbstractAutowireCapableBeanFactory.populateBean()

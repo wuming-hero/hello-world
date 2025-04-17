@@ -1,5 +1,27 @@
 ## jstat
 (JVM statistics Monitoring)是用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译等运行数据。
+### 语法 
+```bash
+# 语法
+jstat [option] pid [interval] [count]
+
+# option参数解释:
+-gc 垃圾回收堆的行为统计
+-gccapacity 各个垃圾回收代容量(young,old,perm)和他们相应的空间统计 
+-gcutil 垃圾回收统计概述
+-gcnew 新生代行为统计
+-gcold 年老代和永生代行为统计
+
+# pid
+是java 进程的pid
+
+# interval 参数
+interval是打印间隔时间(毫秒)
+
+# count 参数
+count是打印次数(默认一直打印)
+
+```
 
 ### 显示gc的信息，查看gc的次数，及时间
 ```bash

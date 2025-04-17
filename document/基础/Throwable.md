@@ -1,6 +1,6 @@
 
 
-# Throwable
+# Java异常体系
 
 ![图片2](../../src/main/resources/static/image/throwable.png)
 

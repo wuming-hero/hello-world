@@ -20,13 +20,13 @@ public void refresh() throws BeansException, IllegalStateException {
         prepareBeanFactory(beanFactory);
 
         try {
-            // 工厂加载完配置，初始化之前回调PostProcessBeanFactory，作为工厂扩展功能
+            // 注册实现了 BeanPostProcessor 接口的 bean
             postProcessBeanFactory(beanFactory);
 
-            // 2. 执行BeanFactoryPostProcessor，调用上文注册的扩展接口PostProcessBeanFactory的实现，为扩展接口为列表类型
+            // 2. 初始化和执行 实现了 BeanFactoryPostProcessor beans
             invokeBeanFactoryPostProcessors(beanFactory);
 
-            // 3. 注册BeanPostProcessors，bean扩展:postProcessBeforeInitialization和postProcessAfterInitialization，分别在Bean初始化之前和初始化之后得到执行
+            // 3. 初始化和执行 实现了BeanPostProcessor beans，bean扩展:postProcessBeforeInitialization和postProcessAfterInitialization，分别在Bean初始化之前和初始化之后得到执行
             registerBeanPostProcessors(beanFactory);
 
             // 初始化MessageSource对象，国际化
