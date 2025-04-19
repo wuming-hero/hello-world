@@ -121,3 +121,5 @@ Kafaka使用ZK作为其分布式协调框架，将消息生产、消息存储和
 3. HBase全称Hadoop DataBase，是一个基于Hadoop文件系统设计、面向海量数据的高可靠性、高性能、面向列、可伸缩的分布式存储系统。
 在HBase向在线分布式存储方向发展过程中，开发者发现如果有RegionServer服务器挂掉时系统和客户端都无法及时得知信息，服务难以快速迁移到其它RegionServer服务器上，问题原因是缺少相应的分布式协调组件，于是后来ZooKeeper被加入到HBase的技术体系中。
 目前ZooKeeper已经成为HBase的核心组件，应用场景包括系统容错、RootRegion管理、Region状态管理、分布式SplitLog任务管理和Replication管理，除此之外还包括HMaster选举、Table的enable/disable状态记录及几乎所有元数据的存储等
+
+选举算法 https://www.cnblogs.com/gaogaoyanjiu/p/9991492.html
