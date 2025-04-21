@@ -1,4 +1,4 @@
-package com.wuming.algorithm;
+package com.wuming.view.algorithm;
 
 import java.util.Arrays;
 import java.util.Comparator;

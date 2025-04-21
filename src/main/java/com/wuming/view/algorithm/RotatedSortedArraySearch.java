@@ -1,4 +1,4 @@
-package com.wuming.algorithm;
+package com.wuming.view.algorithm;
 
 /**
  * @author manji
