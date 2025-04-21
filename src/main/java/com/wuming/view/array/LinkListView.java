@@ -60,7 +60,8 @@ public class LinkListView {
      * 判断链表是否是回文链表
      * <p>
      * 使用快慢指针判断是否是回文
-     * 快指针每次走二步，慢指针每次走一步，循环结束后，当节点数量为奇数时，slow来到了中间位置，当节点数量为偶数时，slow来到了中间位置（虚线）的前一个
+     * 快指针每次走二步，慢指针每次走一步，循环结束后，
+     * 当节点数量为奇数时，slow来到了中间位置，当节点数量为偶数时，slow来到了中间位置（虚线）的前一个
      *
      * @param head
      * @return
@@ -110,9 +111,8 @@ public class LinkListView {
         // 将链表恢复为原来的结构（再次将后半部分链表反转）
         Node help_restore = pre;
         Node pre_restore = null;
-        Node next_restore = null;
         while (help_restore != null) {
-            next_restore = help_restore.next;
+            Node next_restore = help_restore.next;
             help_restore.next = pre_restore;
             pre_restore = help_restore;
             help_restore = next_restore;
