@@ -34,6 +34,9 @@ bizSession.identifyByType 过程会去查找具体的业务对应垂直插件
 ## 查询具体扩展点执行
 ExtensionExecutor.findExtensionRealizations 在plugin中去遍历查找扩展点
 
+[] TODO manji 具体实现？
+
+
 # 场景执行
 ## ActionChainManager#init 初始化
 ActionChainManager#init

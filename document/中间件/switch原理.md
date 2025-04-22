@@ -74,8 +74,8 @@ public static synchronized void register(String appName, String key, Switch swit
 1. 首先会根据appName和key从SwtichContainer中取出注册的SwitchBean，
 2. 然后取出对应的Field对象， 最后反射调用Field.set(null,newValue)即可更改内存中的开关值。
 3. 如果设置成功了，并且配置了对应开关配置了回调类，那么会执行一次回调方法。 
-   3.1 如果回调方法执行成功了，那么会修改switchBean的lastModifiedTime，并且通知所有的Listener进行处理。
-   3.2 如果callBack执行失败了，switch会回滚diamond里面获取的值，并输出日志然后抛出异常，Switch启动失败。
+   * 如果回调方法执行成功了，那么会修改switchBean的lastModifiedTime，并且通知所有的Listener进行处理。
+   * 如果callBack执行失败了，switch会回滚diamond里面获取的值，并输出日志然后抛出异常，Switch启动失败。
 
 ### 持久化开关
 switch开关也支持持久化，如果没有持久化的开关，每次注册之后都会使用代码里面的值。
@@ -114,13 +114,20 @@ value即为对应开关的序列化字符串。 对应diamond上的每一个配�
 ## 推送修改switch值
 我们在控制台对开关所做的操作都是调用这些API，有应用程序服务器进行处理的。
 Web控制台只是对这些指令做了一层可视化的封装，便于开发人员使用。
+
 如果是非持久化的操作，还可以选择对应用集群的单台集群进行操作，由应用服务器直接处理相应的变更，并且更新内存中的值。
+
 如果是持久化操作，那么在控制台做的操作，都会直接写入diamond的配置项中，应用服务器通过diamond的listener去更新内存中的值。
 
 ## 本地容灾文件
 Switch也支持本地容灾文件。
-在Switch启动的时候会进行本地容灾文件配置的监听listenLocalFile。Switch的容灾文件目录为/home/admin/csp/switch,如果应用启动时不存在，会新建对应的目录文件，对应注册的appName，其容灾文件的完整路径为/home/admin/csp/switch/appName.json。
-如果不存在也会新建一个空文件。对其会注册相应的listen，监听fileCreated、fileModified、fileDelted事件。本地容灾文件的内容和diamond上持久化配置信息格式一个，也是一个map序列化的字符串.如果本地文件发生变化，对应的listener会进行处理，找出开关值发生变化的key，然后更新内存取值。
+在Switch启动的时候会进行本地容灾文件配置的监听listenLocalFile。Switch的容灾文件目录为`/home/admin/csp/switch`,如果应用启动时不存在，会新建对应的目录文件，对应注册的appName，其容灾文件的完整路径为`/home/admin/csp/switch/appName.json`。
+如果不存在也会新建一个空文件。
+
+对其会注册相应的listen，监听fileCreated、fileModified、fileDelted事件。
+本地容灾文件的内容和diamond上持久化配置信息格式一个，也是一个map序列化的字符串.
+
+如果本地文件发生变化，对应的listener会进行处理，找出开关值发生变化的key，然后更新内存取值。
 至此Switch初始化也就结束了。
 
 ## 总结

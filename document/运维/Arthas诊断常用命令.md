@@ -193,8 +193,8 @@ Affect(class count: 1 , method count: 1) cost in 34 ms, listenerId: 1
 ## 3.3 stack
 > 输出当前方法被调用的调用路径
 很多时候我们都知道一个方法被执行，但这个方法被执行的路径非常多，或者你根本就不知道这个方法是从那里被执行了，此时你需要的是 stack 命令。
-
-参数说明
+```bash
+# 参数说明
 参数名称	参数说明
 class-pattern	类名表达式匹配
 method-pattern	方法名表达式匹配
@@ -202,6 +202,7 @@ condition-express	条件表达式
 [E]	开启正则表达式匹配，默认为通配符匹配
 [n:]	执行次数限制
 [m <arg>]	指定 Class 最大匹配数量，默认值为 50。长格式为[maxMatch <arg>]。
+```
 
 这里重点要说明的是观察表达式，观察表达式的构成主要由 ognl 表达式组成，所以你可以这样写"{params,returnObj}"，只要是一个合法的 ognl 表达式，都能被正常支持。
 请参考表达式核心变量中关于该节点的描述。
@@ -219,6 +220,7 @@ ts=2018-12-04 01:32:19;thread_name=main;id=1;is_daemon=false;priority=5;TCCL=sun
 @demo.MathGame.run()
 at demo.MathGame.main(MathGame.java:16)
 ```
+
 ### 3.3.2 指定 Class 最大匹配数量
 ```bash
 $ stack demo.MathGame primeFactors -m 1

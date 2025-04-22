@@ -1,11 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [HashMap死循环精简说](#hashmap%E6%AD%BB%E5%BE%AA%E7%8E%AF%E7%B2%BE%E7%AE%80%E8%AF%B4)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 ## HashMap死循环精简说
 在JDK1.8之前的版本中，HashMap的底层实现是数组+链表。当调用HashMap的put方法添加元素时，如果新元素的hash值或key在原Map中不存在，会检查容量size有没有超过设定的threshold，如果超过则需要进行扩容，扩容的容量是原数组的两倍，具体代码如下：
 ```java

@@ -1,9 +1,9 @@
 # ConfigServer
 * 目前支持java，cpp，nodejs
-• sdk同Regsitry间自定义通信协议，长链接
-• sdk上报心跳，双向可用性检测（健康检查）
-• 服务变更主动push给sdk
-• ConfigServer集群不依赖DB，没有file cache
+* sdk同Regsitry间自定义通信协议，长链接
+* sdk上报心跳，双向可用性检测（健康检查）
+* 服务变更主动push给sdk
+* ConfigServer集群不依赖DB，没有file cache
 
 ## ConfigServer如何处理 CAP 问题 
 

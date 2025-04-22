@@ -9,9 +9,10 @@ MetaQ是阿里巴巴自研的一款分布式消息中间件，使用Java语言�
 
 ### NameServer
 Topic路由注册中心。NameServer是无状态的，各节点间相互不进行信息通讯。
+
 NameServer优势：更轻量级，扩容简单，集群搭建简单。
 
-Broker启动时会轮询NameServer列表，与每个NameServer节点都建立长连接，并发起注册请求。
+`Broker启动时会轮询NameServer列表，与每个NameServer节点都建立长连接，并发起注册请求。`   
 因此，在每个NameServer节点内部都维护着所有Broker的地址列表，所有Topic和Topic对应Queue的信息等。
 消息生产者在发送消息之前先与任意一台NameServer建立连接，获取Broker服务器的地址列表，然后根据负载均衡算法从列表中选择一台消息服务器发送消息。
 
@@ -20,8 +21,10 @@ Broker负责接收并存储从生产者发送来的消息，同时为消费者�
 
 Broker在集群中分为Master与Slave。 Master负责处理读写操作请求，Slave负责对Master中的数据进行备份。一旦Master宕机，Slave会自动切换为Master工作。
 
-消息发送到Broker后需要进行持久化。刷盘策略指的是消息发送到Broker内存后持久化到磁盘的方式，分为同步刷盘与异步刷盘。复制策略是Broker的Master与Slave间的数据同步方式，分为同步复制与异步复制。
-由于异步复制、异步刷盘可能会丢失少量消息，因此Broker默认采用的是同步双写的方式。
+消息发送到Broker后需要进行持久化。
+刷盘策略指的是消息发送到Broker内存后持久化到磁盘的方式，分为同步刷盘与异步刷盘。
+复制策略是Broker的Master与Slave间的数据同步方式，分为同步复制与异步复制。
+由于异步复制、异步刷盘可能会丢失少量消息，因此`Broker默认采用的是同步双写的方式`。
 
 ### Producer
 Producer发送的每条消息都包含一个Topic，表示一类消息的集合。同时还有一个Tag，用于区分同一Topic下不同类型的消息。
@@ -30,6 +33,7 @@ Producer发送的每条消息都包含一个Topic，表示一类消息的集合�
 
 ### Consumer
 push模式：推送模式，Broker有消息之后立刻推送消息给Consumer，需要Broker和Consumer建立长连接。
+
 pull模式：拉取模式，Consumer设置间隔时间，主动去Broker拉取消息；
 MetaQ/RocketMQ使用长轮询的方式。
 
@@ -47,7 +51,9 @@ Broker的所有消息都存放在commitlog目录的mappedFile文件中。无论�
 
 ### consumequeue文件夹
 consumequeue文件夹下是commitlog的索引文件，可以根据consumequeue定位到具体的消息。 消息到达commitLog文件后，将异步生成consumequeue文件。
+
 consumequeue文件中存在一个目录，目录名为Topic名称。在该目录下，会为该Topic的每个Queue建立一个目录，目录名为queueId。每个目录中存放着若干consumequeue文件。
+
 consumequeue文件名由20位十进制数构成，表示当前文件的第一个索引条目的偏移量。
 每个consumequeue文件可以包含30w个索引条目。每个索引条目包含消息的三个属性：消息在mappedFile文件中的偏移量CommitLog offset、消息长度、消息Tag的hashcode值。这三个属性占20个字节，因此每个文件的大小固定为30w*20字节（约5.72M）。
 

@@ -13,6 +13,6 @@ Snowflake 生成的 ID 的 bit 结构如下:
 ![Map Bucket1](../src/main/resources/static/image/snowflake.png)
 
 `Sequence`类中为Java 实现 Snowflake，是现成安全的，调用 nextId() 生成 ID。
-可能你要问，哎呀，只能保证 70 内不重复，70 年后怎么办呢？我的答案是，让 70 年后公司的同事去头疼吧，问题是，你们公司能活到什么时候都是个问题！
+可能你要问，哎呀，只能保证 70年 内不重复，70 年后怎么办呢？我的答案是，让 70 年后公司的同事去头疼吧，问题是，你们公司能活到什么时候都是个问题！
 
 [参考文献](http://qtdebug.com/java-snowflake/)
