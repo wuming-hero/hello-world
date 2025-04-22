@@ -23,9 +23,9 @@
 ### 技术栈
 * 精通java编程语言，熟练使用Spring-Boot、dubbo、zookeeper、mybatis等提供分布式微服务
 * 精通javascript，有独立使用javascript + `HTML5+` 技术开发电商类、生活类uni-app经验
-* 熟练使用python，具备使用python+pyramid+mongoDB开发网页、电商平台经验;并经常使用scrapy框架制作爬虫小工具
+* 熟练使用python，具备使用python+pyramid+mongoDB开发web项目、电商平台经验;并经常使用scrapy框架制作爬虫小工具
 * 熟练使用MySQL、TDDL、Lindorm、tableStore、Redis等数据库及缓存技术
-* 熟练使用Notify、MetaQ等消息中间件
+* 熟练使用Notify、MetaQ(RocketMQ)等消息中间件
 * 具备高并发场景开发及优化经验
 * 熟练使用常用设计模式设计及优化代码
 * 主导实现‌注解驱动开发模模式，深度参与RPC框架`rpc-dubbo-spring-boot-starter`编写及优化，提供@RpcProvider、@RpcConsumer注解，基于动态代理技术简化Dubbo接口的暴露与引用，‌开发效率提升40%
