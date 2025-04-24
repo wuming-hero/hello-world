@@ -133,4 +133,10 @@ https://tech.meituan.com/2020/08/06/new-zgc-practice-in-meituan.html
 极致八股文之 JVM 垃圾回收器 G1&ZGC 详解 - 阿里云开发者
 https://mp.weixin.qq.com/s/Ywj3XMws0IIK-kiUllN87Q
 
+java 垃圾回收器 详解
+https://blog.csdn.net/T_Y_F_/article/details/144202034
+
+极致八股文之JVM垃圾回收器G1&ZGC详解
+https://mp.weixin.qq.com/s/Ywj3XMws0IIK-kiUllN87Q
+
 https://javaguide.cn/java/jvm/jvm-garbage-collection.html#%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95
