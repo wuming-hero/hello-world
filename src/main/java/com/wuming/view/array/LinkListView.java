@@ -41,8 +41,8 @@ public class LinkListView {
 
         // 原链表数据
         System.out.println(linkListView.head);
-//        // 反转后的链表数据
-//        Node reverseNode = linkListView.reverseNode(linkListView.head);
+//        // 反转链表
+//        Node reverseNode = reverseNode(linkListView.head);
 //        System.out.println(reverseNode);
 
 //        System.out.println(linkListView.head);
@@ -127,19 +127,19 @@ public class LinkListView {
      * @param linkListView
      * @return
      */
-    public boolean isValid(LinkListView linkListView) {
+    public boolean isValid(Node node) {
         // 1. 链表toString得到字符串，进行反转后，再次得到字符串，进行比较
         // 遍历需要比较的node
 
         List<String> nodeDataList = new ArrayList<>();
-        Node temp = linkListView.head;
+        Node temp = node;
         while (temp.next != null) {
             nodeDataList.add(temp.data);
             temp = temp.next;
         }
 
         List<String> reverseDataList = new ArrayList<>();
-        Node reverseNode = reverseNode(linkListView.head);
+        Node reverseNode = reverseNode(node);
         Node reverseTemp = reverseNode;
         while (reverseTemp.next != null) {
             reverseDataList.add(reverseTemp.data);
@@ -155,7 +155,25 @@ public class LinkListView {
     }
 
     /**
-     * 链表反转，
+     * 列表反转
+     * @param head
+     * @return
+     */
+    public Node reverseList(Node head) {
+        Node prev = null;
+        Node curr = head;
+        while (curr != null) {
+            Node next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+    /**
+     * 链表反转2：新建虚拟节点实现
+     *
      * A B C D
      * B A C D
      * C B A D
@@ -164,7 +182,7 @@ public class LinkListView {
      * @param head 链表的头
      * @return
      */
-    public Node reverseNode(Node head) {
+    public static Node reverseNode(Node head) {
         // 新建一个虚拟头节点
         Node dummyNode = new Node("a");
         dummyNode.next = head;
@@ -180,6 +198,8 @@ public class LinkListView {
         }
         return dummyNode.next;
     }
+
+
 
     /**
      * 向链表中添加数据
@@ -204,7 +224,7 @@ public class LinkListView {
      * 声明节点
      * 直接声明为public 省掉get set
      */
-    class Node {
+     static class Node {
         public String data;
         public Node next;
 
