@@ -11,7 +11,6 @@ SpringApplication实例的构造过程，主要流程是：
 5. 找出并设置运行的主类
 
 SpringApplication实例run方法执行过程，事件机制发挥很重要的作用，主要流程是：
-
 1. 加载SpringApplicationRunListeners，为后续事件机制做准备
 2. 配置应用环境信息（environment）
 3. 创建容器

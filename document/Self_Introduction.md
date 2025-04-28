@@ -15,7 +15,7 @@
 
 精通Java（Spring Boot、Dubbo、MyBatis）相关研发、JavaScript（uni-app开发）、Python（Pyramid、Scrapy），熟练使用MySQL、Lindorm、Redis等数据库及Notify、MetaQ等消息中间件。
 
-我始终以技术服务于业务，让业务跑在第1位的原则，擅长在复杂场景中快速定位问题、设计可靠解决方案，并通过团队协作推动项目高质量交付。
+我始终坚持技术服务于业务，让业务跑在第1位的原则，擅长在复杂场景中快速定位问题、设计可靠解决方案，并通过团队协作推动项目高质量交付。
 
 
 
