@@ -1,17 +1,297 @@
 ## Redis 数据结构
 Redis是当今非常流行的一种nosql数据库，它出色的性能源于其优秀的IO模型和内存模型。
 
-提到Redis的数据结构，我们很快能想到它提供的5种常见数据结构：字符串（String）、列表（List）、哈希（hash）、集合（set）、有序集合（sorted set）。 
-如果对Redis的使用比较深入一点的话，还会知道Redis提供了geo、hyperloglog等高级特性。 但是这些数据结构，只是Redis对外暴露使用的数据结构（为了方便描述，我把这些类型称之为Redis对象类型） 。
+提到Redis的数据结构，我们很快能想到它提供的5种常见数据结构：
+
+* 5 种基础数据类型：String（字符串）、List（列表）、Set（集合）、Hash（散列）、Zset（有序集合）。
+* 3 种特殊数据类型：HyperLogLog（基数统计）、Bitmap （位图）、Geospatial (地理位置)。 
+
 这些Redis对象类型，底层的数据结构又是什么样的呢？
 
 ![图片3](../../src/main/resources/static/image/base/redis_data.png)
 
+### 1. String 原理浅析
 Redis是用c语言写的，但是Redis没有使用c语言的字符串类型，而是自己定义了一种简单动态字符串（simple dynamic string , SDS），作为redis里字符串的数据结构。
 为什么要自己定义一种数据结构呢，主要是c语言的字符串是使用长度为n+1的字符数组来存储长度为n的字符串，字符数组的最后一个元素是'\0'空字符，不能满足redis对于字符串在安全性、效率以及功能方面的要求。
 
-### zset 原理浅析
+```bash
+# 基本设置
+SET key value
+OK
+GET key
+"value"
+EXISTS key
+(integer) 1
+STRLEN key
+(integer) 5
+DEL key
+(integer) 1
+GET key
+(nil)
+```
+批量设置 
+```bash
+MSET key1 value1 key2 value2 key3 value3
+OK
+MGET key1 key2 key3
+1) "value1"
+2) "value2"
+3) "value3"
+```
+
+计数器
+```bash
+SET number 1
+OK
+INCR number # 将 key 中储存的数字值增一
+(integer) 2
+GET number
+"2"
+DECR number # 将 key 中储存的数字值减一
+(integer) 1
+GET number
+"1"
+```
+
+设置过期时间
+```bash
+EXPIRE key 60
+(integer) 1
+SETEX key 60 value # 设置值并设置过期时间
+OK
+TTL key
+(integer) 56
+```
+
+#### 应用场景
+##### 需要存储常规数据的场景
+举例：缓存 Session、Token、图片地址、序列化后的对象(相比较于 Hash 存储更节省内存)。相关命令：SET、GET。
+
+##### 需要计数的场景
+举例：用户单位时间的请求数（简单限流可以用到）、页面单位时间的访问数。相关命令：SET、GET、 INCR、DECR 。
+##### 分布式锁
+利用 SETNX key value 命令可以实现一个最简易的分布式锁（存在一些缺陷，通常不建议这样实现分布式锁）。
+
+
+
+### 2. list 原理浅析
+```bash
+RPUSH myList value1 value2 value3
+(integer) 3
+LRANGE myList 0 1
+1) "value1"
+2) "value2"
+LRANGE myList 0 -1
+1) "value1"
+2) "value2"
+3) "value3"
+```
+通过 LRANGE 命令，你可以基于 List 实现分页查询，性能非常高！
+
+通过 RPUSH/LPOP 或者 LPUSH/RPOP实现队列：
+```bash
+RPUSH myList value1
+(integer) 1
+RPUSH myList value2 value3
+(integer) 3
+LPOP myList
+"value1"
+LRANGE myList 0 1
+1) "value2"
+2) "value3"
+LRANGE myList 0 -1
+1) "value2"
+2) "value3"
+```
+
+通过 RPUSH/RPOP或者LPUSH/LPOP 实现栈：
+```bash
+> RPUSH myList2 value1 value2 value3
+(integer) 3
+> RPOP myList2 # 将 list的最右边的元素取出
+"value3"
+```
+
+#### 应用场景 
+
+##### 信息流展示
+举例：最新文章、最新动态。
+相关命令：LPUSH、LRANGE。
+
+##### 消息队列
+List 可以用来做消息队列，只是功能过于简单且存在很多缺陷，不建议这样做。
+相对来说，Redis 5.0 新增加的一个数据结构 Stream 更适合做消息队列一些，只是功能依然非常简陋。和专业的消息队列相比，还是有很多欠缺的地方比如消息丢失和堆积问题不好解决。
+
+
+### 3. hash 原理浅析
+Redis 中的 Hash 是一个 String 类型的 field-value（键值对） 的映射表，特别适合用于存储对象，后续操作的时候，你可以直接修改这个对象中的某些字段的值。
+Hash 类似于 JDK1.8 前的 HashMap，内部实现也差不多(数组 + 链表)。不过，Redis 的 Hash 做了更多优化。
+
+通过 LRANGE 查看对应下标范围的列表元素：
+```bash
+HMSET userInfoKey name "guide" description "dev" age 24
+OK
+HEXISTS userInfoKey name # 查看 key 对应的 value中指定的字段是否存在。
+(integer) 1
+HGET userInfoKey name # 获取存储在哈希表中指定字段的值。
+"guide"
+HGET userInfoKey age
+"24"
+HGETALL userInfoKey # 获取在哈希表中指定 key 的所有字段和值
+1) "name"
+2) "guide"
+3) "description"
+4) "dev"
+5) "age"
+6) "24"
+HSET userInfoKey name "GuideGeGe"
+HGET userInfoKey name
+"GuideGeGe"
+HINCRBY userInfoKey age 2
+(integer) 26
+```
+
+#### 应用场景 
+##### 对象数据存储场景
+* 举例：用户信息、商品信息、文章信息、购物车信息。
+* 相关命令：HSET （设置单个字段的值）、HMSET（设置多个字段的值）、HGET（获取单个字段的值）、HMGET（获取多个字段的值）。
+
+
+### 4. set原理浅析
+Redis 中的 Set 类型是一种无序集合，集合中的元素没有先后顺序但都唯一，有点类似于 Java 中的 HashSet 。
+
+当你需要存储一个列表数据，又不希望出现重复数据时，Set 是一个很好的选择，并且 Set 提供了判断某个元素是否在一个 Set 集合内的重要接口，这个也是 List 所不能提供的。
+
+你可以基于 Set 轻易实现交集、并集、差集的操作，比如你可以将一个用户所有的关注人存在一个集合中，将其所有粉丝存在一个集合。
+这样的话，Set 可以非常方便的实现如共同关注、共同粉丝、共同喜好等功能。这个过程也就是求交集的过程。
+
+```bash
+SADD mySet value1 value2
+(integer) 2
+SADD mySet value1 # 不允许有重复元素，因此添加失败
+(integer) 0
+SMEMBERS mySet
+1) "value1"
+2) "value2"
+SCARD mySet
+(integer) 2
+SISMEMBER mySet value1
+(integer) 1
+SADD mySet2 value2 value3
+(integer) 2
+```
+
+求交集
+```bash
+SINTERSTORE mySet3 mySet mySet2
+(integer) 1
+SMEMBERS mySet3
+1) "value2"
+```
+
+求并集
+```bash
+SUNION mySet mySet2
+1) "value3"
+2) "value2"
+3) "value1"
+```
+
+求差集
+```java
+SDIFF mySet mySet2 # 差集是由所有属于 mySet 但不属于 A 的元素组成的集合
+1) "value1"
+```
+#### 应用场景
+##### 需要存放的数据不能重复的场景
+
+* 举例：网站 UV 统计（数据量巨大的场景还是 HyperLogLog更适合一些）、文章点赞、动态点赞等场景。
+* 相关命令：SCARD（获取集合数量） 。
+
+##### 需要获取多个数据源交集、并集和差集的场景
+* 举例：共同好友(交集)、共同粉丝(交集)、共同关注(交集)、好友推荐（差集）、音乐推荐（差集）、订阅号推荐（差集+交集） 等场景。
+* 相关命令：SINTER（交集）、SINTERSTORE （交集）、SUNION （并集）、SUNIONSTORE（并集）、SDIFF（差集）、SDIFFSTORE （差集）。
+
+##### 需要随机获取数据源中的元素的场景
+* 举例：抽奖系统、随机点名等场景。
+* 相关命令：SPOP（随机获取集合中的元素并移除，适合不允许重复中奖的场景）、SRANDMEMBER（随机获取集合中的元素，适合允许重复中奖的场景）。
+
+
+### 5. zset(Sorted Set) 原理浅析
 > zset 是redis里面一种比较复杂的数据结构，它是一种有序集合，可以帮助我们轻松实现排行榜等功能。审核派单平台的部分功能就是通过zset来实现，这里我们一起探究一下zset的内部实现原理。
+
+Sorted Set 类似于 Set，但和 Set 相比，Sorted Set 增加了一个权重参数 score，使得集合中的元素能够按 score 进行有序排列，还可以通过 score 的范围来获取元素的列表。
+有点像是 Java 中 HashMap 和 TreeSet 的结合体。
+
+
+```bash
+# myZset : value1(2.0)、value2(1.0) 。
+# myZset2：value2 （4.0）、value3(3.0) 。
+
+ZADD myZset 2.0 value1 1.0 value2
+(integer) 2
+ZCARD myZset
+2
+ZSCORE myZset value1
+2.0
+ZRANGE myZset 0 1
+1) "value2"
+2) "value1"
+ZREVRANGE myZset 0 1
+1) "value1"
+2) "value2"
+ZADD myZset2 4.0 value2 3.0 value3
+(integer) 2
+```
+
+获取指定元素的排名：
+```bash
+ZINTERSTORE myZset3 2 myZset myZset2
+1
+ZRANGE myZset3 0 1 WITHSCORES
+value2
+5
+```
+
+求交集
+```bash
+ZINTERSTORE myZset3 2 myZset myZset2
+1
+ZRANGE myZset3 0 1 WITHSCORES
+value2
+5
+```
+
+求并集
+```bash
+ZUNIONSTORE myZset4 2 myZset myZset2
+3
+ZRANGE myZset4 0 2 WITHSCORES
+value1
+2
+value3
+3
+value2
+5
+```
+
+求差集
+```bash
+ZDIFF 2 myZset myZset2 WITHSCORES
+value1
+2
+```
+
+#### 应用场景 
+##### 需要随机获取数据源中的元素根据某个权重进行排序的场景
+* 举例：各种排行榜比如直播间送礼物的排行榜、朋友圈的微信步数排行榜、王者荣耀中的段位排行榜、话题热度排行榜等等。
+* 相关命令：ZRANGE (从小到大排序)、 ZREVRANGE （从大到小排序）、ZREVRANK (指定元素排名)。
+
+
+##### 需要存储的数据有优先级或者重要程度的场景
+* 比如优先级任务队列。举例：优先级任务队列。
+* 相关命令：ZRANGE (从小到大排序)、 ZREVRANGE （从大到小排序）、ZREVRANK (指定元素排名)。
+
 
 #### zset的存储结构
 zset底层的存储结构有ziplist或skiplist两种，在同时满足以下两个条件的时候使用ziplist，其他情况下使用skiplist。
@@ -19,6 +299,10 @@ zset底层的存储结构有ziplist或skiplist两种，在同时满足以下两�
 2. 有序集合保存的所有元素的长度小于64字节
 
 可以看到，ziplist就是适用于数据量比较小的情况，而skiplist是用来存储数据量比较大的情况
+
+##### zset的value,score能不能重复?
+* 不能重复：ZSET 中的每个成员（member）是唯一的。如果尝试添加已存在的成员，其对应的 score 会被更新为新值
+* 多个不同的成员可以拥有相同的 score。此时，这些成员会按照 字典序（lexicographical order）排序，而不是随机排序。
 
 #### ziplist数据结构
 ziplist是有点类似于数组的存储结构，它是有连续的存储组成的数据结构，当使用ziplist来作为存储结构时，使用两个紧挨一起的节点来保存，第一个节点保存元素的成员，第二个节点保存元素的分值，格式如下图，整体的列表数据是有序的。
@@ -86,13 +370,16 @@ skiplist是跳跃链表，是基于多层的链表实现的。
 
 那么基于这种随机层级的数据结构，我们的查找性能会不会受到影响？假设从我们刚才创建的这个结构中查找 23 这个不存在的数，那么查找路径会如下图：
 ![图片3](../../src/main/resources/static/image/base/redis_ziplist4.png)
+
 redis的随机层数函数如下：
 ```java
-int zslRandomLevel(void) { 
-    int level = 1; 
-    while ((random()&0xFFFF) < (ZSKIPLIST_P * 0xFFFF))
-         level += 1; 
-    return (level<ZSKIPLIST_MAXLEVEL) ? level : ZSKIPLIST_MAXLEVEL; 
+int randomLevel() {
+    int level = 1;
+    // Redis 使用 0.25 的概率（与二进制位运算相关）
+    while ((random() & 0xFFFF) < (0.25 * 0xFFFF) && level < ZSKIPLIST_MAXLEVEL) {
+        level++;
+    }
+    return level;
 }
 ```
 从上图可以看出，我们的层数level是根据随机函数得到的，也就是说，元素越多，随机到的level大的概率越高。那么这个level是不是可以无限大呢？其实不是的，这个level最大只能到32。
@@ -106,6 +393,8 @@ int zslRandomLevel(void) {
 ![图片3](../../src/main/resources/static/image/base/redis_ziplist_data.png)
 
 
+#### 
+
 ### 下面比较一下skiplist与平衡树、哈希表
 1. skiplist和平衡树的元素是有序的，而哈希表不是有序的，所以哈希表只能做单个key的查找，不能做范围查找
 2. 在做范围查找时，平衡树的操作比skiplist要复杂。skiplist只需要在找到最小值之后，根据第一层链表进行遍历即可
@@ -113,78 +402,5 @@ int zslRandomLevel(void) {
 4. 从算法实现难度上来说，skiplist比平衡树要简单得多
 
 
-## Redis七大经典问f题
-
-### 1. 缓存雪崩
-指缓存同一时间大面积的失效，所以，后面的请求都会落到数据库上，造成数据库短时间内承受大量请求而崩掉。
-####  解决方案:
-• Redis 高可用，主从+哨兵，Redis cluster，避免全盘崩溃
-• 本地 ehcache 缓存 + hystrix 限流&降级，避免 MySQL 被打死
-• 缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。
-• 逻辑上永不过期给每一个缓存数据增加相应的缓存标记，缓存标记失效则更新数据缓存
-• 多级缓存，失效时通过二级更新一级，由第三方插件更新二级缓存。
-   
-### 2. 缓存穿透
-https://blog.csdn.net/lin777lin/article/details/105666839 
-缓存穿透是指缓存和数据库中都没有的数据，导致所有的请求都落到数据库上，造成数据库短时间内承受大量请求而崩掉。
-#### 解决方案:
-1)接口层增加校验，如用户鉴权校验，id做基础校验，id<=0的直接拦截; 
-2)从缓存取不到的数据，在数据库中也没有取到，这时也可以将key-value对写为key-null，缓存有效时间可以设 置短点，如30秒。这样可以防止攻击用户反复用同一个id暴力攻击;
-3)采用布隆过滤器，将所有可能存在的数据哈希到一个足够大的 bitmap 中，一个一定不存在的数据会被这个 bitmap 拦截掉，从而避免了对底层存储系统的查询压力。(宁可错杀一千不可放过一人)
-
-### 3. 缓存击穿
-这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力。
-和缓存雪崩不同的是，缓存击穿指并发查同一条数据，缓存雪崩是不同数据都过期了，很多数据都查不到从而查数据库
-
-#### 解决方案:
-1)设置热点数据永远不过期，异步线程处理。 2)加写回操作加互斥锁，查询失败默认值快速返回。 3)缓存预热
-系统上线后，将相关可预期(例如排行榜)热点数据直接加载到缓存。
-写一个缓存刷新页面，手动操作热点数据(例如广告推广)上下线。
-
-### 4. 数据不一致
-在缓存机器的带宽被打满，或者机房网络出现波动时，缓存更新失败，新数据没有写入缓存，就会导致缓存和 DB 的 数据不一致。
-缓存 rehash 时，某个缓存机器反复异常，多次上下线，更新请求多次 rehash。这样，一份数据存在多 个节点，且每次 rehash 只更新某个节点，导致一些缓存节点产生脏数据。
-
-#### 解决方案
-• Cache 更新失败后，可以进行重试，则将重试失败的 key 写入mq，待缓存访问恢复后，将这些 key 从缓存删
-除。这些 key 在再次被查询时，重新从 DB 加载，从而保证数据的一致性
-• 缓存时间适当调短，让缓存数据及早过期后，然后从 DB 重新加载，确保数据的最终一致性。
-• 不采用 rehash 漂移策略，而采用缓存分层策略，尽量避免脏数据产生。
-
-
-### 5. 数据并发竞争
-数据并发竞争在大流量系统也比较常见，
-比如车票系统，如果某个火车车次缓存信息过期，但仍然有大量用户在查询该车次信息。
-又比如微博系统中，如果某条微博正好被缓存淘汰，但这条微博仍然有大量的转发、评论、赞。
-上述情 况都会造成并发竞争读取的问题。
-
-#### 解决方案
-• 加写回操作加互斥锁，查询失败默认值快速返回。
-• 对缓存数据保持多个备份，减少并发竞争的概率
-
-### 6. 热点key问题
-明星结婚、离婚、出轨这种特殊突发事件，比如奥运、春节这些重大活动或节日，还比如秒杀、双12、618 等线上促 销活动，都很容易出现 Hot key 的情况。
-如何提前发现HotKey?
-
-• 对于重要节假日、线上促销活动这些提前已知的事情，可以提前评估出可能的热 key 来。
-• 而对于突发事件，无法提前评估，可以通过 Spark，对应流任务进行实时分析，及时发现新发布的热点 key。而对
-于之前已发出的事情，逐步发酵成为热 key 的，则可以通过 Hadoop 对批处理任务离线计算，找出最近历史数据 中的高频热 key。
-
-#### 解决方案:
-• 这 n 个 key 分散存在多个缓存节点，然后 client 端请求时，随机访问其中某个后缀的 hotkey，这样就可以把热 key 的请求打散，避免一个缓存节点过载
-• 缓存集群可以单节点进行主从复制和垂直扩容
-• 利用应用内的前置缓存，但是需注意需要设置上限
-• 延迟不敏感，定时刷新，实时感知用主动刷新
-• 和缓存穿透一样，限制逃逸流量，单请求进行数据回源并刷新前置
-• 无论如何设计，最后都要写一个兜底逻辑，千万级流量说来就来
-
-### 7. BigKey问题
-比如互联网系统中需要保存用户最新 1万 个粉丝的业务，
-比如一个用户个人信息缓存，包括基本资料、关系图谱计 数、发 feed 统计等。
-微博的 feed 内容缓存也很容易出现，一般用户微博在 140 字以内，但很多用户也会发表 1千 字 甚至更长的微博内容，这些长微博也就成了大 key
-
-• 首先Redis底层数据结构里，根据Value的不同，会进行数据结构的重新选择
-• 可以扩展新的数据结构，进行序列化构建，然后通过 restore 一次性写入
-• 将大 key 分拆为多个 key，设置较长的过期时间
-
-
+Redis 5种基本数据类型详解 https://javaguide.cn/database/redis/redis-data-structures-01.html
+Redis 5大基本数据类型 https://cloud.tencent.com/developer/article/2182747
