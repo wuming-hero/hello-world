@@ -16,13 +16,13 @@
 * redis的keys和scan命令区别？
 * 比如redis各种场景结构怎么存？
 * zset的value,score能不能重复，底层存储结构是什么
-* zset scan、score 查询成员的复杂度、跳表如何评估是否添加层级?
+* zset zscan、zscore 查询成员的复杂度、跳表如何评估是否添加层级?
 * redis的zrank和zscore的时间复杂度是多少，为什么
 * Redis集群怎么保持数据一致性 
-* redis底层原理 比如bitmap应用场景和数据结构，
-
-* 怎么排查redis慢查询，
 * Redis 哨兵模式和集群模式的区别？如何使用哨兵模式解决集群情况下分布式锁的可靠性？
+* redis底层原理 比如bitmap应用场景和数据结构，
+* 怎么排查redis慢查询，
+
 
 ## 分布式
 * 分布式锁实现， 底层算法和数据结构，

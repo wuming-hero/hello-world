@@ -14,6 +14,8 @@ Redis是当今非常流行的一种nosql数据库，它出色的性能源于其�
 Redis是用c语言写的，但是Redis没有使用c语言的字符串类型，而是自己定义了一种简单动态字符串（simple dynamic string , SDS），作为redis里字符串的数据结构。
 为什么要自己定义一种数据结构呢，主要是c语言的字符串是使用长度为n+1的字符数组来存储长度为n的字符串，字符数组的最后一个元素是'\0'空字符，不能满足redis对于字符串在安全性、效率以及功能方面的要求。
 
+
+
 ```bash
 # 基本设置
 SET key value
@@ -223,6 +225,17 @@ SDIFF mySet mySet2 # 差集是由所有属于 mySet 但不属于 A 的元素组�
 Sorted Set 类似于 Set，但和 Set 相比，Sorted Set 增加了一个权重参数 score，使得集合中的元素能够按 score 进行有序排列，还可以通过 score 的范围来获取元素的列表。
 有点像是 Java 中 HashMap 和 TreeSet 的结合体。
 
+#### 常用命令
+* `zadd <key> <score1> <value1> <score2> <value2>…` 将一个或多个 member 元素及其score 值加入到有序集 key 当中
+* `zrange <key><start><stop> [WITHSCORES]`  返回有序集 key 中，下标在<start><stop>之间的元素，带WITHSCORES，可以让分数一起和值返回到结果集。
+* `zrangebyscore key minmax [withscores] [limit offset count]` 返回有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成员。有序集成员按 score 值递增(从小到大)次序排列。
+* `zrevrangebyscore key maxmin [withscores] [limit offset count]`  同上，改为从大到小排列。
+* `zincrby <key><increment><value>`  为元素的score加上增量
+* `zrem <key><value>` 删除该集合下，指定值的元素
+* `zcount <key><min><max>` 统计该集合，分数区间内的元素个数
+* `zrank <key> <value>` 返回该值在集合中的排名，从0开始。
+* `ZREVRANK key <value>` 获取指定有序集合中指定元素的排名(score 从大到小排序)
+
 
 ```bash
 # myZset : value1(2.0)、value2(1.0) 。
@@ -301,8 +314,8 @@ zset底层的存储结构有ziplist或skiplist两种，在同时满足以下两�
 可以看到，ziplist就是适用于数据量比较小的情况，而skiplist是用来存储数据量比较大的情况
 
 ##### zset的value,score能不能重复?
-* 不能重复：ZSET 中的每个成员（member）是唯一的。如果尝试添加已存在的成员，其对应的 score 会被更新为新值
-* 多个不同的成员可以拥有相同的 score。此时，这些成员会按照 字典序（lexicographical order）排序，而不是随机排序。
+* value不能重复：ZSET 中的每个成员（member）是唯一的。如果尝试添加已存在的成员，其对应的 score 会被更新为新值
+* score可以重复：多个不同的成员可以拥有相同的 score。此时这些成员会按照 字典序（lexicographical order）排序，而不是随机排序。
 
 #### ziplist数据结构
 ziplist是有点类似于数组的存储结构，它是有连续的存储组成的数据结构，当使用ziplist来作为存储结构时，使用两个紧挨一起的节点来保存，第一个节点保存元素的成员，第二个节点保存元素的分值，格式如下图，整体的列表数据是有序的。
@@ -393,14 +406,59 @@ int randomLevel() {
 ![图片3](../../src/main/resources/static/image/base/redis_ziplist_data.png)
 
 
-#### 
-
 ### 下面比较一下skiplist与平衡树、哈希表
 1. skiplist和平衡树的元素是有序的，而哈希表不是有序的，所以哈希表只能做单个key的查找，不能做范围查找
 2. 在做范围查找时，平衡树的操作比skiplist要复杂。skiplist只需要在找到最小值之后，根据第一层链表进行遍历即可
 3. 对于单个key的查询，skiplist和平衡树的时间复杂度都未O(log n)，大体相当。而哈希表在保持较低哈希冲突的前提下，查找复杂度接近O(1)，性能更高一些。
 4. 从算法实现难度上来说，skiplist比平衡树要简单得多
 
+## 不常用的3种高级类型
+
+https://javaguide.cn/database/redis/redis-data-structures-02.html#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-2
+
+### 1. bitmap （位图）数据结构及使用场景
+Bitmap 存储的是连续的二进制数字（0 和 1），通过 Bitmap, 只需要一个 bit 位来表示某个元素对应的值或者状态，key 就是对应元素本身 。我们知道 8 个 bit 可以组成一个 byte，所以 Bitmap 本身会极大的节省储存空间。你可以将 Bitmap 看作是一个存储二进制数字（0 和 1）的数组，数组中每个元素的下标叫做 offset（偏移量）。
+![图片3](../../src/main/resources/static/image/base/redis_bitmap.png)
+#### 常用命令
+`SETBIT key offset value`  设置指定 offset 位置的值
+`GETBIT key offset`  获取指定 offset 位置的值
+`BITCOUNT key start end`  获取 start 和 end 之间值为 1 的元素个数
+`BITOP operation destkey key1 key2 ...`  对一个或多个 Bitmap 进行运算，可用运算符有 AND, OR, XOR 以及 NOT
+
+```bash
+# SETBIT 会返回之前位的值（默认是 0）这里会生成 7 个位
+SETBIT mykey 7 1
+(integer) 0
+SETBIT mykey 7 0
+(integer) 1
+GETBIT mykey 7
+(integer) 0
+SETBIT mykey 6 1
+(integer) 0
+SETBIT mykey 8 1
+(integer) 0
+# 通过 bitcount 统计被被设置为 1 的位的数量。
+BITCOUNT mykey
+(integer) 2
+```
+#### 使用场景
+> 需要保存状态信息（0/1 即可表示）的场景
+
+* 举例：用户签到情况、活跃用户情况、用户行为统计（比如是否点赞过某个视频）。
+* 相关命令：SETBIT、GETBIT、BITCOUNT、BITOP。
+
+
+### 2. geo
+
+### 3. hyperloglog
+
+
+
 
 Redis 5种基本数据类型详解 https://javaguide.cn/database/redis/redis-data-structures-01.html
 Redis 5大基本数据类型 https://cloud.tencent.com/developer/article/2182747
+
+Redis集群模式 https://blog.csdn.net/qq_61302385/article/details/147605716
+深入分析Cluster 集群模式 https://developer.aliyun.com/article/1045585
+
+Redis 架构深入：主从复制、哨兵到集群 https://www.cnblogs.com/xiaokang-coding/p/18063911
