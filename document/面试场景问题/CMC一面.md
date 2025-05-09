@@ -10,6 +10,8 @@
 * 如何记录用户在线状态、怎么避免单机热点
 * Service Provider Interface
 * 用Java实现一个滑动窗口用到什么数据结构这些
+* webflux
+* reactor
 
 ## redis
 * redis的热点key怎么解决
@@ -34,7 +36,7 @@
 ### 列存储数据库
 Lindorm、tableStore
 
-## srping/spring-boot 
+## spring/spring-boot 
 * spring-boot 自动配置的原理、
 * 如何开发一个 starter-redis：
 * spring循环依赖再怎么解决

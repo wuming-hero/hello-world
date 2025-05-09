@@ -247,5 +247,132 @@ RedLock算法要求客户端在多个独立的Redis节点上尝试获取锁，�
 3. 最后，值得一提的事，Redis在4.0版本后支持了lazy delete free的模式，这种模式删除bigkey不会阻塞Redis。
 你可以Check下，如果版本过低，建议审计；如果没开启lazy模式，建议开启。
 
+#### 4. 如果将一个月的K线数据预存在redis中，你认为应该怎么存，假设五分钟一个柱子
+要将K线数据保存到Redis中，首先要将K线数据格式化为适合保存在Redis的数据结构中。
+
+一种常见的方式是使用Redis的有序集合数据类型（Sorted Set），其中每个K线数据作为一个成员，而时间戳作为它的分值。
+
+下面是保存K线数据到Redis的步骤：
+1. 连接Redis：首先，你需要使用适当的Redis客户端连接到Redis数据库。多种语言和框架都有相应的Redis客户端可供选择，例如Python的redis-py等。
+2. 格式化K线数据：将每根K线的数据转换为合适的格式。
+通常，一个K线数据包括时间戳、开盘价、最高价、最低价、收盘价等信息。你可以将这些数据封装为一个JSON对象或者使用其他适合的数据结构。
+3. 存储K线数据：使用Redis的ZADD命令将包含K线数据的JSON对象插入到有序集合中。
+将时间戳作为分值，这样就可以根据时间戳顺序对K线数据进行排序。
+4. 查询K线数据：使用Redis的ZRANGE命令可以按照时间顺序检索K线数据。
+你可以设置开始和结束的索引，或者使用闭区间或开区间来限定查询的范围。
+5. 更新K线数据：当新的K线数据可用时，可以使用ZADD命令添加到有序集合中。
+如果已经存在相同的时间戳，则更新该条目的值。这样可以实时地更新K线数据。
+
+要注意的是，Redis是一种内存数据库，所以在保存大量K线数据时需要考虑内存的使用情况。
+
+如果数据量较大，可以考虑使用持久化机制（如RDB或AOF）将数据保存到磁盘中，以避免内存不足的问题。
+
+#### 5. 如果有1千万个用户和1千万个视频，我需要记录用户对视频的点赞或是否订阅的状态，怎么实现?
+##### 数据结构使用set，如果需要有序可以选择zset
+
+```bash
+// key为固定前缀 + 视频ID
+String key = "Blog:liked:" + id;
+
+// 1. 判断用户是否点过赞
+Boolean Liked = stringRedisTemplate.opsForSet().isMember(key, userId);
+
+// 2. 成功,将用户加入redis
+stringRedisTemplate.opsForSet().add(key,userId.toString());
+
+// 3. 已点赞就取消之前的点赞
+stringRedisTemplate.opsForSet().remove(key,userId.toString());
+```
+
+##### 5.1 异步双写流程
+```java
+// 伪代码：用户点赞操作（Java + Spring Boot）
+public void likeVideo(Long userId, Long videoId) {
+    // Step1：写入Redis
+    redisTemplate.opsForSet().add("user:" + userId + ":liked_videos", videoId);
+    redisTemplate.opsForValue().increment("video:" + videoId + ":like_count");
+    
+    // Step2：异步写入MySQL（通过消息队列）
+    kafkaTemplate.send("like_topic", new LikeEvent(userId, videoId, 1));
+}
+
+// 消费者处理逻辑
+@KafkaListener(topics = "like_topic")
+public void handleLikeEvent(LikeEvent event) {
+    userLikeRepository.insertOrUpdate(event.getUserId(), event.getVideoId(), event.getStatus());
+}
+
+```
+
+##### 5.2 延时双删优化
+```java
+// 伪代码：取消点赞操作
+public void cancelLike(Long userId, Long videoId) {
+    // 第一次删除缓存
+    redisTemplate.opsForSet().remove("user:" + userId + ":liked_videos", videoId);
+    redisTemplate.opsForValue().decrement("video:" + videoId + ":like_count");
+    
+    // 更新数据库
+    userLikeRepository.updateStatus(userId, videoId, 0);
+    
+    // 延时二次删除（500ms 或 1秒后）,消除并发读且未更新数据库时造成的缓存脏数据，适用读多写少的场景
+    scheduler.schedule(() -> {
+        redisTemplate.opsForSet().remove("user:" + userId + ":liked_videos", videoId);
+    }, 1000, TimeUnit.MILLISECONDS);
+}
+
+```
+
+##### 5.3 高性能查询优化
+```java
+// 1.实时状态查询‌，‌是否点赞‌：直接访问 Redis SET（响应时间 <1ms）
+Boolean isLiked = redisTemplate.opsForSet().isMember("user:" + userId + ":liked_videos", videoId);
+
+// 2.点赞总数‌：从 Redis 计数器直接读取
+Long count = redisTemplate.opsForValue().get("video:" + videoId + ":like_count");
+
+// 3.批量数据同步:定时任务‌：每小时同步 Redis 计数器到 MySQL
+UPDATE video_stats SET like_count = {redis_count} WHERE video_id = {videoId};
+
+```
+
+#### 6. 假如我要实现一个长度只有100的分布式队列，基于LRU的规则进行元素剔除，怎么实现？
+LRU，全称Least Recently Used，即最近最少使用 ，可以借助redis的zset实现。
+
+核心设计思路：
+* 队列长度固定‌	每次插入新元素后检查长度，超过阈值时移除最旧元素
+* LRU淘汰规则‌	使用时间戳作为排序依据，每次访问（读/写）更新元素时间戳
+* 分布式一致性‌	通过 Redis 单线程特性 + Lua 脚本保证操作的原子性
+* 高性能‌	使用内存操作（时间复杂度 O(log N)），控制队列长度在较小范围（100）以降低计算压力
+
+数据结构选择：Sorted Set (ZSET)
+* Key‌：lru_queue:100
+* Member‌：队列元素（如用户ID、视频ID等）
+* Score‌：最后一次访问的时间戳（毫秒精度）
+
+
+```bash
+# Lua 脚本（原子化执行插入和修剪）
+local key = KEYS[1]
+local member = ARGV[1]
+local max_size = tonumber(ARGV[2])
+local timestamp = tonumber(ARGV[3])
+
+# 插入或更新时间戳
+redis.call('ZADD', key, timestamp, member)
+
+# 检查并修剪队列
+local current_size = redis.call('ZCARD', key)
+if current_size > max_size then
+    # 移除最旧的元素（score最小的成员）
+    redis.call('ZREMRANGEBYRANK', key, 0, current_size - max_size - 1)
+end
+return current_size
+
+```
+
+
+https://blog.csdn.net/qq_64558518/article/details/129635943
+
 redis慢查询原因及排查  https://zhuanlan.zhihu.com/p/483377523
 redis 查询慢排查优化 https://blog.csdn.net/weixin_43942414/article/details/140395213

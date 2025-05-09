@@ -40,8 +40,8 @@ MetaQ/RocketMQ使用长轮询的方式。
 ## 消息存储及索引文件
 消息存储相关文件默认在当前用户主目录下的store目录中。目录如下：
 重要的是两个文件夹：
-* commitlog下的mappedFile文件
-* commitlog的索引文件夹-consumequeue
+* commitlog： commitlog下的存放的mappedFile文件
+* consumequeue：该文件夹下记录commitlog的索引文件
 ![图片2](../../src/main/resources/static/image/metaQ/store.png)
 
 ### appedFile文件
