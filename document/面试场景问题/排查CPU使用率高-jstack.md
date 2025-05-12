@@ -57,6 +57,7 @@ jstack <pid> | grep <hex_tid> -A20
 ```
 
 ```bash
+示例
 [admin@track /]
 $/opt/taobao/java/bin/jstack 9316 | grep 2f72
 "sentinel-time-tick-thread" #345 daemon prio=5 os_prio=0 tid=0x00007f39d4505800 nid=0x2f72 sleeping[0x00007f3948046000]
