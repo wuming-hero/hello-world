@@ -19,7 +19,7 @@ Jedis把Redis命令封装好，Lettuce则进一步有了更丰富的Api，也支
 但是两者也都点到为止，只给了你操作Redis数据库的脚手架，而Redisson则是基于Redis、Lua和Netty建立起了成熟的分布式解决方案，甚至redis官方都推荐的一种工具集。
 
 ### Lua脚本是什么？
-Lua脚本是redis已经内置的一种轻量小巧语言，其执行是通过redis的eval /evalsha 命令来运行，把操作封装成一个Lua脚本，如论如何都是一次执行的原子操作。
+Lua脚本是redis已经内置的一种轻量小巧语言，其执行是通过redis的eval/eval sha 命令来运行，把操作封装成一个Lua脚本，如论如何都是一次执行的原子操作。
 
 ### Redisson分布式锁实现
 

@@ -39,9 +39,8 @@ public class BinarySearch {
     }
 
     public static void main(String[] args) {
-//        int[] arr = {1, 2, 3, 4, 5}; // 数组必须是已排序的
-        int[] arr = {4, 5, 6, 9, 1, 2};
-        int target = 9;
+        int[] arr = {1, 2, 3, 4, 5, 6}; // 数组必须是已排序的
+        int target = 3;
 
         int index = binarySearch(arr, target);
         if (index != -1) {
