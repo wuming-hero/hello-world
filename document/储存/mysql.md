@@ -275,6 +275,6 @@ MySQL 性能优化是一个系统性工程，涉及多个方面，在面试中�
 ## mysql 死锁
 https://ata.atatech.org/articles/11000048963?spm=ata.23639746.0.0.eb0a5e28HNLE6c
 
-原文链接  https://javaguide.cn/database/mysql/mysql-questions-01.html#mysql-%E6%80%A7%E8%83%BD%E6%80%8E%E4%B9%88%E4%BC%98%E5%8C%96
+mysql性能如何优化  https://javaguide.cn/database/mysql/mysql-questions-01.html#mysql-%E6%80%A7%E8%83%BD%E6%80%8E%E4%B9%88%E4%BC%98%E5%8C%96
 
 分库分表 https://javaguide.cn/high-performance/read-and-write-separation-and-library-subtable.html#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E6%9C%89%E6%B2%A1%E6%9C%89%E4%BB%80%E4%B9%88%E6%AF%94%E8%BE%83%E6%8E%A8%E8%8D%90%E7%9A%84%E6%96%B9%E6%A1%88
