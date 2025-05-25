@@ -1,4 +1,4 @@
-package com.wuming.view;
+package com.wuming.view.other;
 
 /**
  * 饿汉模式

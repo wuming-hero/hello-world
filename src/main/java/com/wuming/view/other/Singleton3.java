@@ -1,4 +1,4 @@
-package com.wuming.view;
+package com.wuming.view.other;
 
 /**
  * 静态内部类方式

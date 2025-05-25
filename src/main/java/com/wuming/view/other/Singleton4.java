@@ -1,4 +1,4 @@
-package com.wuming.view;
+package com.wuming.view.other;
 
 /**
  * 双重检验锁方式实现单例模式

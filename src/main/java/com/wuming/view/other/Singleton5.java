@@ -1,4 +1,4 @@
-package com.wuming.view;
+package com.wuming.view.other;
 
 import java.util.HashMap;
 import java.util.Map;
