@@ -24,12 +24,13 @@
 * 精通java编程语言，熟练使用Spring-Boot、Spring-cloud、dubbo、zookeeper、mybatis、mybatis-plus等提供分布式微服务
 * 精通HTML5/javascript/CSS，有独立使用javascript + `HTML5+` 技术开发电商类、生活类uni-app经验
 * 熟练使用python，具备使用python+pyramid+mongoDB开发web项目、电商平台经验;并经常使用scrapy框架制作爬虫小工具
-* 熟练使用MySQL、TDDL、Lindorm、tableStore、Redis等数据库及缓存技术
+* 熟练使用MySQL、Redis、MongoDB、TDDL、Lindorm、tableStore等数据库及缓存技术
 * 熟练使用Notify、MetaQ(RocketMQ)等消息中间件
 * 具备高并发场景开发及优化经验
 * 熟练使用常用设计模式设计及优化代码
-* 主导实现‌注解驱动开发模模式，深度参与RPC框架`rpc-dubbo-spring-boot-starter`编写及优化，提供@RpcProvider、@RpcConsumer注解，基于动态代理技术简化Dubbo接口的暴露与引用，‌开发效率提升40%
-* 了解
+* 主导实现注解驱动开发模模式，深度参与RPC框架`rpc-dubbo-spring-boot-starter`编写及优化，提供@RpcProvider、@RpcConsumer注解，基于动态代理技术简化Dubbo接口的暴露与引用，提升开发效率40%左右
+* 了解Spring WebFlux/Reactor,NIO非阻塞IO框架及原理
+  
 
 ### 团队管理
 * 具备技术管理与跨团队协作能力，曾带领10人团队完成多个关键性项目交付，注重代码规范和交付质量
@@ -52,14 +53,14 @@
 作为团队SRE，将团队风险预警单数量从日均3.5降低到2，告警噪音率从35%降低到15%，单项达到超出预期的目标。
 
 ### 杭州细叶科技有限公司
-> 2015.8-2020.12，在细叶科技担任研发TL，工作中表现优异得到公司认可，获得2次年涨薪30%激励。
+> 2015.8-2020.12，在细叶科技担任研发TL，工作中表现优异得到公司认可，获得2次年涨薪30%激励 + 期权激励。
 * 独立设计、研发数趣云开放平台，对外提供高并发、高性能的稳定的支付服务，为日交易流水5000W提供稳定服务。
 * 主导研发酷推SCRM，核心功能包括客户SCRM管理、营销短信、广告投放DSP平台等，作为DSP平台接入讯飞ADX平台进行广告投放，支持CPC、CPM计价方式，为广告投放需求QPS 500左右提供稳定服务。
 * 从事企业微信相关开发，主导研发酷客营销平台，主要功能包括好评有礼、微信红包、大转盘、优惠券、活码工具、积分商城、营销短信等，为日发送红包流水8w左右提供稳定服务。
 
 ### 杭州智游乐有限公司
 > 2013.7-2015.7，在智游乐担任Java&Python研发工程师，工作表现优异得到公司认可，获得年涨薪50% + 期权激励。
-* 基于Python Web技术(Python 2 + Pyramid + MongoDB)，从事微信公众号相关开发，独立开发会员卡、积分、优惠券、微商城等核心功能，并接入支付宝、微信支付形成闭环。
+* 基于Python Web技术(Python2 + Pyramid + MongoDB)，从事微信公众号相关开发，独立开发会员卡、积分、优惠券、微商城等核心功能，并接入支付宝、微信支付形成闭环。
 
 
 ## 项目经历
@@ -131,7 +132,7 @@
 * 海数宝房地产造价项目PM，主要负责计价模型设计及计价主体功能，基于SpringBoot WEB开发技术，使用dubbo、zookeeper、redis、Nashorn JS 引擎和JDK8的多线程功能提供快速、高效、稳定的工程造价计算服务。
 * 主导研发唛嘉智能售卖机新零售项目，基于SpringBoot WEB开发技术，使用dubbo、zookeeper、redis、websocket通信服务，与东吉、中吉等品牌智能售卖机硬件进行对接，实现远程控制、补货、出货等交互功能，为售卖机正常运行提供稳定、可靠的后台服务。
 * 主导研发薪福多发薪平台，基于SpringBoot WEB开发技术，使用dubbo、zookeeper、redis等技术，对接工商、平安等银行发薪相关接口，为大小企业几十万员工提供可靠、高效的发薪服务。
-* 主导研发酷推SCRM，主要功能包括DSP平台、SCRM管理、营销短信等，基于SpringBoot WEB开发技术，使用dubbo、zookeeper、redis等技术，以DSP平台身份接入讯飞ADX平台进行广告投放、支持CPC、CPM计价方式，支持QPS 500左右。
+* 主导研发酷推SCRM，主要功能包括DSP平台、SCRM管理、营销短信等，基于SpringBoot WEB开发技术，使用dubbo、zookeeper、redis等技术，以DSP平台身份接入讯飞ADX平台进行广告投放，支持自动动态竞价投放且提供CPC、CPM计费方式，为广告投放业务提供稳定服务。
 * 主导研发酷客营销平台，基于SpringBoot WEB开发技术，使用dubbo、zookeeper、redis、redission等技术，主要功能包括好评有礼、售后返款、微信红包、大转盘、优惠券、活码工具、积分商城、预约活动、营销短信、营销素材等，日发送红包流水8w左右提供稳定服务。
 
 ### 2013.7-2015.7 | 杭州智游乐有限公司 | Java & Python工程师
