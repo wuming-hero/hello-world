@@ -162,6 +162,8 @@ RLock是Redisson分布式锁的最核心接口，继承了concurrent包的Lock�
 4. B被唤醒开始继续抢锁，拿到锁
 
 
+注：Redisson的看门狗机制并不符合守护线程的定义，因为它不是为其他线程提供服务，而是为了确保分布式锁的有效性。 因此，可以明确地说，Redisson的看门狗机制是通过定时任务实现的。
+
 ### 公平锁 RedissonFairLock
 Redis里没有AQS，但是有List和zSet，看看Redisson是怎么实现公平的。
 ```java

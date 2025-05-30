@@ -54,7 +54,7 @@ ObjectMonitor() {
 根据不同的策略（由QMode指定），从cxq或EntryList中获取头节点，通过ObjectMonitor::ExitEpilog方法唤醒该节点封装的线程，唤醒操作最终由unpark完成。
 
 ### monitor是重量级锁
-执行同步代码块，没有竞争到锁的对象会park()被挂起，竞争到锁的线程会unpark()唤醒，这个时候就会存在操作系统用户态和内核态的转换，这种切换会消耗大量的系统资源。
+`执行同步代码块，没有竞争到锁的对象会park()被挂起，竞争到锁的线程会unpark()唤醒，这个时候就会存在操作系统用户态和内核态的转换，这种切换会消耗大量的系统资源`。
 所以synchronized是Java语言中是一个重量级(Heavyweight)的操作。
 
 ![图片3](../../src/main/resources/static/image/base/cpu_shell.png)
