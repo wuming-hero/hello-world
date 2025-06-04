@@ -97,7 +97,7 @@ public class LinkedListAlgo {
      * @return
      */
     public static Node deleteLastKth(Node list, int k) {
-        // 1. fast先走2(K-1)步，
+        // 1. fast先走(K-1)步，
         Node fast = list;
         int i = 1;
         while (fast != null && i < k) {
