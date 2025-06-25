@@ -282,10 +282,10 @@ Netty经过精心设计，结合了许多协议（例如FTP，SMTP，HTTP以及�
 2) BossGroup和WorkerGroup类型都是NioEventLoopGroup，里面包含很多个NioEventLoop;
 3) NioEventLoopGroup 相当于一个事件循环线程组, 这个组中含有多个事件循环线程 ， 每一个事件循环线程是 NioEventLoop;
 4) 每个NioEventLoop都有一个selector , 用于监听注册在其上的socketChannel的网络通讯；
-5) 每个Boss NioEventLoop线程内部循环执行的步骤有 3 步
-      a、处理accept事件 , 与client 建立连接 , 生成 NioSocketChannel；
-      b、将NioSocketChannel注册到某个worker NIOEventLoop上的selector；
-      c、处理任务队列的任务 ， 即runAllTasks；
+5) 每个Boss NioEventLoop线程内部循环执行的步骤有 3 步:
+   a. 处理accept事件 , 与client 建立连接 , 生成 NioSocketChannel； 
+   b. 将NioSocketChannel注册到某个worker NIOEventLoop上的selector； 
+        c. 处理任务队列的任务 ， 即runAllTasks；
 6) 每个worker NIOEventLoop线程循环执行的步骤
    a、轮询注册到自己selector上的所有NioSocketChannel 的read, write事件；
    b、处理 I/O 事件， 即read , write 事件， 在对应NioSocketChannel 处理业务；
