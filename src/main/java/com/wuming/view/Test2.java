@@ -14,10 +14,10 @@ public class Test2 {
         node.next = new Node(2);
         node.next.next = new Node(3);
 //        reverse(node);
-        System.out.printf(node.toString());
+        System.out.println(node.toString());
 
         Node reversedNode = reverse2(node);
-        System.out.printf(reversedNode.toString());
+        System.out.println(reversedNode.toString());
     }
 
     public static void reverse(Node head) {

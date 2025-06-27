@@ -1,11 +1,7 @@
 package com.wuming.view;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 1. 编写一个多线程生产者与消费者模式示例
@@ -15,7 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author che
  * Created on 2025/6/6 16:12
  */
-public class Test3 {
+public class CustomMessageQueue {
 
 
     public static void main(String[] args) {
