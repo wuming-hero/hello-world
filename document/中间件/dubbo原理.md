@@ -217,7 +217,7 @@ public void onResponse(Result appResponse, Invoker<?> invoker, Invocation invoca
             if (exception instanceof BaseBizException){
                 appResponse.setException(((BaseBizException) exception));
             }
-                ···
+                // ···
             // otherwise, wrap with RuntimeException and throw back to the client
             appResponse.setException(new RuntimeException(StringUtils.toString(exception)));
         } catch (Throwable e) {

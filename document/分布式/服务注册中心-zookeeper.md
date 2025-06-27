@@ -53,6 +53,23 @@ Leader选举完毕后，Leader需要与Follower进行数据同步：
 4. 完成同步后通知follower 已经成为uptodate状态
 5. Follower收到uptodate消息后，就可以重新接受client的请求进行服务了。
 
+### 数据同步（写）
+1. 首先集群启动时，会先进⾏领导者选举，确定哪个节点是Leader，哪些节点是Follower和Observer
+2. 然后Leader会和其他节点进⾏数据同步，采⽤发送快照和发送Diff⽇志的⽅式 
+3. 集群在⼯作过程中，所有的写请求都会交给Leader节点来进⾏处理，从节点只能处理读请求 
+4. Leader节点收到⼀个写请求时，会通过两阶段机制来处理 
+5. Leader节点会将该写请求对应的⽇志发送给其他Follower节点，并等待Follower节点持久化⽇志成功 
+6. Follower节点收到⽇志后会进⾏持久化，如果持久化成功则发送⼀个Ack给Leader节点 
+7. 当Leader节点收到半数以上的Ack后，就会开始提交，先更新Leader节点本地的内存数据 
+8. 然后发送commit命令给Follower节点，Follower节点收到commit命令后就会更新各⾃本地内存数据 
+9. 同时Leader节点还是将当前写请求直接发送给Observer节点，Observer节点收到Leader发过来的写请求后直接执⾏更新本地内存数据 
+10. 最后Leader节点返回客户端写请求响应成功 
+11. 通过同步机制和两阶段提交机制来达到集群中节点数据⼀致
+
+![图片2](../../src/main/resources/static/image/zookeeper/write.png)
+
+
+
 ### 什么是zookeeper 脑裂及如何解决？
 
 #### 什么是脑裂（Split-Brain）？
@@ -97,7 +114,6 @@ Watcher是ZK中很重要的特性，ZK允许用户在指定节点上注册一些
 如果Watcher一直有效，节点更新频繁时服务端会不断向客户端发送通知，对网络及服务端性能影响会非常大。
 
 ![图片2](../../src/main/resources/static/image/zookeeper/watcher.png)
-
 
 
 ## 应用场景
