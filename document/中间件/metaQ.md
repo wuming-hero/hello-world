@@ -83,6 +83,79 @@ consumequeue文件名由20位十进制数构成，表示当前文件的第一个
 即对于一个指令TOPIC，每个客户端可以在队列维度下按照严格的先进先出顺序进行消费和发送。
 ![图片2](../../src/main/resources/static/image/metaQ/order_queue.png)
 
+#### 实现原理
+* 每个Message Queue被一个消费线程独占
+* 使用分布式锁保证同一队列不会被多个消费者同时消费
+* 消费进度由消费者定期提交到Broker
+
+缺点：
+* 顺序消息不支持重试队列
+* 消费失败时需在本地重试
+* 可通过设置context.setSuspendCurrentQueueTimeMillis()暂停队列
+
+
+##### 1. 消息发送端的顺序保证
+生产者通过分区顺序选择器确保相关消息发送到同一个队列：
+```java
+// 发送顺序消息示例
+public class OrderedProducer {
+    public static void main(String[] args) throws Exception {
+        DefaultMQProducer producer = new DefaultMQProducer("ordered_producer_group");
+        producer.start();
+        
+        for (int i = 0; i < 100; i++) {
+            int orderId = i % 10; // 订单ID作为分区键
+            Message msg = new Message("OrderTopic", "TagA", 
+                    ("Order_" + orderId + "_Step_" + i).getBytes());
+            
+            // 使用MessageQueueSelector确保相同订单的消息进入同一队列
+            SendResult sendResult = producer.send(msg, new MessageQueueSelector() {
+                @Override
+                public MessageQueue select(List<MessageQueue> mqs, Message msg, Object arg) {
+                    Integer id = (Integer) arg;
+                    int index = id % mqs.size();
+                    return mqs.get(index);
+                }
+            }, orderId);
+        }
+        producer.shutdown();
+    }
+}
+```
+##### 2. Broker端的消息存储
+Broker内部实现机制保证消息在队列中的顺序性：
+* 每个Topic包含多个Message Queue
+* 每个Message Queue内部消息严格有序存储
+* 消息写入采用顺序追加方式
+
+##### 3. 消费端的顺序处理
+消费者使用`MessageListenerOrderly` 实现顺序消费：
+```java
+public class OrderedConsumer {
+    public static void main(String[] args) throws Exception {
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("ordered_consumer_group");
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+        consumer.subscribe("OrderTopic", "*");
+        
+        // 注册顺序消息监听器
+        consumer.registerMessageListener(new MessageListenerOrderly() {
+            @Override
+            public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, 
+                                                      ConsumeOrderlyContext context) {
+                for (MessageExt msg : msgs) {
+                    System.out.println(Thread.currentThread().getName() + " Receive New Message: " 
+                                      + new String(msg.getBody()));
+                }
+                return ConsumeOrderlyStatus.SUCCESS;
+            }
+        });
+        
+        consumer.start();
+        System.out.println("Consumer Started.");
+    }
+}
+```
+
 ### 延迟消费
 延迟消费是指将消息发送到服务器后，不希望立即消费，而是需要经过一定延迟时间后才会投递到消费者
 ![图片2](../../src/main/resources/static/image/metaQ/delay.png)

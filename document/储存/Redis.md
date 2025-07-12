@@ -13,9 +13,6 @@ Redis是当今非常流行的一种nosql数据库，它出色的性能源于其�
 ### 1. String 原理浅析
 Redis是用c语言写的，但是Redis没有使用c语言的字符串类型，而是自己定义了一种简单动态字符串（simple dynamic string , SDS），作为redis里字符串的数据结构。
 为什么要自己定义一种数据结构呢，主要是c语言的字符串是使用长度为n+1的字符数组来存储长度为n的字符串，字符数组的最后一个元素是'\0'空字符，不能满足redis对于字符串在安全性、效率以及功能方面的要求。
-
-
-
 ```bash
 # 基本设置
 SET key value
@@ -124,7 +121,6 @@ LRANGE myList 0 -1
 List 可以用来做消息队列，只是功能过于简单且存在很多缺陷，不建议这样做。
 相对来说，Redis 5.0 新增加的一个数据结构 Stream 更适合做消息队列一些，只是功能依然非常简陋。和专业的消息队列相比，还是有很多欠缺的地方比如消息丢失和堆积问题不好解决。
 
-
 ### 3. hash 原理浅析
 Redis 中的 Hash 是一个 String 类型的 field-value（键值对） 的映射表，特别适合用于存储对象，后续操作的时候，你可以直接修改这个对象中的某些字段的值。
 Hash 类似于 JDK1.8 前的 HashMap，内部实现也差不多(数组 + 链表)。不过，Redis 的 Hash 做了更多优化。
@@ -220,7 +216,7 @@ SDIFF mySet mySet2 # 差集是由所有属于 mySet 但不属于 A 的元素组�
 
 
 ### 5. zset(Sorted Set) 原理浅析
-> zset 是redis里面一种比较复杂的数据结构，它是一种有序集合，可以帮助我们轻松实现排行榜等功能。审核派单平台的部分功能就是通过zset来实现，这里我们一起探究一下zset的内部实现原理。
+> zset 是redis里面一种比较复杂的数据结构，它是一种有序集合，可以帮助我们轻松实现排行榜等功能。审核派单平台的部分功能就是通过zset来实现。
 
 Sorted Set 类似于 Set，但和 Set 相比，Sorted Set 增加了一个权重参数 score，使得集合中的元素能够按 score 进行有序排列，还可以通过 score 的范围来获取元素的列表。
 有点像是 Java 中 HashMap 和 TreeSet 的结合体。
@@ -235,7 +231,6 @@ Sorted Set 类似于 Set，但和 Set 相比，Sorted Set 增加了一个权重�
 * `zcount <key><min><max>` 统计该集合，分数区间内的元素个数
 * `zrank <key> <value>` 返回该值在集合中的排名，从0开始。
 * `ZREVRANK key <value>` 获取指定有序集合中指定元素的排名(score 从大到小排序)
-
 
 ```bash
 # myZset : value1(2.0)、value2(1.0) 。
