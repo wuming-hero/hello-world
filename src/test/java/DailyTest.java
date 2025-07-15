@@ -95,7 +95,9 @@ public class DailyTest {
         System.out.println((int) (curr / 1000));
         String intStr = "1738907322";
         System.out.println(Integer.parseInt(intStr));
+        ThreadLocal<Long> threadLocal = new ThreadLocal<>();
     }
+
 
     /**
      * @return List<List < String>>
