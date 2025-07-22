@@ -80,6 +80,8 @@ admin.createTopic("TopicTest", 16);
 * 堆外内存优化
 transientStorePoolEnable=true  # 启用堆外内存缓存池
 
+
+
 ## 总结
 RocketMQ 通过 顺序写 + mmap + 零拷贝 突破磁盘 I/O 瓶颈，结合分布式队列负载均衡 和 异步批量处理，实现百万级消息吞吐。
 其设计哲学是：用顺序写代替随机写，用内存操作代替磁盘 I/O，用批量处理代替单次操作。

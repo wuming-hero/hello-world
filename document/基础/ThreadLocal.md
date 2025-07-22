@@ -39,8 +39,8 @@ public class ThreadLocal<T> {
 ```
 
 ## ThreadLocal内存泄漏的场景
-实际上 ThreadLocalMap 中使用的 key 为 ThreadLocal 的弱引用，而 value 是强引用。
-弱引用的特点是，如果这个对象持有弱引用，那么在下一次垃圾回收的时候必然会被清理掉。
+实际上 ThreadLocalMap 中使用的 key 为 ThreadLocal 实例的弱引用（WeakReference<ThreadLocal<?>>），而 value 是强引用。
+弱引用的特点是，如果这个对象持有弱引用，那么在下一次垃圾回收的时候必然会被清理掉。这一设计主要是为了解决内存泄漏问题，同时平衡线程生命周期与变量作用域的管理。
 
 所以如果 ThreadLocal 没有被外部强引用的情况下，在垃圾回收的时候会被清理掉的，这样一来 ThreadLocalMap中使用这个 ThreadLocal 的 key 也会被清理掉。
 但是，value 是强引用，不会被清理，这样一来就会出现key为 null 的value。
@@ -49,6 +49,23 @@ public class ThreadLocal<T> {
 ThreadLocalMap实现中已经考虑了这种情况，在调用 set()、get()、remove() 方法的时候，会清理掉 key 为 null 的记录。
 如果说会出现内存泄漏，那只有在出现了 key 为 null 的记录后，没有手动调用 remove() 方法，并且之后也不再调用 get()、set()、remove()方法的情况下。
 因此使用完ThreadLocal方法后，最好手动调用 remove () 方法。
+
+```java
+public class Thread implements Runnable {
+    ThreadLocal.ThreadLocalMap threadLocals = null; // 存储当前线程的本地变量
+}
+```
+
+ThreadLocalMap的内部结构是一个哈希表，每个 entry 的结构为：
+```java
+static class Entry extends WeakReference<ThreadLocal<?>> {
+    Object value; // 存储 ThreadLocal 对应的变量值
+    Entry(ThreadLocal<?> k, Object v) {
+        super(k); // 键是 ThreadLocal 的弱引用
+        value = v;
+    }
+}
+```
 
 ### 为什么键必须是弱引用？
 > 假设 ThreadLocalMap的键是强引用，会导致内存泄漏风险
