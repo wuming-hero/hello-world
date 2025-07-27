@@ -16,7 +16,7 @@ Redis 的管道（Pipeline）、Lua 脚本和事务（Transaction）都是用于
 
     ◦   性能提升： 主要减少网络延迟，适合批量操作（如 MSET 替代多个 SET）。
 
-•   代码示例（Python）：
+• 代码示例（Python）：
 pipe = r.pipeline()
 pipe.set('key1', 'value1')
 pipe.get('key2')
