@@ -3,16 +3,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.wuming.model.Account;
-import com.wuming.model.Node;
 import com.wuming.model.Student;
-import com.wuming.model.TestModel;
 import com.wuming.util.BaiduMapApi;
 import com.wuming.util.GaoDeMapApi;
-import com.wuming.util.HttpUtil;
 import com.wuming.util.JsonMapper;
 import com.wuming.util.OrderIdUtil;
 import com.wuming.util.OrderNoUtil;
@@ -21,20 +16,13 @@ import com.wuming.util.XmlUtil;
 import com.wuming.util.XmlUtil2;
 import com.wuming.util.excel.PoiExcelHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
 import javax.xml.bind.DatatypeConverter;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -97,91 +85,91 @@ public class DailyTest {
         System.out.println(Integer.parseInt(intStr));
     }
 
-    /**
-     * @return List<List < String>>
-     * @Description 读取CSV文件的内容（不含表头）
-     * @Param filePath 文件存储路径，colNum 列数
-     **/
-    public static List<List<String>> readCSV(String filePath) {
-        BufferedReader bufferedReader = null;
-        InputStreamReader inputStreamReader = null;
-        FileInputStream fileInputStream = null;
-        //GBK
-        try {
-            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "GBK"));
+//    /**
+//     * @return List<List < String>>
+//     * @Description 读取CSV文件的内容（不含表头）
+//     * @Param filePath 文件存储路径，colNum 列数
+//     **/
+//    public static List<List<String>> readCSV(String filePath) {
+//        BufferedReader bufferedReader = null;
+//        InputStreamReader inputStreamReader = null;
+//        FileInputStream fileInputStream = null;
+//        //GBK
+//        try {
+//            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "GBK"));
+//
+//            CSVParser parser = CSVFormat.DEFAULT.parse(bufferedReader);
+////          表内容集合，外层List为行的集合，内层List为字段集合
+//            List<List<String>> values = new ArrayList<>();
+//            int rowIndex = 0;
+//            for (CSVRecord record : parser.getRecords()) {
+////              跳过表头
+//                if (rowIndex == 0) {
+//                    rowIndex++;
+//                    continue;
+//                }
+////              每行的内容
+//                List<String> value = new ArrayList<>();
+//                for (int i = 0; i < record.size(); i++) {
+//
+//                    value.add(record.get(i));
+//                }
+//                values.add(value);
+//                rowIndex++;
+//            }
+//            return values;
+//        } catch (IOException e) {
+//            log.error("解析CSV内容失败" + e.getMessage(), e);
+//        } finally {
+//            //关闭流
+//            if (bufferedReader != null) {
+//                try {
+//                    bufferedReader.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (inputStreamReader != null) {
+//                try {
+//                    inputStreamReader.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            if (fileInputStream != null) {
+//                try {
+//                    fileInputStream.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
-            CSVParser parser = CSVFormat.DEFAULT.parse(bufferedReader);
-//          表内容集合，外层List为行的集合，内层List为字段集合
-            List<List<String>> values = new ArrayList<>();
-            int rowIndex = 0;
-            for (CSVRecord record : parser.getRecords()) {
-//              跳过表头
-                if (rowIndex == 0) {
-                    rowIndex++;
-                    continue;
-                }
-//              每行的内容
-                List<String> value = new ArrayList<>();
-                for (int i = 0; i < record.size(); i++) {
-
-                    value.add(record.get(i));
-                }
-                values.add(value);
-                rowIndex++;
-            }
-            return values;
-        } catch (IOException e) {
-            log.error("解析CSV内容失败" + e.getMessage(), e);
-        } finally {
-            //关闭流
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (inputStreamReader != null) {
-                try {
-                    inputStreamReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fileInputStream != null) {
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 使用main方法运行多线程
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        List<List<String>> dataList = readCSV("//Users/wuming/Downloads/trade_no_to_send_integral.csv");
-        System.out.println(dataList);
-        for (List<String> datas : dataList) {
-            executorService.submit(() -> {
-                String id = datas.get(0);
-                String tradeNo = datas.get(1);
-//                System.out.println("threadName : " + Thread.currentThread().getName() + ", send data, id: " + id + ", tradeNo: " + tradeNo);
-                try {
-                    String url = "https://app.kukr.cn/ok/order/give/integral?tradeNo=" + tradeNo;
-                    String ret = HttpUtil.get(url, null);
-                    System.out.println("send success, id: " + id + ", tradeNo: " + tradeNo + ", ret: " + ret);
-                } catch (Exception e) {
-                    System.out.println("send exception, id: " + id + ", tradeNo: " + tradeNo + ", ret: " + Throwables.getStackTraceAsString(e));
-                }
-            });
-        }
-    }
+//    /**
+//     * 使用main方法运行多线程
+//     *
+//     * @param args
+//     */
+//    public static void main(String[] args) {
+//        List<List<String>> dataList = readCSV("//Users/wuming/Downloads/trade_no_to_send_integral.csv");
+//        System.out.println(dataList);
+//        for (List<String> datas : dataList) {
+//            executorService.submit(() -> {
+//                String id = datas.get(0);
+//                String tradeNo = datas.get(1);
+////                System.out.println("threadName : " + Thread.currentThread().getName() + ", send data, id: " + id + ", tradeNo: " + tradeNo);
+//                try {
+//                    String url = "https://app.kukr.cn/ok/order/give/integral?tradeNo=" + tradeNo;
+//                    String ret = HttpUtil.get(url, null);
+//                    System.out.println("send success, id: " + id + ", tradeNo: " + tradeNo + ", ret: " + ret);
+//                } catch (Exception e) {
+//                    System.out.println("send exception, id: " + id + ", tradeNo: " + tradeNo + ", ret: " + Throwables.getStackTraceAsString(e));
+//                }
+//            });
+//        }
+//    }
 
     /**
      * list.clone() 方法
@@ -672,31 +660,9 @@ public class DailyTest {
      */
     @Test
     public void dateTest2() {
-        Map<String, String> dataMap = Maps.newHashMap();
-        dataMap.put("runTime", "123");
-        dataMap.put("servername", "servername");
-        dataMap.put("requestJson", "requestJson123");
-
-        TestModel testModel = JSON.parseObject(JSON.toJSONString(dataMap), TestModel.class);
-        System.out.println(testModel);
-        Map<String, String> slsKeyMap = new HashMap<>();
-        slsKeyMap.put("node_name", "eventCode");
-        slsKeyMap.put("method_signature", "eventName");
-        slsKeyMap.put("log_time", "time");
-        slsKeyMap.put("out_biz_code", "orderCode");
-        slsKeyMap.put("related_code", "outOrderId");
-        slsKeyMap.put("request_argument", "request");
-        slsKeyMap.put("rt", "runtime");
-        slsKeyMap.put("rpc_id", "rpcId");
-        slsKeyMap.put("trace_id", "traceId");
-        System.out.println(JSON.toJSONString(slsKeyMap));
-
-        String testStr = "\nabc{\"features\":{\"forcePce\":\"-1\",\"initialConsoWmsOutTime\":null,\"planWmsOutboundTime\":null,\"planWmsAcceptTime\":null,\"whCross\":\"false\",\"combinePriority\":\"prior\",\"tradeBatchId\":\"da59fab8fc9f3829d344a8b1f8635678\",\"initialWmsOutTime\":null},\"orderCode\":\"LP00711007763545\",\"whCrossMode\":\"-2\",\"whConsignType\":\"VIRTUAL_SHIPPING\",\"collabParcelConsignDTOList\":[{\"features\":{},\"orderCode\":\"LP00711100192844\",\"whConsignType\":\"DIRECT_SHIPPING\"}],\"cnespPlanDTO\":null}\n[";
-        System.out.println(deleteInvalidPrefix(testStr));
-        String testStr2 = "\nabc[{\"test\":\"242424\"}]\n111";
-        System.out.println(deleteInvalidPrefix(testStr2));
-        String testStr3 = "12\nabcdbakjsjf\n12";
-        System.out.println(testStr3);
+        String a = null;
+        String b = null;
+        System.out.println(a+b);
 
     }
 
