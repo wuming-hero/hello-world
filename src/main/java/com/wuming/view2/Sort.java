@@ -6,7 +6,6 @@ package com.wuming.view2;
  */
 public class Sort {
 
-
     public static void main(String[] args) {
         String data = "876";
         int result = parseInt(data);
@@ -24,6 +23,5 @@ public class Sort {
         }
         return result;
     }
-
 
 }
