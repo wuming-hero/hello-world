@@ -197,7 +197,7 @@ SUNION mySet mySet2
 
 求差集
 ```java
-SDIFF mySet mySet2 # 差集是由所有属于 mySet 但不属于 A 的元素组成的集合
+SDIFF mySet mySet2 # 差集是由所有属于 mySet 但不属于 myset2 的元素组成的集合
 1) "value1"
 ```
 #### 应用场景
