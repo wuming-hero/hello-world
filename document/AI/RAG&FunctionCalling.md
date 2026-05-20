@@ -10,6 +10,7 @@
 ![图片2](../../src/main/resources/static/image/ai/FunctionCalling.png)
 
 原理：Function Calling指的是在语言模型中集成外部功能或API的调用能力。这意味着模型可以在生成文本的过程中调用外部函数或服务，获取额外的数据或执行特定的任务。
+
 应用：Function Calling适用于需要模型执行特定操作或与外部系统交互的场景。例如，模型可以调用天气API来回答关于当前天气的问题，或者调用翻译服务来提供翻译。
 
 # 二者区别

@@ -16,8 +16,7 @@ ConfigServer不依赖于DB，自己实现了一致性协议；这个协议的特
 * master异步复制pub给其他所有的slave（5步）
 * master：renew（第6步）
   * master定期向slave发送renew报文
-  * slave的pub的alive time被刷新
-  * 可以发现slave上缺失的pub（如：扩容）
+  * slave的pub的alive time被刷新，可以发现slave上缺失的pub（如：扩容）
 * slave：self check（第7步）
   * slave周期性自检本地所有的cluster provider
   * alive time超期则自动删除

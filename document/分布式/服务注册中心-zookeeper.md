@@ -38,7 +38,7 @@ Zab协议有两种模式，它们分别是恢复模式和广播模式。
 
 假设Zookeeper集群有5台机器，ServerId分别为1,2,3,4,5，启动顺序按照1,2,3,4,5依次启动：
 1. Server 1启动，此时它选择自己为leader，同时向外发出投票报文，但收不到任何回复，选票不过半，启动机器数不超过集群的一半【不能正常工作】
-2. Server2启动，此时由于没有历史数据，Server1和Server2会选择ServerId较大的2位leader，但选票不超过一半，启动的机器数不超过集群的一半【不能正常工作】
+2. Server2启动，此时由于没有历史数据，Server1和Server2会选择ServerId较大的2为leader，但选票不超过一半，启动的机器数不超过集群的一半【不能正常工作】
 3. Server3启动，此时情况与2类似，Server3会被选为Leader，但不同的是此时得票过半，并且启动的机器数超过集群的一半，所以集群可以正常工作，Server3被选为Leader
 4. Server4启动，由于此时Server3已经被选为Leader，所以Server4只能作为Follower
 5. Server5启动，与4同理，Server5也只能作为Follower
