@@ -64,7 +64,7 @@ Servlet 是命令式、同步导向的 API，而 WebFlux 基于 Reactive Streams
 ### 运行环境更灵活‌
 WebFlux 不依赖 Servlet 容器，可直接运行在 Netty、Undertow 等原生非阻塞服务器上，进一步提升性能和可扩展性
 。
-维度	‌Servlet 3.1‌	‌Spring WebFlux‌
+维度	Servlet 3.1	Spring WebFlux
 ‌编程模型‌	命令式、同步为主（虽支持异步）	响应式、完全异步非阻塞
 ‌线程模型‌	请求-线程绑定（受限于线程池大小）	事件循环 + 少量线程，支持高并发
 ‌阻塞问题‌	Filter、getParameter 等仍阻塞	全栈非阻塞，无阻塞契约

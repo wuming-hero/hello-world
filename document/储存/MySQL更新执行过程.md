@@ -2,6 +2,7 @@
 
 ## MySQL执行一条Select语句是怎么运行的？
 执行流程图
+
 ![图片3](../../src/main/resources/static/image/mysql/select_flow.png)
 
 * 连接器：建立连接，管理连接、校验用户身份；
@@ -15,6 +16,7 @@
 
 ## MySQL执行一条UPDATE语句是怎么运行的？
 执行流程图
+
 ![图片3](../../src/main/resources/static/image/mysql/update_flow.png)
 
 
