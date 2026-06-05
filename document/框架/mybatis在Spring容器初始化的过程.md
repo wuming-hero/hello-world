@@ -32,11 +32,12 @@ public static void main(String[] args) {
 ```
 大体步骤：
 
-1、加载Mybatis的全局配置文件；
-2、初始化mybatis，创建SqlSessionFactory类实例；
-3、创建Session会话；
-4、获取Mapper接口；
-5、执行具体SQL；
+1. 加载Mybatis的全局配置文件
+2. 初始化mybatis，创建SqlSessionFactory类实例；
+3. 创建Session会话；
+4. 获取Mapper接口；
+5. 执行具体SQL；
+
 其中加载全局配置文件、创建SqlSessionFactory、扫描mapper接口都是比较重要的，所以分析Spring加载MyBatis的过程无非也就是从这几方面入手。
 
 我们来看看Spring要集成Mybatis需要做哪些配置：

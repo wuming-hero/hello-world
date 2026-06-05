@@ -24,10 +24,13 @@ ByteBuffer byteBuffer = mappedFile.getMappedByteBuffer();
 Reactor 多线程模型分离 I/O 与业务处理。
 
 ### 线程隔离与负载均衡
+独立线程池处理发送/拉取请求，避免资源竞争。
+
+```java
 // Broker 端线程池配置
 SendMessageExecutor sendExecutor = new SendMessageExecutor(32, 100000); // 发送线程池
 PullMessageExecutor pullExecutor = new PullMessageExecutor(32, 100000); // 拉取线程池
-独立线程池处理发送/拉取请求，避免资源竞争。
+```
 
 ## 三、零拷贝（Zero-Copy）技术
 

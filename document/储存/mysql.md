@@ -6,10 +6,12 @@ MySQL 字段类型可以简单分为三大类：
 * 日期时间类型：YEAR、TIME、DATE、DATETIME 和 TIMESTAMP 等。
 
 ### 1.1 DATETIME 和 TIMESTAMP 的区别是什么？
-DATETIME 类型没有时区信息，TIMESTAMP 和时区有关。
-TIMESTAMP 只需要使用 4 个字节的存储空间，但是 DATETIME 需要耗费 8 个字节的存储空间。但是，这样同样造成了一个问题，Timestamp 表示的时间范围更小。
-DATETIME：1000-01-01 00:00:00 ~ 9999-12-31 23:59:59
-Timestamp：1970-01-01 00:00:01 ~ 2037-12-31 23:59:59
+* DATETIME 类型没有时区信息，TIMESTAMP 和时区有关。
+  * TIMESTAMP 在存储时会将客户端插入的时间从‌当前会话时区转换为 UTC‌；查询时再从UTC 转换回当前会话时区‌返回
+  * DATETIME 原样存储和返回，‌不受时区影响‌；而 TIMESTAMP 的值会随会话时区变化而变化
+* TIMESTAMP 只需要使用 4 个字节的存储空间，但是 DATETIME 需要耗费 8 个字节的存储空间。但是，这样同样造成了一个问题，Timestamp 表示的时间范围更小。
+  * DATETIME：1000-01-01 00:00:00 ~ 9999-12-31 23:59:59
+  * Timestamp：1970-01-01 00:00:01 ~ 2037-12-31 23:59:59
 https://javaguide.cn/database/mysql/some-thoughts-on-database-storage-time.html
 
 
@@ -20,7 +22,7 @@ NULL 跟 ''(空字符串)是两个完全不一样的值，区别如下：
 3. NULL 会影响聚合函数的结果。
 例如，SUM、AVG、MIN、MAX 等聚合函数会忽略 NULL 值。 COUNT 的处理方式取决于参数的类型。如果参数是 *(COUNT(*))，则会统计所有的记录数，包括 NULL 值；
 如果参数是某个字段名(COUNT(列名))，则会忽略 NULL 值，只统计非空值的个数。
-4. 查询 NULL 值时，必须使用 IS NULL 或 IS NOT NULLl 来判断，而不能使用 =、!=、 <、> 之类的比较运算符。而''是可以使用这些比较运算符的。
+4. 查询 NULL 值时，必须使用 IS NULL 或 IS NOT NULL 来判断，而不能使用 =、!=、 <、> 之类的比较运算符。而''是可以使用这些比较运算符的。
 
 ### Boolean 类型如何表示？
 MySQL 中没有专门的布尔类型，而是用 TINYINT(1) 类型来表示布尔值。TINYINT(1) 类型可以存储 0 或 1，分别对应 false 或 true。
@@ -71,7 +73,7 @@ mysql> SHOW VARIABLES  LIKE '%storage_engine%';
 ```
 
 ### MySQL 存储引擎架构了解吗？
-MySQL 存储引擎采用的是 插件式架构 ，支持多种存储引擎，我们甚至可以为不同的数据库表设置不同的存储引擎以适应不同场景的需要。
+MySQL 存储引擎采用的是 插件式架构，支持多种存储引擎，我们甚至可以为不同的数据库表设置不同的存储引擎以适应不同场景的需要。
 `存储引擎是基于表的，而不是数据库` 。
 ![图片2](../../src/main/resources/static/image/mysql/server_engine.png)
 
@@ -85,8 +87,8 @@ MyISAM 只有表级锁(table-level locking)，而 InnoDB 支持行级锁(row-lev
 
 也就说，MyISAM 一锁就是锁住了整张表，这在并发写的情况下是多么滴憨憨啊！这也是为什么 InnoDB 在并发写的时候，性能更牛皮了！
 
-2. 是否支持事务MyISAM 
-不提供事务支持。
+2. 是否支持事务
+MyISAM 不提供事务支持。
 InnoDB 提供事务支持，实现了 SQL 标准定义了四个隔离级别，具有提交(commit)和回滚(rollback)事务的能力。并且，InnoDB 默认使用的 REPEATABLE-READ（可重读）隔离级别是可以解决幻读问题发生的（基于 MVCC 和 Next-Key Lock）。
 3. 是否支持外键
 MyISAM 不支持，而 InnoDB 支持。
@@ -101,7 +103,7 @@ MyISAM 不支持，而 InnoDB 支持。
 
 6. 索引实现不一样
 虽然 MyISAM 引擎和 InnoDB 引擎都是使用 B+Tree 作为索引结构，但是两者的实现方式不太一样。
-InnoDB 引擎中，其数据文件本身就是索引文件。相比 MyISAM，索引文件和数据文件是分离的，其表数据文件本身就是按 B+Tree 组织的一个索引结构，树的叶节点 data 域保存了完整的数据记录。
+InnoDB 引擎中，其数据文件本身就是索引文件。相比 MyISAM的索引文件和数据文件是分离的，其表数据文件本身就是按 B+Tree 组织的一个索引结构，树的叶节点 data 域保存了完整的数据记录。
 
 7. 性能有差别。
 InnoDB 的性能比 MyISAM 更强大，不管是在读写混合模式下还是只读模式下，随着 CPU 核数的增加， InnoDB 的读写能力呈线性增长。MyISAM 因为读写不能并发，它的处理能力跟核数没关系。
