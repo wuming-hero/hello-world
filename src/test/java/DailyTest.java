@@ -665,6 +665,7 @@ public class DailyTest {
         String a = null;
         String b = null;
         System.out.println(a+b);
+        System.out.println(UUID.randomUUID());
 
     }
 
