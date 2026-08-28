@@ -34,7 +34,7 @@ jstat -gc 进程号 3000 30
  ...
  ```
 
-## 2. 查看占用CPU高的线程
+## 2. 查看占用CPU高的进程
 ```bash
 # 1. top命令查看占用CPU高的进程
 top
@@ -115,10 +115,10 @@ jmap -dump:format=b,file=/data/tmp/heapdump_manual_$(date +%Y%m%d_%H%M%S).hprof 
 ## 4. 使用MAT(Memory Analyzer Tool) 分析内存镜像
 
 MAT 下载地址 https://eclipse.dev/mat/download/previous/
-1.11.0(2020.12) 支持JDK1.8
-1.12/13.0(2022.6) 需要JDk 11 及以上
-1.14/15.0(2023.12) 需要JDK 17 及以上
-1.16.0(2024.12) 需要JDK 21 及以上
+* 1.11.0(2020.12) 支持JDK1.8
+* 1.12/13.0(2022.6) 需要JDk 11 及以上
+* 1.14/15.0(2023.12) 需要JDK 17 及以上
+* 1.16.0(2024.12) 需要JDK 21 及以上
 
 
 VM 内存分析工具 MAT-入门篇 https://zhuanlan.zhihu.com/p/713927690

@@ -1,0 +1,3 @@
+#!/bin/sh
+export PATH="/Users/che/workspace/hello-world/.scratch/bin:/Applications/MiKTeX Console.app/Contents/bin:/usr/local/bin:/usr/bin:/bin"
+exec "/Applications/MiKTeX Console.app/Contents/bin/miktex-xetex" "$@"

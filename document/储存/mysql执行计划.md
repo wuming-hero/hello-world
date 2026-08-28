@@ -86,8 +86,8 @@ rows 列表示根据表统计信息及选用情况，大致估算出找到所需
 这里提醒下，当 Extra 列包含 Using filesort 或 Using temporary 时，MySQL 的性能可能会存在问题，需要尽可能避免。
 
 以上两种信息表示mysql无法使用索引
-a. using filesort ：表示mysql会对结果使用一个外部索引排序，而不是从表里按索引次序读到相关内容，可能在内存或磁盘上排序。mysql中无法利用索引完成的操作称为文件排序
-b. using temporary: 使用了用临时表保存中间结果，MySQL在对查询结果排序时使用临时表。常见于排序order by和分组查询group by。
+* using filesort ：表示mysql会对结果使用一个外部索引排序，而不是从表里按索引次序读到相关内容，可能在内存或磁盘上排序。mysql中无法利用索引完成的操作称为文件排序
+* using temporary: 使用了用临时表保存中间结果，MySQL在对查询结果排序时使用临时表。常见于排序order by和分组查询group by。
 
 ## 深度分页介绍及优化建议
 https://javaguide.cn/high-performance/deep-pagination-optimization.html#%E6%B7%B1%E5%BA%A6%E5%88%86%E9%A1%B5%E9%97%AE%E9%A2%98%E7%9A%84%E5%8E%9F%E5%9B%A0

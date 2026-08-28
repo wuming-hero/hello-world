@@ -64,15 +64,16 @@ Servlet 是命令式、同步导向的 API，而 WebFlux 基于 Reactive Streams
 ### 运行环境更灵活‌
 WebFlux 不依赖 Servlet 容器，可直接运行在 Netty、Undertow 等原生非阻塞服务器上，进一步提升性能和可扩展性
 。
-维度	Servlet 3.1	Spring WebFlux
-‌编程模型‌	命令式、同步为主（虽支持异步）	响应式、完全异步非阻塞
-‌线程模型‌	请求-线程绑定（受限于线程池大小）	事件循环 + 少量线程，支持高并发
-‌阻塞问题‌	Filter、getParameter 等仍阻塞	全栈非阻塞，无阻塞契约
-‌运行容器‌	依赖 Servlet 容器（Tomcat/Jetty 等，需 3.1+）	支持 Netty、Undertow、Servlet 3.1+ 容器
-‌编程风格‌	注解 + 回调（AsyncContext）	注解 + ‌函数式端点‌（RouterFunction）
-‌适用场景‌	传统 Web 应用、低并发服务	‌高并发、IO 密集型‌（如网关、微服务）
-‌学习曲线‌	较平缓	较陡峭（需理解响应式流、背压等）
-‌调试复杂度‌	简单	较复杂（异步链、线程切换）
+
+维度	  ---------------------Servlet 3.1------------------------	           Spring WebFlux
+* 编程模型‌	命令式、同步为主（虽支持异步）	响应式、完全异步非阻塞
+* 线程模型‌	请求-线程绑定（受限于线程池大小）	事件循环 + 少量线程，支持高并发
+* 阻塞问题‌	Filter、getParameter 等仍阻塞	全栈非阻塞，无阻塞契约
+* 运行容器‌	依赖 Servlet 容器（Tomcat/Jetty 等，需 3.1+）	支持 Netty、Undertow、Servlet 3.1+ 容器
+* 编程风格‌	注解 + 回调（AsyncContext）	注解 + ‌函数式端点‌（RouterFunction）
+* 适用场景‌	传统 Web 应用、低并发服务	‌高并发、IO 密集型‌（如网关、微服务）
+* 学习曲线‌	较平缓	较陡峭（需理解响应式流、背压等）
+* 调试复杂度‌	简单	较复杂（异步链、线程切换）
 
 WebFlux Demo https://blog.csdn.net/a1275302036/article/details/116492120
 WebFlux响应式框架快速入门 https://blog.csdn.net/lic721/article/details/131019975
