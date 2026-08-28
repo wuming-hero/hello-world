@@ -1,0 +1,2 @@
+#!/bin/sh
+exec "/Applications/MiKTeX Console.app/Contents/bin/miktex" "$@"
