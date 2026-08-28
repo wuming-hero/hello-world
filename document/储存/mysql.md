@@ -305,6 +305,9 @@ https://ata.atatech.org/articles/11000048963?spm=ata.23639746.0.0.eb0a5e28HNLE6c
 3. 长期可能造成磁盘增长、purge 延迟和查询性能下降。
 4. 如果事务实际修改过数据但 trx_rows_modified=0，则当前结果没有显示出这类风险；截图情况下更像是空闲只读事务。
 
+![图片2](../../src/main/resources/static/image/mysql/long_tx.png)
+
+
 ### 查看未提交的事务
 > trx_query = NULL && 当前没有使用表 && 没有 InnoDB 行锁 && 没有修改数据, 说明连接已经执行过 SQL 并开启事务，之后进入空闲状态，但没有 COMMIT 或 ROLLBACK。
 > trx_state = RUNNING 不代表正在执行 SQL，而是表示事务尚未结束
