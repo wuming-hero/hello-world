@@ -720,6 +720,9 @@ public class DailyTest {
         TimeZone timeZone = TimeZone.getTimeZone(timeZoneId);
         Date date = convertTimeZone(new Date(1732766400000L), timeZone, cnTimeZone);
         System.out.println(date);
+
+        String a = "50,030 এবং যদি মানে বেশি বিক্রি হয় মানে থাকে তাহলে এই প্যাকেজিং এর চিকিৎসা আমরা একটা মেশিন কিনে বাংলাদেশের করা যাবেন তাহলে আমাদের এই পণ্যটি খুব বেশি যে বিক্রি হবে এমন না কিন্তু বা বছরে একটা ভালো অ্যামাউন্ট বিক্রি হবে কিন্তু মাসে যদি আপনি 40 50,000 পিস বিক্রি করতে চান তাহলে হবে না হবে না তার কারণ বাংলাদেশে এই যে ব্রেক স্যুট টায় একটা দামি মোটর সাইকেল এর ইয়ামা মোটর";
+        System.out.println(a.getBytes().length);
     }
 
 

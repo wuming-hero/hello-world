@@ -298,6 +298,56 @@ MySQL 性能优化是一个系统性工程，涉及多个方面，在面试中�
 ## mysql 死锁
 https://ata.atatech.org/articles/11000048963?spm=ata.23639746.0.0.eb0a5e28HNLE6c
 
+## mysql 长事务
+### 长事务的影响
+1. 如果事务之前访问过 xxxx表，可能仍持有 metadata lock，导致 ALTER TABLE 一直等待。
+2. 长事务会阻止 InnoDB 清理旧版本数据，导致 undo history 增长。
+3. 长期可能造成磁盘增长、purge 延迟和查询性能下降。
+4. 如果事务实际修改过数据但 trx_rows_modified=0，则当前结果没有显示出这类风险；截图情况下更像是空闲只读事务。
+
+![图片2](../../src/main/resources/static/image/mysql/long_tx.png)
+
+
+### 查看未提交的事务
+> trx_query = NULL && 当前没有使用表 && 没有 InnoDB 行锁 && 没有修改数据, 说明连接已经执行过 SQL 并开启事务，之后进入空闲状态，但没有 COMMIT 或 ROLLBACK。
+> trx_state = RUNNING 不代表正在执行 SQL，而是表示事务尚未结束
+> 它们没有持有 InnoDB 行锁，因此暂时看不到对普通 SELECT/INSERT/UPDATE 的直接影响。
+```sql
+SELECT
+    trx_id,
+    trx_state,
+    trx_started,
+    TIMESTAMPDIFF(SECOND, trx_started, NOW()) AS trx_seconds,
+    trx_mysql_thread_id AS processlist_id,
+    trx_tables_in_use,
+    trx_tables_locked,
+    trx_lock_structs,
+    trx_rows_locked,
+    trx_rows_modified,
+    trx_query
+FROM information_schema.innodb_trx
+ORDER BY trx_started;
+```
+### 根据第1步查询的 processlist_id 查询事务的当前连接状态
+> 如果: COMMAND = Sleep INFO = NULL 就说明这些连接当前没有执行 SQL，只是连接和事务仍然保持着。
+```sql
+SELECT
+    ID,
+    USER,
+    HOST,
+    DB,
+    COMMAND,
+    TIME,
+    STATE,
+    INFO
+FROM information_schema.PROCESSLIST
+WHERE ID IN (177635, 177682, 178364, 178891);
+```
+在确认这些连接属于自己的应用、且当前没有正在执行的业务操作后，可以分别终止.
+```sql
+KILL 177635;
+```
+
 mysql性能如何优化  https://javaguide.cn/database/mysql/mysql-questions-01.html#mysql-%E6%80%A7%E8%83%BD%E6%80%8E%E4%B9%88%E4%BC%98%E5%8C%96
 
 分库分表 https://javaguide.cn/high-performance/read-and-write-separation-and-library-subtable.html#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E6%9C%89%E6%B2%A1%E6%9C%89%E4%BB%80%E4%B9%88%E6%AF%94%E8%BE%83%E6%8E%A8%E8%8D%90%E7%9A%84%E6%96%B9%E6%A1%88
