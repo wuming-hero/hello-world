@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /**
+ * 数组排序， 排序后的结果 {0, 0, 0, 0, -1, -1, -1, 1, 1}
  * @author che
  * Created on 2025/6/21 10:52
  */

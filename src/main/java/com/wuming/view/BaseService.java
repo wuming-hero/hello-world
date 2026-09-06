@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 模板方法： 设计一个方式，使得开发者在应用层接入时必须实现相关功能，包含请求体校验，业务异常处理，正常业务处理，日志摘要打印，相关功能可以通过打印日志方式实现，不需要真实实现
+ *
  * 应用层接入约定：通过模板方法 {@link #execute(Object)} 固定处理顺序，子类必须实现四类能力——
  * <ul>
  *   <li>请求体校验 — {@link #validateRequest(Object)}</li>
